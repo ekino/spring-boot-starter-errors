@@ -29,6 +29,10 @@ import java.net.ConnectException
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolationException
 
+/**
+ * Core handler for Spring common exceptions.
+ * Ordered LOWEST_PRECEDENCE because the handler on [Throwable] must be the last one.
+ */
 @RestControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
 abstract class CoreExceptionHandler(

@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration
 @EnableConfigurationProperties(ErrorsProperties::class)
 class ErrorsAutoConfiguration(
   @param:Value("\${spring.application.name}") private val applicationName: String,
-  val properties: ErrorsProperties
+  private val properties: ErrorsProperties
 ) {
 
   @Bean

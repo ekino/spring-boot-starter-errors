@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.servlet.NoHandlerFoundException
 import javax.servlet.http.HttpServletRequest
 
+/**
+ * Handler for Spring MVC exceptions.
+ */
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
 abstract class MvcExceptionHandler(
