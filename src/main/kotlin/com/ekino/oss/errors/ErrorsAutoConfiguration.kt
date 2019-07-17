@@ -2,18 +2,21 @@ package com.ekino.oss.errors
 
 import com.ekino.oss.errors.handler.CoreExceptionHandler
 import com.ekino.oss.errors.handler.DataRestExceptionHandler
-import com.ekino.oss.errors.handler.MvcExceptionHandler
 import com.ekino.oss.errors.handler.SecurityExceptionHandler
+import com.ekino.oss.errors.handler.TxExceptionHandler
 import com.ekino.oss.errors.property.ErrorsProperties
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.AutoConfigureBefore
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
+@ConditionalOnWebApplication(type = SERVLET)
 @AutoConfigureBefore(ErrorMvcAutoConfiguration::class)
 @EnableConfigurationProperties(ErrorsProperties::class)
 class ErrorsAutoConfiguration(
@@ -39,8 +42,8 @@ class ErrorsAutoConfiguration(
   }
 
   @Bean
-  @ConditionalOnClass(org.springframework.web.servlet.DispatcherServlet::class)
-  fun mvcExceptionHandler(): MvcExceptionHandler {
-    return object : MvcExceptionHandler(applicationName, properties) {}
+  @ConditionalOnClass(org.springframework.dao.DataIntegrityViolationException::class)
+  fun txExceptionHandler(): TxExceptionHandler {
+    return object : TxExceptionHandler(applicationName, properties) {}
   }
 }

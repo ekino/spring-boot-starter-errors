@@ -2,18 +2,16 @@ package com.ekino.oss.errors.handler
 
 import com.ekino.oss.errors.ErrorBody
 import com.ekino.oss.errors.generator.badRequest
-import com.ekino.oss.errors.generator.conflict
 import com.ekino.oss.errors.generator.defaultError
 import com.ekino.oss.errors.generator.methodNotAllowed
+import com.ekino.oss.errors.generator.notFound
 import com.ekino.oss.errors.generator.unavailable
 import com.ekino.oss.errors.property.ErrorsProperties
-import org.hibernate.JDBCException
 import org.slf4j.LoggerFactory
 import org.springframework.core.NestedRuntimeException
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.AnnotationUtils
 import org.springframework.core.annotation.Order
-import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageNotReadableException
@@ -25,6 +23,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+import org.springframework.web.servlet.NoHandlerFoundException
 import java.net.ConnectException
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolationException
@@ -106,17 +105,10 @@ abstract class CoreExceptionHandler(
     ))
   }
 
-  @ExceptionHandler(DataIntegrityViolationException::class)
-  fun handleConflict(e: DataIntegrityViolationException, req: HttpServletRequest): ResponseEntity<ErrorBody> {
-    log.debug("Database conflict : ", e)
-
-    val cause = e.cause
-    if (cause is JDBCException) {
-      return toErrorResponse(conflict(
-        buildServiceName(req, applicationName), cause.sqlException.message, stacktrace(e, properties.displayFullStacktrace)
-      ))
-    }
-    return toErrorResponse(conflict(buildServiceName(req, applicationName), e.message, stacktrace(e, properties.displayFullStacktrace)))
+  @ExceptionHandler(NoHandlerFoundException::class)
+  fun handleNoHandlerFoundException(req: HttpServletRequest, e: NoHandlerFoundException): ResponseEntity<ErrorBody> {
+    log.trace("Resource not found : ", e)
+    return toErrorResponse(notFound(buildServiceName(req, applicationName), e.message, stacktrace(e, properties.displayFullStacktrace)))
   }
 
   @ExceptionHandler(Throwable::class)
