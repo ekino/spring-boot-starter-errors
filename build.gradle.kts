@@ -38,7 +38,6 @@ dependencies {
   testImplementation("org.junit.jupiter:junit-jupiter-api")
   testImplementation("org.junit.jupiter:junit-jupiter-params")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
-  testImplementation("io.rest-assured:rest-assured")
 }
 
 configurations {
