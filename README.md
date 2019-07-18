@@ -6,7 +6,9 @@ Opiniated Spring Boot starter that handles Spring common exceptions and returns 
 
 ## Requirements
 
-Only tested with Spring Boot 2.1 **MVC** web applications.
+JDK 8+
+
+Spring Boot 2.1 **MVC** web application
 
 ## Usage
 
