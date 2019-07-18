@@ -15,6 +15,9 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+/**
+ * We have inner class for some config because using [ConditionalOnClass] on [Bean] methods is not recommended.
+ */
 @Configuration
 @ConditionalOnWebApplication(type = SERVLET)
 @AutoConfigureBefore(ErrorMvcAutoConfiguration::class)
@@ -29,21 +32,39 @@ class ErrorsAutoConfiguration(
     return object : CoreExceptionHandler(applicationName, properties) {}
   }
 
-  @Bean
+  @Configuration
   @ConditionalOnClass(org.springframework.security.authentication.AuthenticationManager::class)
-  fun securityExceptionHandler(): SecurityExceptionHandler {
-    return object : SecurityExceptionHandler(applicationName, properties) {}
+  class SecurityHandlerConfiguration(
+    @param:Value("\${spring.application.name}") private val applicationName: String,
+    private val properties: ErrorsProperties
+  ) {
+    @Bean
+    fun securityExceptionHandler(): SecurityExceptionHandler {
+      return object : SecurityExceptionHandler(applicationName, properties) {}
+    }
   }
 
-  @Bean
+  @Configuration
   @ConditionalOnClass(org.springframework.data.rest.core.config.RepositoryRestConfiguration::class)
-  fun dataRestExceptionHandler(): DataRestExceptionHandler {
-    return object : DataRestExceptionHandler(applicationName, properties) {}
+  class DataRestHandlerConfiguration(
+    @param:Value("\${spring.application.name}") private val applicationName: String,
+    private val properties: ErrorsProperties
+  ) {
+    @Bean
+    fun dataRestExceptionHandler(): DataRestExceptionHandler {
+      return object : DataRestExceptionHandler(applicationName, properties) {}
+    }
   }
 
-  @Bean
+  @Configuration
   @ConditionalOnClass(org.springframework.dao.DataIntegrityViolationException::class)
-  fun txExceptionHandler(): TxExceptionHandler {
-    return object : TxExceptionHandler(applicationName, properties) {}
+  class TxHandlerConfiguration(
+    @param:Value("\${spring.application.name}") private val applicationName: String,
+    private val properties: ErrorsProperties
+  ) {
+    @Bean
+    fun txExceptionHandler(): TxExceptionHandler {
+      return object : TxExceptionHandler(applicationName, properties) {}
+    }
   }
 }
