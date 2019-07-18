@@ -1,5 +1,7 @@
 # Spring Boot starter errors
 
+[![Build Status](https://travis-ci.org/ekino/spring-boot-starter-errors.svg?branch=master)](https://travis-ci.org/ekino/spring-boot-starter-errors)
+
 Opiniated Spring Boot starter that handles Spring common exceptions and returns them in a standardize json format.
 
 ## Requirements
