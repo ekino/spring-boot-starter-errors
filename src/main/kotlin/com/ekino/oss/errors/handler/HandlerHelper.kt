@@ -20,38 +20,38 @@ fun toErrorResponse(errorBody: ErrorBody, httpHeaders: HttpHeaders? = null): Res
   return ResponseEntity(errorBody, httpHeaders, HttpStatus.valueOf(errorBody.status))
 }
 
-fun toValidationErrorBody(objectError: ObjectError): ValidationErrorBody {
-  val errorCodePrefix: String = if (objectError.code == null) {
+fun ObjectError.toValidationErrorBody(): ValidationErrorBody {
+  val errorCodePrefix: String = if (this.code == null) {
     INVALID_ERROR_PREFIX
   } else {
-    when (objectError.code) {
+    when (this.code) {
       "NotNull", "NotBlank", "NotEmpty" -> MISSING_ERROR_PREFIX
       else -> INVALID_ERROR_PREFIX
     }
   }
 
-  return if (objectError is FieldError) {
+  return if (this is FieldError) {
     ValidationErrorBody(
-      code = toErrorCode(errorCodePrefix, objectError.field),
-      field = objectError.field,
-      message = objectError.defaultMessage
+      code = toErrorCode(errorCodePrefix, this.field),
+      field = this.field,
+      message = this.defaultMessage
     )
   } else {
     ValidationErrorBody(
       code = toErrorCode(errorCodePrefix, null),
-      message = objectError.defaultMessage
+      message = this.defaultMessage
     )
   }
 }
 
-fun toValidationErrorBody(constraintViolation: ConstraintViolation<*>): ValidationErrorBody {
-  val fieldName = constraintViolation.propertyPath?.toString()
+fun ConstraintViolation<*>.toValidationErrorBody(): ValidationErrorBody {
+  val fieldName = this.propertyPath?.toString()
   val errorCode = toErrorCode(INVALID_ERROR_PREFIX, fieldName)
 
   return ValidationErrorBody(
     code = errorCode,
     field = fieldName,
-    message = constraintViolation.message
+    message = this.message
   )
 }
 
@@ -59,22 +59,18 @@ fun toErrorCode(errorPrefix: String, fieldName: String?): String {
   val field = if (fieldName.isNullOrBlank()) {
     "unknown"
   } else {
-    ".${lowerCamelToSnakeCase(fieldName)}"
+    ".${fieldName.toLowerCamelToSnakeCase()}"
   }
 
   return errorPrefix + field
 }
 
-fun lowerCamelToSnakeCase(label: String): String {
-  return CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, label)
-}
+fun String.toLowerCamelToSnakeCase(): String = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this)
 
-fun upperCamelToSnakeCase(label: String): String {
-  return CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, label)
-}
+fun String.toUpperCamelToSnakeCase(): String = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this)
 
-fun stacktrace(e: Throwable, displayFullStacktrace: Boolean): String {
-  return if (displayFullStacktrace) ExceptionUtils.getStackTrace(e) else ""
+fun Throwable.toStacktrace(displayFullStacktrace: Boolean): String {
+  return if (displayFullStacktrace) ExceptionUtils.getStackTrace(this) else ""
 }
 
 fun buildServiceName(req: HttpServletRequest, applicationName: String): String {

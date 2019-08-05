@@ -31,7 +31,7 @@ abstract class DataRestExceptionHandler(
   @ExceptionHandler(ResourceNotFoundException::class)
   fun handleResourceNotFoundException(req: HttpServletRequest, e: ResourceNotFoundException): ResponseEntity<ErrorBody> {
     log.trace("Resource not found : ", e)
-    return toErrorResponse(notFound(buildServiceName(req, applicationName), e.message, stacktrace(e, properties.displayFullStacktrace)))
+    return toErrorResponse(notFound(buildServiceName(req, applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)))
   }
 
   @ExceptionHandler(RepositoryConstraintViolationException::class)
@@ -42,11 +42,11 @@ abstract class DataRestExceptionHandler(
 
     log.debug("Constraint violation errors : ", e)
 
-    val errors = e.errors.fieldErrors.map { toValidationErrorBody(it) }
-    val globalErrors = e.errors.globalErrors.map { toValidationErrorBody(it) }
+    val errors = e.errors.fieldErrors.map { it.toValidationErrorBody() }
+    val globalErrors = e.errors.globalErrors.map { it.toValidationErrorBody() }
 
     return toErrorResponse(badRequest(
-      buildServiceName(req, applicationName), INVALID_ERROR_PREFIX, e.message, stacktrace(e, properties.displayFullStacktrace), errors, globalErrors
+      buildServiceName(req, applicationName), INVALID_ERROR_PREFIX, e.message, e.toStacktrace(properties.displayFullStacktrace), errors, globalErrors
     ))
   }
 
@@ -57,9 +57,9 @@ abstract class DataRestExceptionHandler(
     val cause = e.cause
     if (cause is JDBCException) {
       return toErrorResponse(conflict(
-        buildServiceName(req, applicationName), cause.sqlException.message, stacktrace(e, properties.displayFullStacktrace)
+        buildServiceName(req, applicationName), cause.sqlException.message, e.toStacktrace(properties.displayFullStacktrace)
       ))
     }
-    return toErrorResponse(conflict(buildServiceName(req, applicationName), e.message, stacktrace(e, properties.displayFullStacktrace)))
+    return toErrorResponse(conflict(buildServiceName(req, applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)))
   }
 }
