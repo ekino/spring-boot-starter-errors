@@ -44,7 +44,7 @@ abstract class CoreExceptionHandler(
   fun handleUnavailableServiceException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.error("Unavailable service : ", e)
     return toErrorResponse(unavailable(
-      buildServiceName(req, applicationName), "error.unavailable", e.message, stacktrace(e, properties.displayFullStacktrace)
+      buildServiceName(req, applicationName), "error.unavailable", e.message, e.toStacktrace(properties.displayFullStacktrace)
     ))
   }
 
@@ -74,10 +74,10 @@ abstract class CoreExceptionHandler(
   fun handleConstraintViolationException(req: HttpServletRequest, e: ConstraintViolationException): ResponseEntity<ErrorBody> {
     log.debug("Constraint violation errors : ", e)
 
-    val errors = e.constraintViolations?.map { toValidationErrorBody(it) } ?: emptyList()
+    val errors = e.constraintViolations?.map { it.toValidationErrorBody() } ?: emptyList()
 
     return toErrorResponse(badRequest(
-      buildServiceName(req, applicationName), INVALID_ERROR_PREFIX, e.message, stacktrace(e, properties.displayFullStacktrace), errors
+      buildServiceName(req, applicationName), INVALID_ERROR_PREFIX, e.message, e.toStacktrace(properties.displayFullStacktrace), errors
     ))
   }
 
@@ -85,7 +85,7 @@ abstract class CoreExceptionHandler(
   fun handleMessageNotReadableException(req: HttpServletRequest, e: HttpMessageNotReadableException): ResponseEntity<ErrorBody> {
     log.debug("Message not readable : ", e)
     return toErrorResponse(badRequest(
-      buildServiceName(req, applicationName), "error.not_readable_json", e.message, stacktrace(e, properties.displayFullStacktrace)
+      buildServiceName(req, applicationName), "error.not_readable_json", e.message, e.toStacktrace(properties.displayFullStacktrace)
     ))
   }
 
@@ -93,7 +93,7 @@ abstract class CoreExceptionHandler(
   fun handleArgumentTypeMismatchException(req: HttpServletRequest, e: MethodArgumentTypeMismatchException): ResponseEntity<ErrorBody> {
     log.debug("Argument type mismatch : ", e)
     return toErrorResponse(badRequest(
-      buildServiceName(req, applicationName), "error.argument_type_mismatch", e.message, stacktrace(e, properties.displayFullStacktrace)
+      buildServiceName(req, applicationName), "error.argument_type_mismatch", e.message, e.toStacktrace(properties.displayFullStacktrace)
     ))
   }
 
@@ -101,14 +101,14 @@ abstract class CoreExceptionHandler(
   fun handleMethodNotSupportedException(req: HttpServletRequest, e: HttpRequestMethodNotSupportedException): ResponseEntity<ErrorBody> {
     log.debug("Method not supported : ", e)
     return toErrorResponse(methodNotAllowed(
-      buildServiceName(req, applicationName), "error.method_not_allowed", e.message, stacktrace(e, properties.displayFullStacktrace)
+      buildServiceName(req, applicationName), "error.method_not_allowed", e.message, e.toStacktrace(properties.displayFullStacktrace)
     ))
   }
 
   @ExceptionHandler(NoHandlerFoundException::class)
   fun handleNoHandlerFoundException(req: HttpServletRequest, e: NoHandlerFoundException): ResponseEntity<ErrorBody> {
     log.trace("Resource not found : ", e)
-    return toErrorResponse(notFound(buildServiceName(req, applicationName), e.message, stacktrace(e, properties.displayFullStacktrace)))
+    return toErrorResponse(notFound(buildServiceName(req, applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)))
   }
 
   @ExceptionHandler(Throwable::class)
@@ -118,17 +118,17 @@ abstract class CoreExceptionHandler(
     val responseStatus = AnnotationUtils.findAnnotation(e.javaClass, ResponseStatus::class.java)
 
     val status = responseStatus?.value ?: HttpStatus.INTERNAL_SERVER_ERROR
-    val message = responseStatus?.reason ?: getMessageByEnvironment(e)
+    val message = responseStatus?.reason ?: e.toMessage()
 
     return toErrorResponse(defaultError(
-      buildServiceName(req, applicationName), status, "error." + upperCamelToSnakeCase(e.javaClass.simpleName),
-      message, stacktrace(e, properties.displayFullStacktrace)
+      buildServiceName(req, applicationName), status, "error." + e.javaClass.simpleName.toUpperCamelToSnakeCase(),
+      message, e.toStacktrace(properties.displayFullStacktrace)
     ))
   }
 
-  private fun getMessageByEnvironment(e: Throwable) =
+  private fun Throwable.toMessage() =
     if (properties.displayFullStacktrace) {
-      e.message ?: DEFAULT_INTERNAL_ERROR_MESSAGE
+      this.message ?: DEFAULT_INTERNAL_ERROR_MESSAGE
     } else {
       DEFAULT_INTERNAL_ERROR_MESSAGE
     }
@@ -136,12 +136,12 @@ abstract class CoreExceptionHandler(
   private fun prepareValidationResponse(req: HttpServletRequest, e: Exception, bindingResult: BindingResult): ResponseEntity<ErrorBody> {
     log.debug("Validation errors : ", e)
 
-    val errors = bindingResult.fieldErrors.map { toValidationErrorBody(it) }
+    val errors = bindingResult.fieldErrors.map { it.toValidationErrorBody() }
 
     return toErrorResponse(badRequest(buildServiceName(req, applicationName),
-      "error.invalid." + lowerCamelToSnakeCase(bindingResult.objectName),
+      "error.invalid." + bindingResult.objectName.toLowerCamelToSnakeCase(),
       e.message,
-      stacktrace(e, properties.displayFullStacktrace),
+      e.toStacktrace(properties.displayFullStacktrace),
       errors))
   }
 }

@@ -33,7 +33,7 @@ abstract class SecurityExceptionHandler(
   fun handleAuthenticationException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Authentication failed : ", e)
     return toErrorResponse(unAuthorized(
-      buildServiceName(req, applicationName), "error.unauthorized", e.message, stacktrace(e, properties.displayFullStacktrace)
+      buildServiceName(req, applicationName), "error.unauthorized", e.message, e.toStacktrace(properties.displayFullStacktrace)
     ))
   }
 
@@ -41,7 +41,7 @@ abstract class SecurityExceptionHandler(
   fun handleAccessDeniedException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Access denied", e)
     return toErrorResponse(forbidden(
-      buildServiceName(req, applicationName), "error.access_denied", e.message, stacktrace(e, properties.displayFullStacktrace)
+      buildServiceName(req, applicationName), "error.access_denied", e.message, e.toStacktrace(properties.displayFullStacktrace)
     ))
   }
 
@@ -49,7 +49,7 @@ abstract class SecurityExceptionHandler(
   fun handleDisabledException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Disable account : ", e)
     return toErrorResponse(forbidden(
-      buildServiceName(req, applicationName), "error.disabled_account", e.message, stacktrace(e, properties.displayFullStacktrace)
+      buildServiceName(req, applicationName), "error.disabled_account", e.message, e.toStacktrace(properties.displayFullStacktrace)
     ))
   }
 }
