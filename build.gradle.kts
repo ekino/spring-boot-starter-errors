@@ -17,7 +17,7 @@ repositories {
   mavenCentral()
 }
 
-val springBootVersion = "2.1.6.RELEASE"
+val springBootVersion = "2.1.7.RELEASE"
 val guavaVersion = "28.0-jre"
 
 testSets {
