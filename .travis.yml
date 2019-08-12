@@ -1,4 +1,7 @@
 language: java
+
+install: true
+
 jdk:
   - openjdk8
   - openjdk11
@@ -6,11 +9,14 @@ jdk:
 before_script:
   - chmod -R ug+x .travis
 
+script: .travis/build.sh
+
 jobs:
   include:
-    - stage: test
-      name: Build
-      script: .travis/build.sh
+    - stage: deploy
+      name: Deploy test
+      script: echo java home = $JAVA_HOME
+      jdk: openjdk11
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
