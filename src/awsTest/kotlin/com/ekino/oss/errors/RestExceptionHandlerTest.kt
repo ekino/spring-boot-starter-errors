@@ -24,9 +24,9 @@ class RestExceptionHandlerTest {
   fun should_get_no_such_key_exception() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/no-such-key-exception"))
       .andExpect(status().isNotFound)
-      .andExpect(jsonPath<Int>("$.status", `is`<Int>(HttpStatus.NOT_FOUND.value())))
-      .andExpect(jsonPath<String>("$.code", `is`<String>("error.not_found")))
-      .andExpect(jsonPath<String>("$.message", `is`<String>(HttpStatus.NOT_FOUND.reasonPhrase)))
-      .andExpect(jsonPath<String>("$.description", `is`<String>("Message for developers")))
+      .andExpect(jsonPath("$.status", `is`(HttpStatus.NOT_FOUND.value())))
+      .andExpect(jsonPath("$.code", `is`("error.not_found")))
+      .andExpect(jsonPath("$.message", `is`(HttpStatus.NOT_FOUND.reasonPhrase)))
+      .andExpect(jsonPath("$.description", `is`("Message for developers")))
   }
 }
