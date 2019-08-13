@@ -82,6 +82,16 @@ val build by tasks.named("build") {
   dependsOn(securityTest, dataRestTest, txTest, awsTest)
 }
 
+val sourcesJar by tasks.registering(Jar::class) {
+  archiveClassifier.set("sources")
+  from(sourceSets.main.get().allJava)
+}
+
+val javadocJar by tasks.registering(Jar::class) {
+  archiveClassifier.set("javadoc")
+  from(tasks.javadoc)
+}
+
 tasks {
   withType<KotlinCompile> {
     kotlinOptions {
@@ -93,6 +103,12 @@ tasks {
   withType<Test> {
     useJUnitPlatform()
     jvmArgs("-Duser.language=en")
+  }
+
+  artifacts {
+    archives(jar)
+    archives(sourcesJar)
+    archives(javadocJar)
   }
 }
 
@@ -111,6 +127,14 @@ publishing {
             url.set("https://opensource.org/licenses/mit-license")
           }
         }
+        developers {
+          developer {
+            name.set("Clément Stoquart")
+            email.set("clement.stoquart@ekino.com")
+            organization.set("ekino")
+            organizationUrl.set("https://www.ekino.com/")
+          }
+        }
         scm {
           connection.set("scm:git:git://github.com/ekino/spring-boot-starter-errors.git")
           developerConnection.set("scm:git:ssh://github.com:ekino/spring-boot-starter-errors.git")
@@ -121,6 +145,9 @@ publishing {
           url.set("https://www.ekino.com/")
         }
       }
+
+      artifact(sourcesJar.get())
+      artifact(javadocJar.get())
 
       from(components["java"])
     }
