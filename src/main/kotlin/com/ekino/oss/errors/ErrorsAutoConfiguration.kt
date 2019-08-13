@@ -1,5 +1,6 @@
 package com.ekino.oss.errors
 
+import com.ekino.oss.errors.handler.AwsExceptionHandler
 import com.ekino.oss.errors.handler.CoreExceptionHandler
 import com.ekino.oss.errors.handler.DataRestExceptionHandler
 import com.ekino.oss.errors.handler.SecurityExceptionHandler
@@ -65,6 +66,18 @@ class ErrorsAutoConfiguration(
     @Bean
     fun txExceptionHandler(): TxExceptionHandler {
       return object : TxExceptionHandler(applicationName, properties) {}
+    }
+  }
+
+  @Configuration
+  @ConditionalOnClass(software.amazon.awssdk.services.s3.model.NoSuchKeyException::class)
+  class AwsHandlerConfiguration(
+    @param:Value("\${spring.application.name}") private val applicationName: String,
+    private val properties: ErrorsProperties
+  ) {
+    @Bean
+    fun awsExceptionHandler(): AwsExceptionHandler {
+      return object : AwsExceptionHandler(applicationName, properties) {}
     }
   }
 }

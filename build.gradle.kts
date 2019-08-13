@@ -21,16 +21,19 @@ repositories {
 
 val springBootVersion = "2.1.7.RELEASE"
 val guavaVersion = "28.0-jre"
+val awsSdkVersion = "2.7.22"
 
 testSets {
   "securityTest"()
   "dataRestTest"()
   "txTest"()
+  "awsTest"()
 }
 
 val securityTestImplementation by configurations
 val dataRestTestImplementation by configurations
 val txTestImplementation by configurations
+val awsTestImplementation by configurations
 
 dependencies {
   implementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion")) // BOM import
@@ -47,6 +50,7 @@ dependencies {
   compileOnly("org.springframework.boot:spring-boot-starter-data-jpa")
   compileOnly("org.springframework.boot:spring-boot-starter-data-rest")
   compileOnly("org.springframework.security:spring-security-core")
+  compileOnly("software.amazon.awssdk:s3:$awsSdkVersion")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.junit.jupiter:junit-jupiter-api")
@@ -58,6 +62,8 @@ dependencies {
   dataRestTestImplementation("org.springframework.boot:spring-boot-starter-data-rest")
 
   txTestImplementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+  awsTestImplementation("software.amazon.awssdk:s3:$awsSdkVersion")
 }
 
 configurations {
@@ -70,9 +76,10 @@ configurations {
 val securityTest by tasks
 val dataRestTest by tasks
 val txTest by tasks
+val awsTest by tasks
 
 val build by tasks.named("build") {
-  dependsOn(securityTest, dataRestTest, txTest)
+  dependsOn(securityTest, dataRestTest, txTest, awsTest)
 }
 
 tasks {
