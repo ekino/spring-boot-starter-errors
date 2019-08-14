@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ekino/spring-boot-starter-errors.svg?branch=master)](https://travis-ci.org/ekino/spring-boot-starter-errors)
 
-Opiniated Spring Boot starter that handles Spring common exceptions and returns them in a standardize json format.
+Opiniated Spring Boot starter that handles some Spring and AWS common exceptions and returns them in a standardize json format.
 
 ## Requirements
 
@@ -15,7 +15,7 @@ Spring Boot 2.1 **MVC** web application
 For example with Gradle :
 
 ```kotlin
-implementation("com.ekino.oss.starter:ekino-spring-boot-starter-errors:1.0.0")
+implementation("com.ekino.oss.spring:ekino-spring-boot-starter-errors:1.0.0")
 ```
 
 ## Configuration
