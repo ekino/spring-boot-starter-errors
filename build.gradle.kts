@@ -13,13 +13,14 @@ plugins {
 }
 
 group = "com.ekino.oss.spring"
-version = "1.0.2-SNAPSHOT"
+version = "2.0.0-SNAPSHOT"
 
 repositories {
   mavenCentral()
+  maven { url = uri("https://repo.spring.io/milestone") }
 }
 
-val springBootVersion = "2.1.7.RELEASE"
+val springBootVersion = "2.2.0.M5"
 val guavaVersion = "28.0-jre"
 val awsSdkVersion = "2.7.22"
 
@@ -53,9 +54,6 @@ dependencies {
   compileOnly("software.amazon.awssdk:s3:$awsSdkVersion")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
-  testImplementation("org.junit.jupiter:junit-jupiter-api")
-  testImplementation("org.junit.jupiter:junit-jupiter-params")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
   securityTestImplementation("org.springframework.security:spring-security-core")
 
@@ -69,6 +67,7 @@ dependencies {
 configurations {
   all {
     exclude(module = "junit")
+    exclude(module = "junit-vintage-engine")
     exclude(module = "mockito-core")
   }
 }
@@ -102,7 +101,7 @@ tasks {
 
   withType<Test> {
     useJUnitPlatform()
-    jvmArgs("-Duser.language=en")
+    jvmArgs("-Duser.language=en", "-Dspring.test.constructor.autowire.mode=ALL")
   }
 
   artifacts {
