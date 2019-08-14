@@ -40,6 +40,7 @@ jobs:
       script: .travis/deploy.sh
     - stage: deploy
       name: Deploy Release
+      jdk: openjdk11
       if: tag IS present AND tag =~ ^(\d)+\.(\d)+(\.(\d)+)*(-[\w]+)*$
       script: .travis/deploy.sh
       deploy:
