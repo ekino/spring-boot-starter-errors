@@ -1,5 +1,7 @@
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.unbrokendome.gradle.plugins.testsets.dsl.testSets
+import java.net.URL
 
 plugins {
   val kotlinVersion = "1.3.41"
@@ -10,6 +12,7 @@ plugins {
   kotlin("plugin.spring") version kotlinVersion
   id("org.jlleitschuh.gradle.ktlint") version "8.2.0"
   id("org.unbroken-dome.test-sets") version "2.1.1"
+  id("org.jetbrains.dokka") version "0.9.18"
 }
 
 group = "com.ekino.oss.spring"
@@ -17,6 +20,7 @@ version = "1.0.2-SNAPSHOT"
 
 repositories {
   mavenCentral()
+  jcenter()
 }
 
 val springBootVersion = "2.1.7.RELEASE"
@@ -88,8 +92,9 @@ val sourcesJar by tasks.registering(Jar::class) {
 }
 
 val javadocJar by tasks.registering(Jar::class) {
+  dependsOn("dokka")
   archiveClassifier.set("javadoc")
-  from(tasks.javadoc)
+  from(buildDir.resolve("dokka"))
 }
 
 tasks {
@@ -103,6 +108,16 @@ tasks {
   withType<Test> {
     useJUnitPlatform()
     jvmArgs("-Duser.language=en")
+  }
+
+  withType<DokkaTask> {
+    reportUndocumented = false
+    externalDocumentationLink {
+      url = URL("https://docs.spring.io/spring-framework/docs/5.1.9.RELEASE/javadoc-api/")
+    }
+    externalDocumentationLink {
+      url = URL("https://docs.spring.io/spring-boot/docs/2.1.x/api/")
+    }
   }
 
   artifacts {
