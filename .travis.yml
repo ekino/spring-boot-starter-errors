@@ -45,6 +45,7 @@ jobs:
         provider: releases
         api_key:
           secure: FhtlDhO7gwVw5yHB2VPDFhCJXNXCT5666k4D9nB0baOUMJm+YYZ73FD6kRNL138TEQuWHjV5yCjw3Ni8MRGqy9MOfQg904GYlcKdp+sCFoPGKSmxHq0Ov9eR/Qpuh8EbdasjCIyx49UCurXyZ7I4Hvt0LPhslDS5BJJwc1+/Os8y0MxNVnuriXO4i5Qst5CXwVqMDheytHaBpmcfZXEmmXO+YSgimVcpn2plkph1jjdVDKM7/45ZueEduJ3Y3U/zVA2VjHL6vxORG2EIYAaVMTQeRoIUj5b/3AVVtvTML1qrinHAB4FfOnUe6TlLSaC9YPdDS0uXfEGhDVzAn2wj12My8S2qLDq0hhcN8hBA0rxRwaTpDHOjgQ0aw7d1VnT6Jvf4Lvhkek4b8/i2MWQ+/17m3Hds6iHlm0WCfxnn5ly83nVsCs/vUWhbHb5PHSjE2EgavQ45T4uIwOIlhSIBkWHiNYY5LhHrJD5c4JQNWEa40LnRQ+6OPaRsgyGSsVgCZvYJuYQXVbvJiF0C82SZ9qUvZE2Nlmb8CEglGo6PqqA5Ew9TbHnP5jL3y6qv3cGl8uUmZypCLSPtaHvuhJjk+6aBULpzXGeEIPIP/vfg7rFJMELG6dq7FqBaRmDqBTeWdGKsU+cSF8xelgNzJS3sJux0iO//gxaQ04MNzGgjrik=
+        file_glob: true # enable wildcards
         file: "$TRAVIS_BUILD_DIR/build/libs/*"
         body: "Release of $TRAVIS_TAG"
         skip_cleanup: true
