@@ -16,7 +16,7 @@ plugins {
 }
 
 group = "com.ekino.oss.spring"
-version = "1.0.2"
+version = "1.0.3-SNAPSHOT"
 
 repositories {
   mavenCentral()
