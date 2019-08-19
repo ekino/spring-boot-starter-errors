@@ -1,6 +1,7 @@
 # Spring Boot starter errors
 
 [![Build Status](https://travis-ci.org/ekino/spring-boot-starter-errors.svg?branch=master)](https://travis-ci.org/ekino/spring-boot-starter-errors)
+[![GitHub (pre-)release](https://img.shields.io/github/release/ekino/spring-boot-starter-errors/all.svg)](https://github.com/ekino/spring-boot-starter-errors/releases)
 
 Opiniated Spring Boot starter that handles some Spring and AWS common exceptions and returns them in a standardize json format.
 
