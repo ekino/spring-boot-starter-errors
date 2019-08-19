@@ -13,10 +13,18 @@ Spring Boot 2.1 **MVC** web application
 
 ## Usage
 
-For example with Gradle :
+For example with Gradle Kotlin DSL :
 
 ```kotlin
 implementation("com.ekino.oss.spring:ekino-spring-boot-starter-errors:1.0.0")
+```
+
+NB : if you want to use snapshots you need to add the following configuration to your Gradle build script :
+
+```kotlin
+repositories {
+  maven { url = uri("https://oss.sonatype.org/content/repositories/snapshots/") }
+}
 ```
 
 ## Configuration
