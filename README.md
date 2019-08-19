@@ -40,3 +40,41 @@ ekino:
 ```
 
 We recommend you to enable stacktraces only for local or any other development environment.
+
+## Examples
+
+### Bean validation error
+
+```json
+{
+  "status": 400,
+  "code": "error.invalid",
+  "message": "Bad Request",
+  "description": "Validation failed",
+  "errors": [
+    {
+      "code": "error.missing.company",
+      "field": "company",
+      "message": "must not be null"
+    }
+  ],
+  "globalErrors": [],
+  "service": "my-api : POST /api/customers",
+  "stacktrace": ""
+}
+```
+
+### Spring security disabled account
+
+```json
+{
+  "status": 403,
+  "code": "error.disabled_account",
+  "message": "Forbidden",
+  "description": "User is disabled",
+  "errors": [],
+  "globalErrors": [],
+  "service": "my-api : POST /api/auth",
+  "stacktrace":""
+}
+```
