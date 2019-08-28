@@ -19,6 +19,7 @@ import org.springframework.validation.BindException
 import org.springframework.validation.BindingResult
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -94,6 +95,14 @@ abstract class CoreExceptionHandler(
     log.debug("Argument type mismatch : ", e)
     return toErrorResponse(badRequest(
       buildServiceName(req, applicationName), "error.argument_type_mismatch", e.message, e.toStacktrace(properties.displayFullStacktrace)
+    ))
+  }
+
+  @ExceptionHandler(MissingServletRequestParameterException::class)
+  fun handleMissingServletRequestParameterException(req: HttpServletRequest, e: MissingServletRequestParameterException): ResponseEntity<ErrorBody> {
+    log.debug("Missing parameter : ", e)
+    return toErrorResponse(badRequest(
+      buildServiceName(req, applicationName), "error.missing_parameter", e.message, e.toStacktrace(properties.displayFullStacktrace)
     ))
   }
 
