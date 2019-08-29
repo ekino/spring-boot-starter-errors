@@ -1,6 +1,7 @@
 package com.ekino.oss.errors
 
 import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.empty
 import org.hamcrest.Matchers.hasSize
 import org.hamcrest.Matchers.isEmptyOrNullString
 import org.hamcrest.Matchers.not
@@ -18,6 +19,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import java.util.UUID
 
 const val ROOT_PATH = API_PATH
 const val RESOLVED_ERROR_PATH = API_PATH + ERROR_PATH
@@ -31,8 +33,20 @@ class RestExceptionHandlerTest {
 
   @Test
   fun should_get_ok_response() {
-    mockMvc.perform(get("$ROOT_PATH/ok"))
+    mockMvc.perform(get("$ROOT_PATH/ok?id=${UUID.randomUUID()}"))
       .andExpect(status().isOk)
+  }
+
+  @Test
+  fun should_get_missing_parameter_error() {
+    mockMvc.perform(get("$ROOT_PATH/ok"))
+      .andExpect(status().isBadRequest)
+      .andExpect(jsonPath("$.status", `is`(HttpStatus.BAD_REQUEST.value())))
+      .andExpect(jsonPath("$.code", `is`("error.missing_parameter")))
+      .andExpect(jsonPath("$.message", `is`(HttpStatus.BAD_REQUEST.reasonPhrase)))
+      .andExpect(jsonPath("$.description", not(isEmptyOrNullString())))
+      .andExpect(jsonPath("$.errors", empty<Any>()))
+      .andExpect(jsonPath("$.service", `is`("myApp : GET /test/ok")))
   }
 
   @Test

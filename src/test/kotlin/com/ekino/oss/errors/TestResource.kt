@@ -30,7 +30,7 @@ const val ERROR_MESSAGE = "Message for developers"
 class TestResource {
 
   @GetMapping("/ok")
-  fun getOk(@RequestParam id: UUID?): ResponseEntity<String> = ResponseEntity.ok("OK")
+  fun getOk(@RequestParam id: UUID): ResponseEntity<String> = ResponseEntity.ok("OK")
 
   @PostMapping("/ok")
   fun postOk(@RequestBody @Valid body: PostBody): ResponseEntity<String> = ResponseEntity.ok(body.message!!)
