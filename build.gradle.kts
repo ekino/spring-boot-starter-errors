@@ -125,6 +125,13 @@ tasks {
     archives(sourcesJar)
     archives(javadocJar)
   }
+
+  register("printVersion") {
+    doLast {
+      val version: String by project
+      println(version)
+    }
+  }
 }
 
 val publicationName = "mavenJava"
@@ -186,11 +193,4 @@ publishing {
 
 signing {
   sign(publishing.publications[publicationName])
-}
-
-tasks.create("printVersion") {
-  doLast {
-    val version: String by project
-    println(version)
-  }
 }
