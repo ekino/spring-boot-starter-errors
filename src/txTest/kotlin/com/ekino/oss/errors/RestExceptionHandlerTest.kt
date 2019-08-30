@@ -1,16 +1,14 @@
 package com.ekino.oss.errors
 
-import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.hasSize
+import com.ekino.oss.jcv.assertion.hamcrest.JsonMatchers.jsonMatcher
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 const val RESOLVED_ERROR_PATH = API_PATH + ERROR_PATH
@@ -28,9 +26,19 @@ class RestExceptionHandlerTest {
       .contentType(MediaType.APPLICATION_JSON)
       .content("{\"message\":\"a\", \"internalBody\":{}}"))
       .andExpect(status().isConflict)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.CONFLICT.value())))
-      .andExpect(jsonPath("$.code", `is`("error.conflict")))
-      .andExpect(jsonPath("$.message", `is`("Conflict")))
-      .andExpect(jsonPath("$.errors", hasSize<Any>(0)))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 409,
+            "code": "error.conflict",
+            "message": "Conflict",
+            "description": "Message for developers",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : POST /test/error/conflict",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 }

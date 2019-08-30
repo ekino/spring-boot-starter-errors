@@ -26,6 +26,7 @@ repositories {
 val springBootVersion = "2.1.7.RELEASE"
 val guavaVersion = "28.0-jre"
 val awsSdkVersion = "2.7.22"
+val jcvVersion = "1.3.0"
 
 testSets {
   "securityTest"()
@@ -59,6 +60,7 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("org.junit.jupiter:junit-jupiter-api")
   testImplementation("org.junit.jupiter:junit-jupiter-params")
+  testImplementation("com.ekino.oss.jcv:jcv-hamcrest:$jcvVersion")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
   securityTestImplementation("org.springframework.security:spring-security-core")
