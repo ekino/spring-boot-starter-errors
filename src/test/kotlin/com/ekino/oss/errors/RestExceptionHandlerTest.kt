@@ -1,23 +1,15 @@
 package com.ekino.oss.errors
 
-import org.hamcrest.Matchers.`is`
-import org.hamcrest.Matchers.empty
-import org.hamcrest.Matchers.hasSize
-import org.hamcrest.Matchers.isEmptyOrNullString
-import org.hamcrest.Matchers.not
-import org.hamcrest.Matchers.startsWith
+import com.ekino.oss.jcv.assertion.hamcrest.JsonMatchers.jsonMatcher
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.util.UUID
 
@@ -41,12 +33,20 @@ class RestExceptionHandlerTest {
   fun should_get_missing_parameter_error() {
     mockMvc.perform(get("$ROOT_PATH/ok"))
       .andExpect(status().isBadRequest)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.BAD_REQUEST.value())))
-      .andExpect(jsonPath("$.code", `is`("error.missing_parameter")))
-      .andExpect(jsonPath("$.message", `is`(HttpStatus.BAD_REQUEST.reasonPhrase)))
-      .andExpect(jsonPath("$.description", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.errors", empty<Any>()))
-      .andExpect(jsonPath("$.service", `is`("myApp : GET /test/ok")))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 400,
+            "code": "error.missing_parameter",
+            "message": "Bad Request",
+            "description": "{#not_empty#}",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : GET /test/ok",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 
   @Test
@@ -54,73 +54,135 @@ class RestExceptionHandlerTest {
     mockMvc.perform(post("$ROOT_PATH/ok")
       .contentType(MediaType.APPLICATION_JSON)
       .content("""{"message":"a", "internalBody":{}}"""))
+      .andDo(MockMvcResultHandlers.print())
       .andExpect(status().isBadRequest)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.BAD_REQUEST.value())))
-      .andExpect(jsonPath("$.code", `is`("error.invalid.post_body")))
-      .andExpect(jsonPath("$.message", `is`(HttpStatus.BAD_REQUEST.reasonPhrase)))
-      .andExpect(jsonPath("$.description", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.errors", hasSize<Any>(2)))
-      .andExpect(jsonPath("$.errors[?(@.code == 'error.missing.internal_body.value')]" +
-        "[?(@.field == 'internalBody.value')]" +
-        "[?(@.message == 'must not be null')]").exists())
-      .andExpect(jsonPath("$.errors[?(@.code == 'error.invalid.message')]" +
-        "[?(@.field == 'message')]" +
-        "[?(@.message == 'length must be between 3 and 15')]").exists())
-      .andExpect(jsonPath("$.service", `is`("myApp : POST /test/ok")))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 400,
+            "code": "error.invalid.post_body",
+            "message": "Bad Request",
+            "description": "{#not_empty#}",
+            "errors": [
+              {
+                "code": "error.invalid.message",
+                "field": "message",
+                "message": "length must be between 3 and 15"
+              },
+              {
+                "code": "error.missing.internal_body.value",
+                "field": "internalBody.value",
+                "message": "must not be null"
+              }
+            ],
+            "globalErrors": [],
+            "service": "myApp : POST /test/ok",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 
   @Test
   fun should_get_not_readable_error() {
     mockMvc.perform(post("$ROOT_PATH/ok")
       .contentType(MediaType.APPLICATION_JSON)
-      .content("{")
-    )
+      .content("{"))
       .andExpect(status().isBadRequest)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.BAD_REQUEST.value())))
-      .andExpect(jsonPath("$.code", `is`("error.not_readable_json")))
-      .andExpect(jsonPath("$.message", `is`(HttpStatus.BAD_REQUEST.reasonPhrase)))
-      .andExpect(jsonPath("$.description", not(isEmptyOrNullString())))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 400,
+            "code": "error.not_readable_json",
+            "message": "Bad Request",
+            "description": "{#not_empty#}",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : POST /test/ok",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 
   @Test
   fun should_get_argument_type_mismatch_error() {
     mockMvc.perform(get("$ROOT_PATH/ok?id=1234"))
       .andExpect(status().isBadRequest)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.BAD_REQUEST.value())))
-      .andExpect(jsonPath("$.code", `is`("error.argument_type_mismatch")))
-      .andExpect(jsonPath("$.message", `is`(HttpStatus.BAD_REQUEST.reasonPhrase)))
-      .andExpect(jsonPath("$.description", not(isEmptyOrNullString())))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 400,
+            "code": "error.argument_type_mismatch",
+            "message": "Bad Request",
+            "description": "{#not_empty#}",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : GET /test/ok",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 
   @Test
   fun should_get_method_not_supported_method_error() {
     mockMvc.perform(delete("$ROOT_PATH/ok"))
       .andExpect(status().isMethodNotAllowed)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.METHOD_NOT_ALLOWED.value())))
-      .andExpect(jsonPath("$.code", `is`("error.method_not_allowed")))
-      .andExpect(jsonPath("$.message", `is`(HttpStatus.METHOD_NOT_ALLOWED.reasonPhrase)))
-      .andExpect(jsonPath("$.description", not(isEmptyOrNullString())))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 405,
+            "code": "error.method_not_allowed",
+            "message": "Method Not Allowed",
+            "description": "{#not_empty#}",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : DELETE /test/ok",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 
   @Test
   fun should_get_unexpected_error() {
-    mockMvc.perform(get("$RESOLVED_ERROR_PATH/unexpected")).andDo(MockMvcResultHandlers.print())
+    mockMvc.perform(get("$RESOLVED_ERROR_PATH/unexpected"))
       .andExpect(status().isInternalServerError)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.INTERNAL_SERVER_ERROR.value())))
-      .andExpect(jsonPath("$.code", `is`("error.illegal_argument_exception")))
-      .andExpect(jsonPath("$.message", `is`(HttpStatus.INTERNAL_SERVER_ERROR.reasonPhrase)))
-      .andExpect(jsonPath("$.description", startsWith("An internal error occurred on processing request.")))
-      .andExpect(jsonPath("$.stacktrace", `is`("")))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 500,
+            "code": "error.illegal_argument_exception",
+            "message": "Internal Server Error",
+            "description": "An internal error occurred on processing request.",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : GET /test/error/unexpected",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 
   @Test
   fun should_get_unavailable_error() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/unavailable"))
       .andExpect(status().isServiceUnavailable)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.SERVICE_UNAVAILABLE.value())))
-      .andExpect(jsonPath("$.code", `is`("error.unavailable")))
-      .andExpect(jsonPath("$.message", `is`(HttpStatus.SERVICE_UNAVAILABLE.reasonPhrase)))
-      .andExpect(jsonPath("$.description", `is`(ERROR_MESSAGE)))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 503,
+            "code": "error.unavailable",
+            "message": "Service Unavailable",
+            "description": "Message for developers",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : GET /test/error/unavailable",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 
   @Test
@@ -128,15 +190,26 @@ class RestExceptionHandlerTest {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/nested-constraint-violation-error")
       .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.BAD_REQUEST.value())))
-      .andExpect(jsonPath("$.code", `is`("error.invalid")))
-      .andExpect(jsonPath("$.message", `is`(HttpStatus.BAD_REQUEST.reasonPhrase)))
-      .andExpect(jsonPath("$.description", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.errors", hasSize<Any>(1)))
-      .andExpect(jsonPath("$.errors[?(@.code == 'error.invalid.internal_body')]" +
-        "[?(@.field == 'internalBody')]" +
-        "[?(@.message == 'must not be null')]").exists())
-      .andExpect(jsonPath("$.service", `is`("myApp : GET /test/error/nested-constraint-violation-error")))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 400,
+            "code": "error.invalid",
+            "message": "Bad Request",
+            "description": "{#not_empty#}",
+            "errors": [
+              {
+                "code": "error.invalid.internal_body",
+                "field": "internalBody",
+                "message": "must not be null"
+              }
+            ],
+            "globalErrors": [],
+            "service": "myApp : GET /test/error/nested-constraint-violation-error",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 
   @Test
@@ -144,24 +217,45 @@ class RestExceptionHandlerTest {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/constraint-violation-error")
       .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.BAD_REQUEST.value())))
-      .andExpect(jsonPath("$.code", `is`("error.invalid")))
-      .andExpect(jsonPath("$.message", `is`(HttpStatus.BAD_REQUEST.reasonPhrase)))
-      .andExpect(jsonPath("$.description", not(isEmptyOrNullString())))
-      .andExpect(jsonPath("$.errors", hasSize<Any>(1)))
-      .andExpect(jsonPath("$.errors[?(@.code == 'error.invalid.internal_body')]" +
-        "[?(@.field == 'internalBody')]" +
-        "[?(@.message == 'must not be null')]").exists())
-      .andExpect(jsonPath("$.service", `is`("myApp : GET /test/error/constraint-violation-error")))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 400,
+            "code": "error.invalid",
+            "message": "Bad Request",
+            "description": "{#not_empty#}",
+            "errors": [
+              {
+                "code": "error.invalid.internal_body",
+                "field": "internalBody",
+                "message": "must not be null"
+              }
+            ],
+            "globalErrors": [],
+            "service": "myApp : GET /test/error/constraint-violation-error",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 
   @Test
   fun should_get_not_found_error_bis() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/no-handler-found-error"))
       .andExpect(status().isNotFound)
-      .andExpect(jsonPath("$.status", `is`(HttpStatus.NOT_FOUND.value())))
-      .andExpect(jsonPath("$.code", `is`("error.not_found")))
-      .andExpect(jsonPath("$.message", `is`(HttpStatus.NOT_FOUND.reasonPhrase)))
-      .andExpect(jsonPath("$.description", `is`("No handler found for GET /test/error/no-handler-found-error")))
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 404,
+            "code": "error.not_found",
+            "message": "Not Found",
+            "description": "No handler found for GET /test/error/no-handler-found-error",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : GET /test/error/no-handler-found-error",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
   }
 }
