@@ -31,7 +31,7 @@ abstract class DataRestExceptionHandler(
   @ExceptionHandler(ResourceNotFoundException::class)
   fun handleResourceNotFoundException(req: HttpServletRequest, e: ResourceNotFoundException): ResponseEntity<ErrorBody> {
     log.trace("Resource not found : ", e)
-    return toErrorResponse(notFound(buildServiceName(req, applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)))
+    return notFound(req.toServiceName(applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)).toErrorResponse()
   }
 
   @ExceptionHandler(RepositoryConstraintViolationException::class)
@@ -45,9 +45,9 @@ abstract class DataRestExceptionHandler(
     val errors = e.errors.fieldErrors.map { it.toValidationErrorBody() }
     val globalErrors = e.errors.globalErrors.map { it.toValidationErrorBody() }
 
-    return toErrorResponse(badRequest(
-      buildServiceName(req, applicationName), INVALID_ERROR_PREFIX, e.message, e.toStacktrace(properties.displayFullStacktrace), errors, globalErrors
-    ))
+    return badRequest(
+      req.toServiceName(applicationName), INVALID_ERROR_PREFIX, e.message, e.toStacktrace(properties.displayFullStacktrace), errors, globalErrors
+    ).toErrorResponse()
   }
 
   @ExceptionHandler(DataIntegrityViolationException::class)
@@ -56,10 +56,10 @@ abstract class DataRestExceptionHandler(
 
     val cause = e.cause
     if (cause is JDBCException) {
-      return toErrorResponse(conflict(
-        buildServiceName(req, applicationName), cause.sqlException.message, e.toStacktrace(properties.displayFullStacktrace)
-      ))
+      return conflict(
+        req.toServiceName(applicationName), cause.sqlException.message, e.toStacktrace(properties.displayFullStacktrace)
+      ).toErrorResponse()
     }
-    return toErrorResponse(conflict(buildServiceName(req, applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)))
+    return conflict(req.toServiceName(applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)).toErrorResponse()
   }
 }

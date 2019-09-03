@@ -26,6 +26,6 @@ abstract class AwsExceptionHandler(
   @ExceptionHandler(NoSuchKeyException::class)
   fun handleNoSuchKeyException(req: HttpServletRequest, e: NoSuchKeyException): ResponseEntity<ErrorBody> {
     log.debug("Object not found on S3", e)
-    return toErrorResponse(notFound(buildServiceName(req, applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)))
+    return notFound(req.toServiceName(applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)).toErrorResponse()
   }
 }

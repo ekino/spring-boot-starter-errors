@@ -32,24 +32,24 @@ abstract class SecurityExceptionHandler(
   @ExceptionHandler(AuthenticationCredentialsNotFoundException::class, InsufficientAuthenticationException::class, UsernameNotFoundException::class)
   fun handleAuthenticationException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Authentication failed : ", e)
-    return toErrorResponse(unAuthorized(
-      buildServiceName(req, applicationName), "error.unauthorized", e.message, e.toStacktrace(properties.displayFullStacktrace)
-    ))
+    return unAuthorized(
+      req.toServiceName(applicationName), "error.unauthorized", e.message, e.toStacktrace(properties.displayFullStacktrace)
+    ).toErrorResponse()
   }
 
   @ExceptionHandler(AccessDeniedException::class, BadCredentialsException::class)
   fun handleAccessDeniedException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Access denied", e)
-    return toErrorResponse(forbidden(
-      buildServiceName(req, applicationName), "error.access_denied", e.message, e.toStacktrace(properties.displayFullStacktrace)
-    ))
+    return forbidden(
+      req.toServiceName(applicationName), "error.access_denied", e.message, e.toStacktrace(properties.displayFullStacktrace)
+    ).toErrorResponse()
   }
 
   @ExceptionHandler(DisabledException::class)
   fun handleDisabledException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Disable account : ", e)
-    return toErrorResponse(forbidden(
-      buildServiceName(req, applicationName), "error.disabled_account", e.message, e.toStacktrace(properties.displayFullStacktrace)
-    ))
+    return forbidden(
+      req.toServiceName(applicationName), "error.disabled_account", e.message, e.toStacktrace(properties.displayFullStacktrace)
+    ).toErrorResponse()
   }
 }
