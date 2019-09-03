@@ -30,10 +30,10 @@ abstract class TxExceptionHandler(
 
     val cause = e.cause
     if (cause is JDBCException) {
-      return toErrorResponse(conflict(
-        buildServiceName(req, applicationName), cause.sqlException.message, e.toStacktrace(properties.displayFullStacktrace)
-      ))
+      return conflict(
+        req.toServiceName(applicationName), cause.sqlException.message, e.toStacktrace(properties.displayFullStacktrace)
+      ).toErrorResponse()
     }
-    return toErrorResponse(conflict(buildServiceName(req, applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)))
+    return conflict(req.toServiceName(applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)).toErrorResponse()
   }
 }

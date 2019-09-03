@@ -16,8 +16,8 @@ const val DEFAULT_INTERNAL_ERROR_MESSAGE = "An internal error occurred on proces
 const val INVALID_ERROR_PREFIX = "error.invalid"
 const val MISSING_ERROR_PREFIX = "error.missing"
 
-fun toErrorResponse(errorBody: ErrorBody, httpHeaders: HttpHeaders? = null): ResponseEntity<ErrorBody> {
-  return ResponseEntity(errorBody, httpHeaders, HttpStatus.valueOf(errorBody.status))
+fun ErrorBody.toErrorResponse(httpHeaders: HttpHeaders? = null): ResponseEntity<ErrorBody> {
+  return ResponseEntity(this, httpHeaders, HttpStatus.valueOf(this.status))
 }
 
 fun ObjectError.toValidationErrorBody(): ValidationErrorBody {
@@ -73,6 +73,6 @@ fun Throwable.toStacktrace(displayFullStacktrace: Boolean): String {
   return if (displayFullStacktrace) ExceptionUtils.getStackTrace(this) else ""
 }
 
-fun buildServiceName(req: HttpServletRequest, applicationName: String): String {
-  return "$applicationName : ${req.method} ${req.requestURI}"
+fun HttpServletRequest.toServiceName(applicationName: String): String {
+  return "$applicationName : ${this.method} ${this.requestURI}"
 }
