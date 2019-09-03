@@ -3,7 +3,6 @@ package com.ekino.oss.errors.handler
 import com.ekino.oss.errors.ErrorBody
 import com.ekino.oss.errors.generator.notFound
 import com.ekino.oss.errors.property.ErrorsProperties
-import org.slf4j.LoggerFactory
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.http.ResponseEntity
@@ -21,7 +20,7 @@ abstract class AwsExceptionHandler(
   private val applicationName: String,
   private val properties: ErrorsProperties
 ) {
-  private val log = LoggerFactory.getLogger(this.javaClass.name)
+  private val log by logger()
 
   @ExceptionHandler(NoSuchKeyException::class)
   fun handleNoSuchKeyException(req: HttpServletRequest, e: NoSuchKeyException): ResponseEntity<ErrorBody> {

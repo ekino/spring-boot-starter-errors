@@ -166,6 +166,26 @@ class RestExceptionHandlerTest {
   }
 
   @Test
+  fun should_get_custom_exception_error() {
+    mockMvc.perform(get("$RESOLVED_ERROR_PATH/custom"))
+      .andExpect(status().isGone)
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 410,
+            "code": "error.my_exception",
+            "message": "Gone",
+            "description": "",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : GET /test/error/custom",
+            "stacktrace": ""
+          }
+        """.trimIndent())
+      ))
+  }
+
+  @Test
   fun should_get_unavailable_error() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/unavailable"))
       .andExpect(status().isServiceUnavailable)

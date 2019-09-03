@@ -4,7 +4,6 @@ import com.ekino.oss.errors.ErrorBody
 import com.ekino.oss.errors.generator.forbidden
 import com.ekino.oss.errors.generator.unAuthorized
 import com.ekino.oss.errors.property.ErrorsProperties
-import org.slf4j.LoggerFactory
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.http.ResponseEntity
@@ -27,7 +26,7 @@ abstract class SecurityExceptionHandler(
   private val applicationName: String,
   private val properties: ErrorsProperties
 ) {
-  private val log = LoggerFactory.getLogger(this.javaClass.name)
+  private val log by logger()
 
   @ExceptionHandler(AuthenticationCredentialsNotFoundException::class, InsufficientAuthenticationException::class, UsernameNotFoundException::class)
   fun handleAuthenticationException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {

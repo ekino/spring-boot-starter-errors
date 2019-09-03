@@ -38,6 +38,9 @@ class TestResource {
   @GetMapping("$ERROR_PATH/unexpected")
   fun unexpectedError(): ResponseEntity<String> = throw IllegalArgumentException()
 
+  @GetMapping("$ERROR_PATH/custom")
+  fun customExceptionError(): ResponseEntity<String> = throw MyException()
+
   @GetMapping("$ERROR_PATH/unavailable")
   fun unavailableError(): ResponseEntity<String> = throw ConnectException(ERROR_MESSAGE)
 
