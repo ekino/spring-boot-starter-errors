@@ -6,7 +6,6 @@ import com.ekino.oss.errors.generator.conflict
 import com.ekino.oss.errors.generator.notFound
 import com.ekino.oss.errors.property.ErrorsProperties
 import org.hibernate.JDBCException
-import org.slf4j.LoggerFactory
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.Order
 import org.springframework.dao.DataIntegrityViolationException
@@ -26,7 +25,7 @@ abstract class DataRestExceptionHandler(
   private val applicationName: String,
   private val properties: ErrorsProperties
 ) {
-  private val log = LoggerFactory.getLogger(this.javaClass.name)
+  private val log by logger()
 
   @ExceptionHandler(ResourceNotFoundException::class)
   fun handleResourceNotFoundException(req: HttpServletRequest, e: ResourceNotFoundException): ResponseEntity<ErrorBody> {

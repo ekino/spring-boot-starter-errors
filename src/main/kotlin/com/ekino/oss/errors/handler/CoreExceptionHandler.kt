@@ -7,7 +7,6 @@ import com.ekino.oss.errors.generator.methodNotAllowed
 import com.ekino.oss.errors.generator.notFound
 import com.ekino.oss.errors.generator.unavailable
 import com.ekino.oss.errors.property.ErrorsProperties
-import org.slf4j.LoggerFactory
 import org.springframework.core.NestedRuntimeException
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.AnnotationUtils
@@ -39,7 +38,7 @@ abstract class CoreExceptionHandler(
   private val applicationName: String,
   private val properties: ErrorsProperties
 ) {
-  private val log = LoggerFactory.getLogger(this.javaClass.name)
+  private val log by logger()
 
   @ExceptionHandler(ConnectException::class)
   fun handleUnavailableServiceException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
@@ -122,9 +121,11 @@ abstract class CoreExceptionHandler(
 
   @ExceptionHandler(Throwable::class)
   fun handleException(req: HttpServletRequest, e: Throwable): ResponseEntity<ErrorBody> {
-    log.error("Unexpected error : ", e)
-
     val responseStatus = AnnotationUtils.findAnnotation(e.javaClass, ResponseStatus::class.java)
+
+    if (responseStatus == null) {
+      log.error("Unexpected error : ", e)
+    }
 
     val status = responseStatus?.value ?: HttpStatus.INTERNAL_SERVER_ERROR
     val message = responseStatus?.reason ?: e.toMessage()
