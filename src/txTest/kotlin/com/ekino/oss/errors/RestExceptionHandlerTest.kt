@@ -36,7 +36,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : POST /test/error/conflict",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))

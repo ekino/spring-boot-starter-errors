@@ -1,5 +1,7 @@
 package com.ekino.oss.errors
 
+import java.time.Instant
+
 data class ErrorBody(
   val status: Int,
   val code: String,
@@ -8,5 +10,6 @@ data class ErrorBody(
   val errors: List<ValidationErrorBody>,
   val globalErrors: List<ValidationErrorBody>,
   val service: String,
-  val stacktrace: String
+  val stacktrace: String,
+  val timestamp: Instant
 )
