@@ -34,7 +34,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/notFound",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -67,7 +68,8 @@ class RestExceptionHandlerTest {
               }
             ],
             "service": "myApp : GET /test/error/repository-constraint-validation",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))

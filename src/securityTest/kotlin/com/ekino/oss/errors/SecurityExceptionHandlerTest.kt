@@ -35,7 +35,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/accessDenied",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -55,7 +56,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/noCredentials",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -75,7 +77,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/insufficientCredentials",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           } 
         """.trimIndent())
       ))
@@ -97,7 +100,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : POST /test/error/username-not-found-error",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -117,7 +121,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/disabledAccount",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))

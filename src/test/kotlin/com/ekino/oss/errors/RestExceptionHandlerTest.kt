@@ -43,7 +43,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/ok",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -77,7 +78,8 @@ class RestExceptionHandlerTest {
             ],
             "globalErrors": [],
             "service": "myApp : POST /test/ok",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -99,7 +101,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : POST /test/ok",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -119,7 +122,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/ok",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -139,7 +143,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : DELETE /test/ok",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -159,7 +164,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/unexpected",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -179,7 +185,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/custom",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -199,7 +206,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/unavailable",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -226,7 +234,8 @@ class RestExceptionHandlerTest {
             ],
             "globalErrors": [],
             "service": "myApp : GET /test/error/nested-constraint-violation-error",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -253,7 +262,8 @@ class RestExceptionHandlerTest {
             ],
             "globalErrors": [],
             "service": "myApp : GET /test/error/constraint-violation-error",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))
@@ -273,7 +283,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/no-handler-found-error",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))

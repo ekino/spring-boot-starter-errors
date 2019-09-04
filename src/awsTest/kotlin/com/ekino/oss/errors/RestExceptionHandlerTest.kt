@@ -33,7 +33,8 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/no-such-key-exception",
-            "stacktrace": ""
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
           }
         """.trimIndent())
       ))

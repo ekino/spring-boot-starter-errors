@@ -4,6 +4,7 @@ import com.ekino.oss.errors.DefaultErrorCode
 import com.ekino.oss.errors.ErrorBody
 import com.ekino.oss.errors.ValidationErrorBody
 import org.springframework.http.HttpStatus
+import java.time.Instant
 
 fun notFound(service: String, devMessage: String?, stacktrace: String): ErrorBody {
   return toError(service, HttpStatus.NOT_FOUND, DefaultErrorCode.NOT_FOUND.value(), HttpStatus.NOT_FOUND.reasonPhrase,
@@ -102,6 +103,7 @@ private fun toError(
     errors = errors,
     globalErrors = globalErrors,
     service = service,
-    stacktrace = stacktrace
+    stacktrace = stacktrace,
+    timestamp = Instant.now()
   )
 }
