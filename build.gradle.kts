@@ -140,7 +140,7 @@ val publicationName = "mavenJava"
 
 publishing {
   publications {
-    create<MavenPublication>(publicationName) {
+    register<MavenPublication>(publicationName) {
       pom {
         name.set("ekino-spring-boot-starter-errors")
         description.set("ekino-spring-boot-starter-errors configure your Spring Boot app in order to have well formatted error response in json.")
