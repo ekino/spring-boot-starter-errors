@@ -2,7 +2,6 @@ package com.ekino.oss.errors
 
 import com.ekino.oss.jcv.assertion.hamcrest.JsonMatchers.jsonMatcher
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
@@ -16,10 +15,9 @@ const val RESOLVED_ERROR_PATH = API_PATH + ERROR_PATH
 
 @WebMvcTest(properties = ["ekino.errors.display-full-stacktrace=false", "spring.application.name=myApp"])
 @ImportAutoConfiguration(ErrorsAutoConfiguration::class)
-class RestExceptionHandlerTest {
-
-  @Autowired
-  private lateinit var mockMvc: MockMvc
+class RestExceptionHandlerTest(
+  private val mockMvc: MockMvc
+) {
 
   @Test
   fun `should get access denied error`() {

@@ -23,7 +23,7 @@ repositories {
   jcenter()
 }
 
-val springBootVersion = "2.1.10.RELEASE"
+val springBootVersion = "2.2.2.RELEASE"
 val guavaVersion = "28.1-jre"
 val awsSdkVersion = "2.7.22"
 val jcvVersion = "1.4.2"
@@ -58,10 +58,7 @@ dependencies {
   compileOnly("software.amazon.awssdk:s3:$awsSdkVersion")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
-  testImplementation("org.junit.jupiter:junit-jupiter-api")
-  testImplementation("org.junit.jupiter:junit-jupiter-params")
   testImplementation("com.ekino.oss.jcv:jcv-hamcrest:$jcvVersion")
-  testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
   securityTestImplementation("org.springframework.security:spring-security-web")
 
@@ -75,6 +72,7 @@ dependencies {
 configurations {
   all {
     exclude(module = "junit")
+    exclude(module = "junit-vintage-engine")
     exclude(module = "mockito-core")
   }
 }
@@ -109,7 +107,7 @@ tasks {
 
   withType<Test> {
     useJUnitPlatform()
-    jvmArgs("-Duser.language=en")
+    jvmArgs("-Duser.language=en", "-Dspring.test.constructor.autowire.mode=ALL")
   }
 
   withType<DokkaTask> {
@@ -117,11 +115,11 @@ tasks {
       reportUndocumented = false
       jdkVersion = 8
       externalDocumentationLink {
-        url = URL("https://docs.spring.io/spring-framework/docs/5.1.9.RELEASE/javadoc-api/")
+        url = URL("https://docs.spring.io/spring-framework/docs/5.2.x/javadoc-api/")
         packageListUrl = URL(url, "package-list")
       }
       externalDocumentationLink {
-        url = URL("https://docs.spring.io/spring-boot/docs/2.1.x/api/")
+        url = URL("https://docs.spring.io/spring-boot/docs/2.2.x/api/")
         packageListUrl = URL(url, "package-list")
       }
     }
