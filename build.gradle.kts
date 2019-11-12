@@ -12,7 +12,7 @@ plugins {
   kotlin("plugin.spring") version kotlinVersion
   id("org.jlleitschuh.gradle.ktlint") version "8.2.0"
   id("org.unbroken-dome.test-sets") version "2.1.1"
-  id("org.jetbrains.dokka") version "0.9.18"
+  id("org.jetbrains.dokka") version "0.10.0"
 }
 
 group = "com.ekino.oss.spring"
@@ -113,12 +113,17 @@ tasks {
   }
 
   withType<DokkaTask> {
-    reportUndocumented = false
-    externalDocumentationLink {
-      url = URL("https://docs.spring.io/spring-framework/docs/5.1.9.RELEASE/javadoc-api/")
-    }
-    externalDocumentationLink {
-      url = URL("https://docs.spring.io/spring-boot/docs/2.1.x/api/")
+    configuration {
+      reportUndocumented = false
+      jdkVersion = 8
+      externalDocumentationLink {
+        url = URL("https://docs.spring.io/spring-framework/docs/5.1.9.RELEASE/javadoc-api/")
+        packageListUrl = URL(url, "package-list")
+      }
+      externalDocumentationLink {
+        url = URL("https://docs.spring.io/spring-boot/docs/2.1.x/api/")
+        packageListUrl = URL(url, "package-list")
+      }
     }
   }
 
