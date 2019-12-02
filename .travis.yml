@@ -1,63 +1,63 @@
-language: java
+#language: java
 
 # We need it because otherwise Travis CI injects an awkward './gradlew assemble' step into the CI workflow
-install: true
-
-jdk:
-  - openjdk8
-  - openjdk11
-
-env:
-  global:
-    - GPG_FILE_NAME="starter.errors.gpg"
-    - ENCRYPTED_GPG_FILE_NAME="starter.errors.gpg.enc"
-    - PUBLISH_SNAPSHOT_REPO_URL="https://oss.sonatype.org/content/repositories/snapshots/"
-    - PUBLISH_RELEASE_REPO_URL="https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-    - # GPG_KEY_ID
-    - secure: "gZOvsjS+NyHN4Lod0fBZxOUKualQGX1bAHBTZesp0JyMp+VdBTm7PrrxqCCFAD3TD11lDS3SQt3JEt3ZCEDeCrSapzSqmSkiLifEDqOX91Asdhylqo5mO6iUHPnQa/ZW/7dB15KkidhHKdD/Kr5IzJLR6gBdIkEm+ItvW3Nzd8bSsDgj7U97vVIZisyqg+1P7CAjfwRjF+/vQC23hAR6Y1F9xaUCkh+iJYJnhZRuD5Pmx0jRKT5XWNpWvz5GOvpcVzAtnVzkQc0Rz1m5up8X7DOsDw5tU0wVe4quX+ecD+rYNj6w5tsf7CR6hBnyHkT27OqeBPHwfJRgpnRZ1GGtaM+C99JJP8vt4XnOFnLk0VoE/h0BaWsnaWsHS3PVQZ2VjYgTCHETYVwrmFyJthZ4pZRNr1LKWDlSUDS6+mgiekW5osfPVNr9BZsZxdGh9k7Y6M01PmjbxBpt86jZUp6vG9Lgv8gdUqLR1/TfbKbZeERm6csCpk1/k0poVQKEO+G3lFGDY308qnZNyGr0rmvMoZ1HU6JU/N05KTYjTHqA0CbNaY5JSDLtq8yYLpBXc8+B4lnJ3/khQ69AoSZB2PeeflnEDEHLrzsx8MQ7ft42k/MYJRRSu/FF5vzrXsSnsD+75wQyq2I4Cfnqef7dALLSZSeB/iN529VS36sTsZrVLNs="
-    - # GPG_PASSPHRASE
-    - secure: "h0FLUHUhzmM2JUetGqNsWiykd5OwnezZejLM7apsTSOJ2om4KOKsTOM8BEHk1Xl/JOCr5rrh8xKL2JOjbi4Ibfr/pe8csRoiyiUfDI+aHJkvNFPiHX4ABHqkQ/01l1u6gZfFw7swoGQQgLi+i5gj5GpGA62n8+DZDfSrnuG9SEb4lQmAogxEVjMO9xk9nEZfE4OBaeVJiDD0aEuY1uCfdgi1xFdabbmqxrsdd+Oolar30tALJsuFDBLWYH4yGwwQ8XjMKEgKavNVwMHPV0DU+2uG5VvrGAmYndi1+cr3JFcMSI21R8PtsQ0mPuL8paTIF9t+jLpLfn6wLsi0ax09EHlXmh3fEOreIGYBWEUzqKxRUF0Ynv/pm7mUWMR/TZWCZg4OUR/y2JJSwv5cF5Y3M+hc5pCS2RZz6AFq7vjv9PfmZkui7SOfEa9ZUs51wY8+P4ml/o2nsItXdQrJrI880VYyzjwW8ThcTECk8trsUsjQGp/sERIkA2eiwaml/TNnIYF1E6is5EWqYha/UiSYuHzK+YMIlh0DV94iO9Y7dqONTkyEAqHRQB2UwXmJCYNIyJsFmJ7oK3DUyrnMblfFi2gekEzl+sh2bLXwpqt9qKl9LYyWnaYz0BCD9TydP6AIZyMUcaOF4L1wuUQZd6E/RLuJH8WHkISiTZcosNnKgfw="
-    - # PUBLISH_REPO_USERNAME
-    - secure: "LGGS+dLtDKxx/V31yU3mtrAITT6LD5gxdUzLbc18YCnW68ki7CNwDq2VJh7491JbAInC4fMoVtnL23L5xJDMdBxChMHKdjV029KYdbZAqxuxDRlm5W/uvWkScNRJZ7vKeWkAX4KQimVxloMKyz59KvYoPtZSbevL62fxY9HtCUZ4k+EJhQGgMtZPFrC8BptrT3lnrxDBon+93e3T8HzUOs7hcAZpV865ljgZEH86CKXvodmHWW7Pj55J+M+9nG0rplni+SwnSqeAWUZiJktj/1ebnErQHqUG9ldH81ND68GaF2xxVlTz29/6ydtTC8J0OqICkADnFHfwMzPcf0AOKI6MlNfibPQDO/GrwFHJ7VCjgz9AS1lY6JUD5eWjJ+fkG0ANExrbi1MJRVem8CI2NIpA28Ds+kAHvoz3UNg5/gUE04eNmUJCl5UyNoqA0hkrpWzGg2XM55l/q2QJiLdFJISVz+2o3tVOaUE6suc6ybTqngqTrfCLMFAKr4y9b6LZlgzr2W5WOoWhyNam5/2pM7l191jJP4cYH+bTeiwrvIg2h4lgPGuxeUZWAiJljRDcyybXRnVtOs+63KTE135bmu6a7EKWX2s7+yahrWeOw1NgprlE3wZn8vk/l+TghTN/blXe/JvyhPktkWB3GSA3X2zXQLTy3AYm4714+Jc2+gQ="
-    - # PUBLISH_REPO_PASSWORD
-    - secure: "o3lDiwSsfw4Bud2r4Zg2NbZLLR+0Jzhebn/GTdwud2YmQ/qodZlZ0b4YhH/W0+PI7TXhPMn7aA87/LTTtuR549zB5XVjotADeRD7Lzmj6eq2efZiRrv0WIGfJjQ9BQ+NSGmUp3eXpD0GIywlp1gE71SjNiI24BsG96iEARy7QgB4FSSzm4uI0jbs0aqCrVi1oeiEM6/Ku+XIV5V1Yv9ysyGcdlnu1kH7YcVCBhdUCAyj532OZGiNvYjir1YzDlnFBScN4HsOssFa75GnyWE2c6gNo1KLFFvRGjVFtcsQoaNCtemPD6/kqbWzN5rTEYM7tQNXjZLxMcIeLhCh31C/BaO4KO4ANg7inKOaX+zdKCXGdDuDNwJl+7oWcTkKbPBy4rpPEqSa217kXzs0SXAQ1D36lFVTpNKlgfuKGl891GnQGOTwzDK/IFjKfSAFhjFfJIiKcdAF9QYIXsVZKuuAXAhlXfl+gmv0v7MOEZjn4vo3yl0iWXAcaKCBQVbH6pI3xlzwzqaooseJWAH6XteJmZ6R+zjk9iCNQvSf05wezQei3Tww7g8bW47u4+/GKMjubbn4sRhz5H7/mh+RFdxWc1+QwdZWdOBS7ZuMJQVUu05lnwDU5KlpETw6FxoSXroc+3XXNG7fOLYqMXbGYrY4ws+uYl4DQZdEtrmc0Zg8BM4="
-
-before_script:
-  - chmod -R ug+x .travis
-
-script: .travis/build.sh
-
-jobs:
-  include:
-    - stage: deploy
-      name: Deploy Snapshot
-      jdk: openjdk11
-      if: |
-        branch = master AND \
-        type = push
-      script: .travis/deploy.sh
-    - stage: deploy
-      name: Deploy Release
-      jdk: openjdk11
-      if: tag IS present AND tag =~ ^(\d)+\.(\d)+(\.(\d)+)*(-[\w]+)*$
-      script: .travis/deploy.sh
-      deploy:
-        provider: releases
-        api_key:
-          secure: FhtlDhO7gwVw5yHB2VPDFhCJXNXCT5666k4D9nB0baOUMJm+YYZ73FD6kRNL138TEQuWHjV5yCjw3Ni8MRGqy9MOfQg904GYlcKdp+sCFoPGKSmxHq0Ov9eR/Qpuh8EbdasjCIyx49UCurXyZ7I4Hvt0LPhslDS5BJJwc1+/Os8y0MxNVnuriXO4i5Qst5CXwVqMDheytHaBpmcfZXEmmXO+YSgimVcpn2plkph1jjdVDKM7/45ZueEduJ3Y3U/zVA2VjHL6vxORG2EIYAaVMTQeRoIUj5b/3AVVtvTML1qrinHAB4FfOnUe6TlLSaC9YPdDS0uXfEGhDVzAn2wj12My8S2qLDq0hhcN8hBA0rxRwaTpDHOjgQ0aw7d1VnT6Jvf4Lvhkek4b8/i2MWQ+/17m3Hds6iHlm0WCfxnn5ly83nVsCs/vUWhbHb5PHSjE2EgavQ45T4uIwOIlhSIBkWHiNYY5LhHrJD5c4JQNWEa40LnRQ+6OPaRsgyGSsVgCZvYJuYQXVbvJiF0C82SZ9qUvZE2Nlmb8CEglGo6PqqA5Ew9TbHnP5jL3y6qv3cGl8uUmZypCLSPtaHvuhJjk+6aBULpzXGeEIPIP/vfg7rFJMELG6dq7FqBaRmDqBTeWdGKsU+cSF8xelgNzJS3sJux0iO//gxaQ04MNzGgjrik=
-        file_glob: true # enable wildcards
-        file: "$TRAVIS_BUILD_DIR/build/libs/*"
-        body: "Release of $TRAVIS_TAG"
-        skip_cleanup: true
-        draft: true
-        on:
-          repo: ekino/spring-boot-starter-errors
-          tags: true
-
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-cache:
-  directories:
-    - "$HOME/.gradle/caches/"
-    - "$HOME/.gradle/wrapper/"
+#install: true
+#
+#jdk:
+#  - openjdk8
+#  - openjdk11
+#
+#env:
+#  global:
+#    - GPG_FILE_NAME="starter.errors.gpg"
+#    - ENCRYPTED_GPG_FILE_NAME="starter.errors.gpg.enc"
+#    - PUBLISH_SNAPSHOT_REPO_URL="https://oss.sonatype.org/content/repositories/snapshots/"
+#    - PUBLISH_RELEASE_REPO_URL="https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+#    - # GPG_KEY_ID
+#    - secure: "gZOvsjS+NyHN4Lod0fBZxOUKualQGX1bAHBTZesp0JyMp+VdBTm7PrrxqCCFAD3TD11lDS3SQt3JEt3ZCEDeCrSapzSqmSkiLifEDqOX91Asdhylqo5mO6iUHPnQa/ZW/7dB15KkidhHKdD/Kr5IzJLR6gBdIkEm+ItvW3Nzd8bSsDgj7U97vVIZisyqg+1P7CAjfwRjF+/vQC23hAR6Y1F9xaUCkh+iJYJnhZRuD5Pmx0jRKT5XWNpWvz5GOvpcVzAtnVzkQc0Rz1m5up8X7DOsDw5tU0wVe4quX+ecD+rYNj6w5tsf7CR6hBnyHkT27OqeBPHwfJRgpnRZ1GGtaM+C99JJP8vt4XnOFnLk0VoE/h0BaWsnaWsHS3PVQZ2VjYgTCHETYVwrmFyJthZ4pZRNr1LKWDlSUDS6+mgiekW5osfPVNr9BZsZxdGh9k7Y6M01PmjbxBpt86jZUp6vG9Lgv8gdUqLR1/TfbKbZeERm6csCpk1/k0poVQKEO+G3lFGDY308qnZNyGr0rmvMoZ1HU6JU/N05KTYjTHqA0CbNaY5JSDLtq8yYLpBXc8+B4lnJ3/khQ69AoSZB2PeeflnEDEHLrzsx8MQ7ft42k/MYJRRSu/FF5vzrXsSnsD+75wQyq2I4Cfnqef7dALLSZSeB/iN529VS36sTsZrVLNs="
+#    - # GPG_PASSPHRASE
+#    - secure: "h0FLUHUhzmM2JUetGqNsWiykd5OwnezZejLM7apsTSOJ2om4KOKsTOM8BEHk1Xl/JOCr5rrh8xKL2JOjbi4Ibfr/pe8csRoiyiUfDI+aHJkvNFPiHX4ABHqkQ/01l1u6gZfFw7swoGQQgLi+i5gj5GpGA62n8+DZDfSrnuG9SEb4lQmAogxEVjMO9xk9nEZfE4OBaeVJiDD0aEuY1uCfdgi1xFdabbmqxrsdd+Oolar30tALJsuFDBLWYH4yGwwQ8XjMKEgKavNVwMHPV0DU+2uG5VvrGAmYndi1+cr3JFcMSI21R8PtsQ0mPuL8paTIF9t+jLpLfn6wLsi0ax09EHlXmh3fEOreIGYBWEUzqKxRUF0Ynv/pm7mUWMR/TZWCZg4OUR/y2JJSwv5cF5Y3M+hc5pCS2RZz6AFq7vjv9PfmZkui7SOfEa9ZUs51wY8+P4ml/o2nsItXdQrJrI880VYyzjwW8ThcTECk8trsUsjQGp/sERIkA2eiwaml/TNnIYF1E6is5EWqYha/UiSYuHzK+YMIlh0DV94iO9Y7dqONTkyEAqHRQB2UwXmJCYNIyJsFmJ7oK3DUyrnMblfFi2gekEzl+sh2bLXwpqt9qKl9LYyWnaYz0BCD9TydP6AIZyMUcaOF4L1wuUQZd6E/RLuJH8WHkISiTZcosNnKgfw="
+#    - # PUBLISH_REPO_USERNAME
+#    - secure: "LGGS+dLtDKxx/V31yU3mtrAITT6LD5gxdUzLbc18YCnW68ki7CNwDq2VJh7491JbAInC4fMoVtnL23L5xJDMdBxChMHKdjV029KYdbZAqxuxDRlm5W/uvWkScNRJZ7vKeWkAX4KQimVxloMKyz59KvYoPtZSbevL62fxY9HtCUZ4k+EJhQGgMtZPFrC8BptrT3lnrxDBon+93e3T8HzUOs7hcAZpV865ljgZEH86CKXvodmHWW7Pj55J+M+9nG0rplni+SwnSqeAWUZiJktj/1ebnErQHqUG9ldH81ND68GaF2xxVlTz29/6ydtTC8J0OqICkADnFHfwMzPcf0AOKI6MlNfibPQDO/GrwFHJ7VCjgz9AS1lY6JUD5eWjJ+fkG0ANExrbi1MJRVem8CI2NIpA28Ds+kAHvoz3UNg5/gUE04eNmUJCl5UyNoqA0hkrpWzGg2XM55l/q2QJiLdFJISVz+2o3tVOaUE6suc6ybTqngqTrfCLMFAKr4y9b6LZlgzr2W5WOoWhyNam5/2pM7l191jJP4cYH+bTeiwrvIg2h4lgPGuxeUZWAiJljRDcyybXRnVtOs+63KTE135bmu6a7EKWX2s7+yahrWeOw1NgprlE3wZn8vk/l+TghTN/blXe/JvyhPktkWB3GSA3X2zXQLTy3AYm4714+Jc2+gQ="
+#    - # PUBLISH_REPO_PASSWORD
+#    - secure: "o3lDiwSsfw4Bud2r4Zg2NbZLLR+0Jzhebn/GTdwud2YmQ/qodZlZ0b4YhH/W0+PI7TXhPMn7aA87/LTTtuR549zB5XVjotADeRD7Lzmj6eq2efZiRrv0WIGfJjQ9BQ+NSGmUp3eXpD0GIywlp1gE71SjNiI24BsG96iEARy7QgB4FSSzm4uI0jbs0aqCrVi1oeiEM6/Ku+XIV5V1Yv9ysyGcdlnu1kH7YcVCBhdUCAyj532OZGiNvYjir1YzDlnFBScN4HsOssFa75GnyWE2c6gNo1KLFFvRGjVFtcsQoaNCtemPD6/kqbWzN5rTEYM7tQNXjZLxMcIeLhCh31C/BaO4KO4ANg7inKOaX+zdKCXGdDuDNwJl+7oWcTkKbPBy4rpPEqSa217kXzs0SXAQ1D36lFVTpNKlgfuKGl891GnQGOTwzDK/IFjKfSAFhjFfJIiKcdAF9QYIXsVZKuuAXAhlXfl+gmv0v7MOEZjn4vo3yl0iWXAcaKCBQVbH6pI3xlzwzqaooseJWAH6XteJmZ6R+zjk9iCNQvSf05wezQei3Tww7g8bW47u4+/GKMjubbn4sRhz5H7/mh+RFdxWc1+QwdZWdOBS7ZuMJQVUu05lnwDU5KlpETw6FxoSXroc+3XXNG7fOLYqMXbGYrY4ws+uYl4DQZdEtrmc0Zg8BM4="
+#
+#before_script:
+#  - chmod -R ug+x .travis
+#
+#script: .travis/build.sh
+#
+#jobs:
+#  include:
+#    - stage: deploy
+#      name: Deploy Snapshot
+#      jdk: openjdk11
+#      if: |
+#        branch = master AND \
+#        type = push
+#      script: .travis/deploy.sh
+#    - stage: deploy
+#      name: Deploy Release
+#      jdk: openjdk11
+#      if: tag IS present AND tag =~ ^(\d)+\.(\d)+(\.(\d)+)*(-[\w]+)*$
+#      script: .travis/deploy.sh
+#      deploy:
+#        provider: releases
+#        api_key:
+#          secure: FhtlDhO7gwVw5yHB2VPDFhCJXNXCT5666k4D9nB0baOUMJm+YYZ73FD6kRNL138TEQuWHjV5yCjw3Ni8MRGqy9MOfQg904GYlcKdp+sCFoPGKSmxHq0Ov9eR/Qpuh8EbdasjCIyx49UCurXyZ7I4Hvt0LPhslDS5BJJwc1+/Os8y0MxNVnuriXO4i5Qst5CXwVqMDheytHaBpmcfZXEmmXO+YSgimVcpn2plkph1jjdVDKM7/45ZueEduJ3Y3U/zVA2VjHL6vxORG2EIYAaVMTQeRoIUj5b/3AVVtvTML1qrinHAB4FfOnUe6TlLSaC9YPdDS0uXfEGhDVzAn2wj12My8S2qLDq0hhcN8hBA0rxRwaTpDHOjgQ0aw7d1VnT6Jvf4Lvhkek4b8/i2MWQ+/17m3Hds6iHlm0WCfxnn5ly83nVsCs/vUWhbHb5PHSjE2EgavQ45T4uIwOIlhSIBkWHiNYY5LhHrJD5c4JQNWEa40LnRQ+6OPaRsgyGSsVgCZvYJuYQXVbvJiF0C82SZ9qUvZE2Nlmb8CEglGo6PqqA5Ew9TbHnP5jL3y6qv3cGl8uUmZypCLSPtaHvuhJjk+6aBULpzXGeEIPIP/vfg7rFJMELG6dq7FqBaRmDqBTeWdGKsU+cSF8xelgNzJS3sJux0iO//gxaQ04MNzGgjrik=
+#        file_glob: true # enable wildcards
+#        file: "$TRAVIS_BUILD_DIR/build/libs/*"
+#        body: "Release of $TRAVIS_TAG"
+#        skip_cleanup: true
+#        draft: true
+#        on:
+#          repo: ekino/spring-boot-starter-errors
+#          tags: true
+#
+#before_cache:
+#  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+#  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+#cache:
+#  directories:
+#    - "$HOME/.gradle/caches/"
+#    - "$HOME/.gradle/wrapper/"
