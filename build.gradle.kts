@@ -4,14 +4,14 @@ import org.unbrokendome.gradle.plugins.testsets.dsl.testSets
 import java.net.URL
 
 plugins {
-  val kotlinVersion = "1.3.50"
+  val kotlinVersion = "1.3.61"
   `java-library`
   `maven-publish`
   signing
   kotlin("jvm") version kotlinVersion
   kotlin("plugin.spring") version kotlinVersion
-  id("org.jlleitschuh.gradle.ktlint") version "8.2.0"
-  id("org.unbroken-dome.test-sets") version "2.1.1"
+  id("org.jlleitschuh.gradle.ktlint") version "9.1.1"
+  id("org.unbroken-dome.test-sets") version "2.2.1"
   id("org.jetbrains.dokka") version "0.10.0"
 }
 
