@@ -127,6 +127,10 @@ tasks {
     }
   }
 
+  withType<GenerateModuleMetadata>().configureEach {
+    enabled = false
+  }
+
   artifacts {
     archives(jar)
     archives(sourcesJar)
