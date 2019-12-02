@@ -1,0 +1,37 @@
+name: Publish release
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup java
+        uses: actions/setup-java@master
+        with:
+          java-version: 11
+      - name: Check version not snapshot
+        run: |
+          PROJECT_VERSION=$(./gradlew -q printVersion | tail -n 1)
+          echo "Project version is $PROJECT_VERSION"
+          [[ "$PROJECT_VERSION" =~ .*-SNAPSHOT$ ]] && exit 1
+      - name: Decrypt large secret
+        run: |
+          chmod +x ./.github/workflows/decrypt_secret.sh
+          ./.github/workflows/decrypt_secret.sh
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Build
+        run: ./gradlew build
+      - name: Publish
+        run: ./gradlew publish -PossrhUrl="$PUBLISH_RELEASE_REPO_URL" -PossrhUsername="$PUBLISH_REPO_USERNAME" -PossrhPassword="$PUBLISH_REPO_PASSWORD" -Psigning.keyId="$GPG_KEY_ID" -Psigning.password="$GPG_PASSPHRASE" -Psigning.secretKeyRingFile="$SIGN_FILE_PATH"
+        env:
+          PUBLISH_RELEASE_REPO_URL: https://oss.sonatype.org/service/local/staging/deploy/maven2/
+          PUBLISH_REPO_USERNAME: ${{ secrets.PUBLISH_REPO_USERNAME }}
+          PUBLISH_REPO_PASSWORD: ${{ secrets.PUBLISH_REPO_PASSWORD }}
+          GPG_KEY_ID: ${{ secrets.GPG_KEY_ID }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          SIGN_FILE_PATH: .github/workflows/project.gpg
