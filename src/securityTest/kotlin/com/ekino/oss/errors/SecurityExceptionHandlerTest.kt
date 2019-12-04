@@ -22,7 +22,7 @@ class RestExceptionHandlerTest {
   private lateinit var mockMvc: MockMvc
 
   @Test
-  fun should_get_access_denied_error() {
+  fun `should get access denied error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/accessDenied"))
       .andExpect(status().isForbidden)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -43,7 +43,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_credentials_not_found_error() {
+  fun `should get credentials not found error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/noCredentials"))
       .andExpect(status().isUnauthorized)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -64,7 +64,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_insufficient_credentials_error() {
+  fun `should get insufficient credentials error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/insufficientCredentials"))
       .andExpect(status().isUnauthorized)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -79,13 +79,13 @@ class RestExceptionHandlerTest {
             "service": "myApp : GET /test/error/insufficientCredentials",
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
-          } 
+          }
         """.trimIndent())
       ))
   }
 
   @Test
-  fun should_get_username_not_found_error() {
+  fun `should get username not found error`() {
     mockMvc.perform(post("$RESOLVED_ERROR_PATH/username-not-found-error")
       .contentType(MediaType.APPLICATION_JSON)
       .content("{}"))
@@ -108,7 +108,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_disabled_account_error() {
+  fun `should get disabled account error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/disabledAccount"))
       .andExpect(status().isForbidden)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -121,6 +121,27 @@ class RestExceptionHandlerTest {
             "errors": [],
             "globalErrors": [],
             "service": "myApp : GET /test/error/disabledAccount",
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
+          }
+        """.trimIndent())
+      ))
+  }
+
+  @Test
+  fun `should get request rejected error`() {
+    mockMvc.perform(get("$RESOLVED_ERROR_PATH/requestRejected"))
+      .andExpect(status().isForbidden)
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 403,
+            "code": "error.request_rejected",
+            "message": "Forbidden",
+            "description": "Message for developers",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : GET /test/error/requestRejected",
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }

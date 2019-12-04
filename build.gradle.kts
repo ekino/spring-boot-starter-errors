@@ -54,7 +54,7 @@ dependencies {
 
   compileOnly("org.springframework.boot:spring-boot-starter-data-jpa")
   compileOnly("org.springframework.boot:spring-boot-starter-data-rest")
-  compileOnly("org.springframework.security:spring-security-core")
+  compileOnly("org.springframework.security:spring-security-web")
   compileOnly("software.amazon.awssdk:s3:$awsSdkVersion")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
@@ -63,7 +63,7 @@ dependencies {
   testImplementation("com.ekino.oss.jcv:jcv-hamcrest:$jcvVersion")
   testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 
-  securityTestImplementation("org.springframework.security:spring-security-core")
+  securityTestImplementation("org.springframework.security:spring-security-web")
 
   dataRestTestImplementation("org.springframework.boot:spring-boot-starter-data-rest")
 

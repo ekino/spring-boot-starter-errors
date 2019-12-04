@@ -13,6 +13,7 @@ import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.InsufficientAuthenticationException
 import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.web.firewall.RequestRejectedException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import javax.servlet.http.HttpServletRequest
@@ -49,6 +50,14 @@ abstract class SecurityExceptionHandler(
     log.debug("Disable account : ", e)
     return forbidden(
       req.toServiceName(applicationName), "error.disabled_account", e.message, e.toStacktrace(properties.displayFullStacktrace)
+    ).toErrorResponse()
+  }
+
+  @ExceptionHandler(RequestRejectedException::class)
+  fun handleFirewallException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
+    log.debug("Access denied", e)
+    return forbidden(
+      req.toServiceName(applicationName), "error.request_rejected", e.message, e.toStacktrace(properties.displayFullStacktrace)
     ).toErrorResponse()
   }
 }
