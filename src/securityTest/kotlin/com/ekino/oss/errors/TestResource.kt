@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationCredentialsNotF
 import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.InsufficientAuthenticationException
 import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.security.web.firewall.RequestRejectedException
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -36,4 +37,7 @@ class TestResource {
 
   @GetMapping("$ERROR_PATH/insufficientCredentials")
   fun insufficientCredentialsError(): ResponseEntity<String> = throw InsufficientAuthenticationException(ERROR_MESSAGE)
+
+  @GetMapping("$ERROR_PATH/requestRejected")
+  fun requestRejectedError(): ResponseEntity<String> = throw RequestRejectedException(ERROR_MESSAGE)
 }
