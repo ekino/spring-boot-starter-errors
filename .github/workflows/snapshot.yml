@@ -17,7 +17,7 @@ jobs:
         run: |
           PROJECT_VERSION=$(./gradlew -q printVersion | tail -n 1)
           echo "Project version is $PROJECT_VERSION"
-          [[ "$PROJECT_VERSION" != .*-SNAPSHOT$ ]] && exit 1
+          if [[ "$PROJECT_VERSION" != *"SNAPSHOT" ]]; then exit 1; fi
       - name: Decrypt large secret
         run: |
           chmod +x ./.github/workflows/decrypt_secret.sh
