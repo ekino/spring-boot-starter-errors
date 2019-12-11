@@ -26,7 +26,7 @@ repositories {
 val springBootVersion = "2.1.10.RELEASE"
 val guavaVersion = "28.1-jre"
 val awsSdkVersion = "2.7.22"
-val jcvVersion = "1.4.1"
+val jcvVersion = "1.4.2"
 
 testSets {
   "securityTest"()
