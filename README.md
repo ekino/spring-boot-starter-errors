@@ -1,6 +1,5 @@
 # Spring Boot starter errors
 
-[![Build Status](https://travis-ci.org/ekino/spring-boot-starter-errors.svg?branch=master)](https://travis-ci.org/ekino/spring-boot-starter-errors)
 [![GitHub (pre-)release](https://img.shields.io/github/release/ekino/spring-boot-starter-errors/all.svg)](https://github.com/ekino/spring-boot-starter-errors/releases)
 [![Maven Central](https://img.shields.io/maven-central/v/com.ekino.oss.spring/ekino-spring-boot-starter-errors)](https://search.maven.org/search?q=a:ekino-spring-boot-starter-errors)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ekino_spring-boot-starter-errors&metric=alert_status)](https://sonarcloud.io/dashboard?id=ekino_spring-boot-starter-errors)
