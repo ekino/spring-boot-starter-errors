@@ -10,14 +10,23 @@ Opiniated Spring Boot starter that handles some Spring and AWS common exceptions
 
 JDK 8+
 
-Spring Boot 2.1 **MVC** web application
+Spring Boot **MVC** web application
+
+### Spring Boot compatibility
+
+| Spring Boot | starter errors |
+|:-----------:|:--------------:|
+| 2.1.x       | 1.x            |
+| 2.2.x       | 2.x            |
+
+Other combinations might work but there're not supported.
 
 ## Usage
 
 For example with Gradle Kotlin DSL :
 
 ```kotlin
-implementation("com.ekino.oss.spring:ekino-spring-boot-starter-errors:1.0.0")
+implementation("com.ekino.oss.spring:ekino-spring-boot-starter-errors:1.2.0")
 ```
 
 NB : if you want to use snapshots you need to add the following configuration to your Gradle build script :
@@ -61,7 +70,8 @@ We recommend you to enable stacktraces only for local or any other development e
   ],
   "globalErrors": [],
   "service": "my-api : POST /api/customers",
-  "stacktrace": ""
+  "stacktrace": "",
+  "timestamp": "2019-12-12T16:11:27.262Z"
 }
 ```
 
@@ -76,6 +86,7 @@ We recommend you to enable stacktraces only for local or any other development e
   "errors": [],
   "globalErrors": [],
   "service": "my-api : POST /api/auth",
-  "stacktrace":""
+  "stacktrace": "",
+  "timestamp": "2019-12-12T16:11:27.262Z"
 }
 ```
