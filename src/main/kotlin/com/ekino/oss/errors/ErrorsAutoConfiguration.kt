@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Configuration
 /**
  * We have inner class for some config because using [ConditionalOnClass] on [Bean] methods is not recommended.
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @ConditionalOnWebApplication(type = SERVLET)
 @AutoConfigureBefore(ErrorMvcAutoConfiguration::class)
 @EnableConfigurationProperties(ErrorsProperties::class)
@@ -33,8 +33,8 @@ class ErrorsAutoConfiguration(
     return object : CoreExceptionHandler(applicationName, properties) {}
   }
 
-  @Configuration
-  @ConditionalOnClass(org.springframework.security.authentication.AuthenticationManager::class)
+  @Configuration(proxyBeanMethods = false)
+  @ConditionalOnClass(name = ["org.springframework.security.authentication.AuthenticationManager"])
   class SecurityHandlerConfiguration(
     @param:Value("\${spring.application.name}") private val applicationName: String,
     private val properties: ErrorsProperties
@@ -45,8 +45,8 @@ class ErrorsAutoConfiguration(
     }
   }
 
-  @Configuration
-  @ConditionalOnClass(org.springframework.data.rest.core.config.RepositoryRestConfiguration::class)
+  @Configuration(proxyBeanMethods = false)
+  @ConditionalOnClass(name = ["org.springframework.data.rest.core.config.RepositoryRestConfiguration"])
   class DataRestHandlerConfiguration(
     @param:Value("\${spring.application.name}") private val applicationName: String,
     private val properties: ErrorsProperties
@@ -57,8 +57,8 @@ class ErrorsAutoConfiguration(
     }
   }
 
-  @Configuration
-  @ConditionalOnClass(org.springframework.dao.DataIntegrityViolationException::class)
+  @Configuration(proxyBeanMethods = false)
+  @ConditionalOnClass(name = ["org.springframework.dao.DataIntegrityViolationException"])
   class TxHandlerConfiguration(
     @param:Value("\${spring.application.name}") private val applicationName: String,
     private val properties: ErrorsProperties
@@ -69,8 +69,8 @@ class ErrorsAutoConfiguration(
     }
   }
 
-  @Configuration
-  @ConditionalOnClass(software.amazon.awssdk.services.s3.model.NoSuchKeyException::class)
+  @Configuration(proxyBeanMethods = false)
+  @ConditionalOnClass(name = ["software.amazon.awssdk.services.s3.model.NoSuchKeyException"])
   class AwsHandlerConfiguration(
     @param:Value("\${spring.application.name}") private val applicationName: String,
     private val properties: ErrorsProperties
