@@ -1,5 +1,10 @@
 name: Build branch
-on: [push]
+on:
+  schedule:
+    - cron: "0 5 * * 1" # every monday at 5 am
+  push:
+    branches:
+      - "*"
 
 jobs:
   build:
