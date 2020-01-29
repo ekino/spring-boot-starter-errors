@@ -86,9 +86,8 @@ val build by tasks.named("build") {
   dependsOn(securityTest, dataRestTest, txTest, awsTest)
 }
 
-val sourcesJar by tasks.registering(Jar::class) {
-  archiveClassifier.set("sources")
-  from(sourceSets.main.get().allJava)
+java {
+  withSourcesJar()
 }
 
 val javadocJar by tasks.registering(Jar::class) {
@@ -131,7 +130,6 @@ tasks {
 
   artifacts {
     archives(jar)
-    archives(sourcesJar)
     archives(javadocJar)
   }
 
@@ -176,10 +174,7 @@ publishing {
           url.set("https://www.ekino.com/")
         }
       }
-
-      artifact(sourcesJar.get())
       artifact(javadocJar.get())
-
       from(components["java"])
     }
   }
