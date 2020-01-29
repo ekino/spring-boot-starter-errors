@@ -24,7 +24,7 @@ repositories {
 }
 
 val springBootVersion = "2.2.4.RELEASE"
-val guavaVersion = "28.1-jre"
+val guavaVersion = "28.2-jre"
 val awsSdkVersion = "2.7.22"
 val jcvVersion = "1.4.2"
 
