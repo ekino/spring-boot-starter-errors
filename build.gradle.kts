@@ -27,6 +27,7 @@ val springBootVersion = "2.2.4.RELEASE"
 val guavaVersion = "28.2-jre"
 val awsSdkVersion = "2.7.22"
 val jcvVersion = "1.4.2"
+val assertkVersion = "0.21"
 
 testSets {
   "securityTest"()
@@ -59,6 +60,7 @@ dependencies {
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("com.ekino.oss.jcv:jcv-hamcrest:$jcvVersion")
+  testImplementation("com.willowtreeapps.assertk:assertk-jvm:$assertkVersion")
 
   securityTestImplementation("org.springframework.security:spring-security-web")
 
@@ -74,6 +76,7 @@ configurations {
     exclude(module = "junit")
     exclude(module = "junit-vintage-engine")
     exclude(module = "mockito-core")
+    exclude(module = "assertj-core")
   }
 }
 
