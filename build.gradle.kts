@@ -127,13 +127,6 @@ tasks {
     }
   }
 
-  val version: String by project
-  if (version.endsWith("-SNAPSHOT")) {
-    withType<GenerateModuleMetadata>().configureEach {
-      enabled = false
-    }
-  }
-
   artifacts {
     archives(jar)
     archives(javadocJar)
@@ -141,6 +134,7 @@ tasks {
 
   register("printVersion") {
     doLast {
+      val version: String by project
       println(version)
     }
   }
