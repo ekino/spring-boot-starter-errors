@@ -18,7 +18,7 @@ class RestExceptionHandlerTest(
 ) {
 
   @Test
-  fun should_get_no_such_key_exception() {
+  fun `should get no such key exception`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/no-such-key-exception"))
       .andExpect(status().isNotFound)
       .andExpect(content().string(

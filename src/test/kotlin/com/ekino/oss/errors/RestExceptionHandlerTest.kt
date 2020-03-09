@@ -24,13 +24,13 @@ class RestExceptionHandlerTest {
   private lateinit var mockMvc: MockMvc
 
   @Test
-  fun should_get_ok_response() {
+  fun `should get ok response`() {
     mockMvc.perform(get("$ROOT_PATH/ok?id=${UUID.randomUUID()}"))
       .andExpect(status().isOk)
   }
 
   @Test
-  fun should_get_missing_parameter_error() {
+  fun `should get missing parameter error`() {
     mockMvc.perform(get("$ROOT_PATH/ok"))
       .andExpect(status().isBadRequest)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -51,7 +51,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_post_with_validation_errors() {
+  fun `should post with validation errors`() {
     mockMvc.perform(post("$ROOT_PATH/ok")
       .contentType(MediaType.APPLICATION_JSON)
       .content("""{"message":"a", "internalBody":{}}"""))
@@ -86,7 +86,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_not_readable_error() {
+  fun `should get not readable error`() {
     mockMvc.perform(post("$ROOT_PATH/ok")
       .contentType(MediaType.APPLICATION_JSON)
       .content("{"))
@@ -109,7 +109,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_argument_type_mismatch_error() {
+  fun `should get argument type mismatch error`() {
     mockMvc.perform(get("$ROOT_PATH/ok?id=1234"))
       .andExpect(status().isBadRequest)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -130,7 +130,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_method_not_supported_method_error() {
+  fun `should get method not supported method error`() {
     mockMvc.perform(delete("$ROOT_PATH/ok"))
       .andExpect(status().isMethodNotAllowed)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -151,7 +151,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_unexpected_error() {
+  fun `should get unexpected error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/unexpected"))
       .andExpect(status().isInternalServerError)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -172,7 +172,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_custom_exception_error() {
+  fun `should get custom exception error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/custom"))
       .andExpect(status().isGone)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -193,7 +193,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_unavailable_error() {
+  fun `should get unavailable error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/unavailable"))
       .andExpect(status().isServiceUnavailable)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -214,7 +214,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_nested_exception_error() {
+  fun `should get nested exception error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/nested-constraint-violation-error")
       .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest)
@@ -242,7 +242,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_constraint_exception_error() {
+  fun `should get constraint exception error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/constraint-violation-error")
       .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest)
@@ -270,7 +270,7 @@ class RestExceptionHandlerTest {
   }
 
   @Test
-  fun should_get_not_found_error_bis() {
+  fun `should get not found error bis`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/no-handler-found-error"))
       .andExpect(status().isNotFound)
       .andExpect(MockMvcResultMatchers.content().string(

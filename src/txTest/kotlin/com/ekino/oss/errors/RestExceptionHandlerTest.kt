@@ -19,7 +19,7 @@ class RestExceptionHandlerTest(
 ) {
 
   @Test
-  fun should_get_conflict_error() {
+  fun `should get conflict error`() {
     mockMvc.perform(post("$RESOLVED_ERROR_PATH/conflict")
       .contentType(MediaType.APPLICATION_JSON)
       .content("{\"message\":\"a\", \"internalBody\":{}}"))

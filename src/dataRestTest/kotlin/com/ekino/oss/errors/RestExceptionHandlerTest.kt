@@ -19,7 +19,7 @@ class RestExceptionHandlerTest(
 ) {
 
   @Test
-  fun should_get_not_found_error() {
+  fun `should get not found error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/notFound"))
       .andExpect(status().isNotFound)
       .andExpect(MockMvcResultMatchers.content().string(
@@ -40,7 +40,7 @@ class RestExceptionHandlerTest(
   }
 
   @Test
-  fun should_get_repository_constraint_validation_error() {
+  fun `should get repository constraint validation error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/repository-constraint-validation")
       .accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isBadRequest)
