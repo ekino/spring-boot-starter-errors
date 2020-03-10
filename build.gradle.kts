@@ -10,7 +10,7 @@ plugins {
   signing
   kotlin("jvm") version kotlinVersion
   kotlin("plugin.spring") version kotlinVersion
-  id("org.jlleitschuh.gradle.ktlint") version "9.1.1"
+  id("com.ekino.oss.plugin.kotlin-quality") version "1.1.0"
   id("org.unbroken-dome.test-sets") version "2.2.1"
   id("org.jetbrains.dokka") version "0.10.1"
 }
