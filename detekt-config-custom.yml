@@ -1,0 +1,3 @@
+style:
+  UnnecessaryAbstractClass:
+    excludeAnnotatedClasses: "org.springframework.web.bind.annotation.RestControllerAdvice"
