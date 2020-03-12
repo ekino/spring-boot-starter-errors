@@ -7,6 +7,7 @@ import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -34,6 +35,9 @@ class TestResource {
 
   @PostMapping("/ok")
   fun postOk(@RequestBody @Valid body: PostBody): ResponseEntity<String> = ResponseEntity.ok(body.message!!)
+
+  @PutMapping("/ok")
+  fun putOk(@RequestBody @Valid body: NonNullablePutBody) = ResponseEntity.ok(body.message)
 
   @GetMapping("$ERROR_PATH/unexpected")
   fun unexpectedError(): ResponseEntity<String> = throw IllegalArgumentException()
@@ -84,5 +88,9 @@ class TestResource {
   data class InternalPostBody(
     @field:NotNull
     val value: Int? = null
+  )
+
+  data class NonNullablePutBody(
+    val message: String
   )
 }

@@ -109,6 +109,31 @@ class RestExceptionHandlerTest {
   }
 
   @Test
+  fun `should get not readable error if invalid but readable json`() {
+    mockMvc.perform(
+      put("$ROOT_PATH/ok")
+        .contentType(MediaType.APPLICATION_JSON)
+        // language=json
+        .content("{}")
+    )
+      .andExpect(status().isBadRequest)
+      // language=json
+      .andExpect(MockMvcResultMatchers.content().string(jsonMatcher("""
+        {
+          "status": 400,
+          "code": "error.not_readable_json",
+          "message": "Bad Request",
+          "description": "{#not_empty#}",
+          "errors": [],
+          "globalErrors": [],
+          "service": "myApp : PUT /test/ok",
+          "stacktrace": "",
+          "timestamp": "{#date_time_format:iso_instant#}"
+        }
+      """.trimIndent())))
+  }
+
+  @Test
   fun `should get argument type mismatch error`() {
     mockMvc.perform(get("$ROOT_PATH/ok?id=1234"))
       .andExpect(status().isBadRequest)
