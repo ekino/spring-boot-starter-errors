@@ -4,7 +4,7 @@ import org.unbrokendome.gradle.plugins.testsets.dsl.testSets
 import java.net.URL
 
 plugins {
-  val kotlinVersion = "1.3.70"
+  val kotlinVersion = "1.3.71"
   `java-library`
   `maven-publish`
   signing
