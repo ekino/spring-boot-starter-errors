@@ -13,6 +13,7 @@ plugins {
   id("com.ekino.oss.plugin.kotlin-quality") version "1.3.0"
   id("org.unbroken-dome.test-sets") version "2.2.1"
   id("org.jetbrains.dokka") version "0.10.1"
+  id("info.solidsoft.pitest") version "1.4.7"
 }
 
 group = "com.ekino.oss.spring"
@@ -138,6 +139,17 @@ tasks {
       println(version)
     }
   }
+}
+
+pitest {
+  junit5PluginVersion.value("0.12")
+  // todo: find a clean way to add pitest kotlin plugin
+
+  targetClasses.value(listOf("com.ekino.oss.errors.*"))
+  mainProcessJvmArgs.value(listOf("-Duser.language=en", "-Dspring.test.constructor.autowire.mode=ALL"))
+
+  //mainSourceSets.value(listOf(sourceSets.main.get())) // todo: enable pitest on the others tests sets
+  //testSourceSets.value(listOf(sourceSets.test.get()))
 }
 
 val publicationName = "mavenJava"
