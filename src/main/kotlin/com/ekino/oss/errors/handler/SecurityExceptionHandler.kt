@@ -29,7 +29,8 @@ abstract class SecurityExceptionHandler(
 ) {
   private val log by logger()
 
-  @ExceptionHandler(AuthenticationCredentialsNotFoundException::class, InsufficientAuthenticationException::class, UsernameNotFoundException::class)
+  @ExceptionHandler(AuthenticationCredentialsNotFoundException::class, InsufficientAuthenticationException::class, UsernameNotFoundException::class,
+    BadCredentialsException::class)
   fun handleAuthenticationException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Authentication failed : ", e)
     return unAuthorized(
@@ -37,7 +38,7 @@ abstract class SecurityExceptionHandler(
     ).toErrorResponse()
   }
 
-  @ExceptionHandler(AccessDeniedException::class, BadCredentialsException::class)
+  @ExceptionHandler(AccessDeniedException::class)
   fun handleAccessDeniedException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Access denied", e)
     return forbidden(

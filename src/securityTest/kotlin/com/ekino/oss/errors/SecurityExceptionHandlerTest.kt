@@ -146,4 +146,25 @@ class RestExceptionHandlerTest(
         """.trimIndent())
       ))
   }
+
+  @Test
+  fun `should get bad credentials error`() {
+    mockMvc.perform(get("$RESOLVED_ERROR_PATH/badCredentials"))
+      .andExpect(status().isUnauthorized)
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 401,
+            "code": "error.unauthorized",
+            "message": "Unauthorized",
+            "description": "Message for developers",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : GET /test/error/badCredentials",
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
+          }
+        """)
+      ))
+  }
 }

@@ -5,6 +5,7 @@ import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
+import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.InsufficientAuthenticationException
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -40,4 +41,7 @@ class TestResource {
 
   @GetMapping("$ERROR_PATH/requestRejected")
   fun requestRejectedError(): ResponseEntity<String> = throw RequestRejectedException(ERROR_MESSAGE)
+
+  @GetMapping("$ERROR_PATH/badCredentials")
+  fun badCredentialsError(): ResponseEntity<String> = throw BadCredentialsException(ERROR_MESSAGE)
 }
