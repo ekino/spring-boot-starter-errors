@@ -23,8 +23,8 @@ repositories {
   jcenter()
 }
 
-val springBootVersion = "2.2.5.RELEASE"
-val guavaVersion = "28.2-jre"
+val springBootVersion = "2.3.0.RELEASE"
+val guavaVersion = "29.0-jre"
 val awsSdkVersion = "2.7.22"
 val jcvVersion = "1.4.2"
 val assertkVersion = "0.21"
@@ -47,6 +47,7 @@ dependencies {
   api("org.springframework.boot:spring-boot-autoconfigure")
 
   implementation("org.springframework.boot:spring-boot-starter-web")
+  implementation("org.springframework.boot:spring-boot-starter-validation")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
