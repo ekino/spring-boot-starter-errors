@@ -14,10 +14,11 @@ Spring Boot **MVC** web application
 
 ### Spring Boot compatibility
 
-| Spring Boot | starter errors |
+| Spring Boot | starter-errors |
 |:-----------:|:--------------:|
-| 2.1.x       | 1.x            |
+| 2.3.x       | 3.x            |
 | 2.2.x       | 2.x            |
+| 2.1.x       | 1.x            |
 
 Other combinations might work but there're not supported.
 
