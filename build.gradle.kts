@@ -1,10 +1,9 @@
-import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.unbrokendome.gradle.plugins.testsets.dsl.testSets
 import java.net.URL
 
 plugins {
-  val kotlinVersion = "1.3.72"
+  val kotlinVersion = "1.4.0"
   `java-library`
   `maven-publish`
   signing
@@ -12,18 +11,18 @@ plugins {
   kotlin("plugin.spring") version kotlinVersion
   id("com.ekino.oss.plugin.kotlin-quality") version "2.0.0"
   id("org.unbroken-dome.test-sets") version "3.0.1"
-  id("org.jetbrains.dokka") version "0.10.1"
+  id("org.jetbrains.dokka") version "1.4.0-rc"
 }
 
 group = "com.ekino.oss.spring"
-version = "3.0.1-SNAPSHOT"
+version = "4.0.0-SNAPSHOT"
 
 repositories {
   mavenCentral()
   jcenter()
 }
 
-val springBootVersion = "2.3.2.RELEASE"
+val springBootVersion = "2.3.3.RELEASE"
 val guavaVersion = "29.0-jre"
 val awsSdkVersion = "2.7.22"
 val jcvVersion = "1.4.2"
@@ -95,7 +94,7 @@ java {
 }
 
 val javadocJar by tasks.registering(Jar::class) {
-  dependsOn("dokka")
+  dependsOn("dokkaHtml")
   archiveClassifier.set("javadoc")
   from(buildDir.resolve("dokka"))
 }
@@ -113,17 +112,19 @@ tasks {
     jvmArgs("-Duser.language=en", "-Dspring.test.constructor.autowire.mode=ALL")
   }
 
-  withType<DokkaTask> {
-    configuration {
-      reportUndocumented = false
-      jdkVersion = 8
-      externalDocumentationLink {
-        url = URL("https://docs.spring.io/spring-framework/docs/5.2.x/javadoc-api/")
-        packageListUrl = URL(url, "package-list")
-      }
-      externalDocumentationLink {
-        url = URL("https://docs.spring.io/spring-boot/docs/2.2.x/api/")
-        packageListUrl = URL(url, "package-list")
+  dokkaHtml {
+    dokkaSourceSets {
+      configureEach {
+        reportUndocumented = false
+        jdkVersion = 8
+        externalDocumentationLink {
+          url = URL("https://docs.spring.io/spring-framework/docs/5.2.x/javadoc-api/")
+          packageListUrl = URL(url, "package-list")
+        }
+        externalDocumentationLink {
+          url = URL("https://docs.spring.io/spring-boot/docs/2.3.x/api/")
+          packageListUrl = URL(url, "package-list")
+        }
       }
     }
   }

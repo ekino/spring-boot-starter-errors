@@ -14,11 +14,12 @@ Spring Boot **MVC** web application
 
 ### Spring Boot compatibility
 
-| Spring Boot | starter-errors |
-|:-----------:|:--------------:|
-| 2.3.x       | 3.x            |
-| 2.2.x       | 2.x            |
-| 2.1.x       | 1.x            |
+| Spring Boot | starter-errors | Kotlin |
+|:-----------:|:--------------:|:------:|
+| 2.3         | 4.x            | 1.4    |
+| 2.3         | 3.x            | 1.3    |
+| 2.2         | 2.x            | 1.3    |
+| 2.1         | 1.x            | 1.3    |
 
 Other combinations might work but there're not supported.
 
@@ -27,7 +28,7 @@ Other combinations might work but there're not supported.
 For example with Gradle Kotlin DSL :
 
 ```kotlin
-implementation("com.ekino.oss.spring:ekino-spring-boot-starter-errors:1.2.0")
+implementation("com.ekino.oss.spring:ekino-spring-boot-starter-errors:3.0.0")
 ```
 
 NB : if you want to use snapshots you need to add the following configuration to your Gradle build script :
