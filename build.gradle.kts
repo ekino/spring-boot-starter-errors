@@ -11,7 +11,7 @@ plugins {
   kotlin("plugin.spring") version kotlinVersion
   id("com.ekino.oss.plugin.kotlin-quality") version "2.0.0"
   id("org.unbroken-dome.test-sets") version "3.0.1"
-  id("org.jetbrains.dokka") version "1.4.0-rc"
+  id("org.jetbrains.dokka") version "1.4.0"
 }
 
 group = "com.ekino.oss.spring"
@@ -115,15 +115,15 @@ tasks {
   dokkaHtml {
     dokkaSourceSets {
       configureEach {
-        reportUndocumented = false
-        jdkVersion = 8
+        reportUndocumented.set(false)
+        jdkVersion.set(8)
         externalDocumentationLink {
-          url = URL("https://docs.spring.io/spring-framework/docs/5.2.x/javadoc-api/")
-          packageListUrl = URL(url, "package-list")
+          url.set(URL("https://docs.spring.io/spring-framework/docs/5.2.x/javadoc-api/"))
+          packageListUrl.set(URL(url.get(), "package-list"))
         }
         externalDocumentationLink {
-          url = URL("https://docs.spring.io/spring-boot/docs/2.3.x/api/")
-          packageListUrl = URL(url, "package-list")
+          url.set(URL("https://docs.spring.io/spring-boot/docs/2.3.x/api/"))
+          packageListUrl.set(URL(url.get(), "package-list"))
         }
       }
     }
