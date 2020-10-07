@@ -93,6 +93,10 @@ java {
   withSourcesJar()
 }
 
+jacoco {
+  toolVersion = "0.8.6"
+}
+
 val javadocJar by tasks.registering(Jar::class) {
   dependsOn("dokkaHtml")
   archiveClassifier.set("javadoc")
