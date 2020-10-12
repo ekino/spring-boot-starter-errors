@@ -34,14 +34,14 @@ import javax.validation.ConstraintViolationException
  */
 @RestControllerAdvice
 @Order(Ordered.LOWEST_PRECEDENCE)
-abstract class CoreExceptionHandler(
+public abstract class CoreExceptionHandler(
   private val applicationName: String,
   private val properties: ErrorsProperties
 ) {
   private val log by logger()
 
   @ExceptionHandler(ConnectException::class)
-  fun handleUnavailableServiceException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
+  public fun handleUnavailableServiceException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.error("Unavailable service : ", e)
     return unavailable(
       req.toServiceName(applicationName), "error.unavailable", e.message, e.toStacktrace(properties.displayFullStacktrace)
@@ -49,17 +49,17 @@ abstract class CoreExceptionHandler(
   }
 
   @ExceptionHandler(MethodArgumentNotValidException::class)
-  fun handleValidationException(req: HttpServletRequest, e: MethodArgumentNotValidException): ResponseEntity<ErrorBody> {
+  public fun handleValidationException(req: HttpServletRequest, e: MethodArgumentNotValidException): ResponseEntity<ErrorBody> {
     return prepareValidationResponse(req, e, e.bindingResult)
   }
 
   @ExceptionHandler(BindException::class)
-  fun handleBindException(req: HttpServletRequest, e: BindException): ResponseEntity<ErrorBody> {
+  public fun handleBindException(req: HttpServletRequest, e: BindException): ResponseEntity<ErrorBody> {
     return prepareValidationResponse(req, e, e.bindingResult)
   }
 
   @ExceptionHandler(NestedRuntimeException::class)
-  fun handleNestedRuntimeException(req: HttpServletRequest, e: NestedRuntimeException): ResponseEntity<ErrorBody> {
+  public fun handleNestedRuntimeException(req: HttpServletRequest, e: NestedRuntimeException): ResponseEntity<ErrorBody> {
     log.error("Nested runtime exception : ", e)
 
     val cause = e.mostSpecificCause
@@ -71,7 +71,7 @@ abstract class CoreExceptionHandler(
   }
 
   @ExceptionHandler(ConstraintViolationException::class)
-  fun handleConstraintViolationException(req: HttpServletRequest, e: ConstraintViolationException): ResponseEntity<ErrorBody> {
+  public fun handleConstraintViolationException(req: HttpServletRequest, e: ConstraintViolationException): ResponseEntity<ErrorBody> {
     log.debug("Constraint violation errors : ", e)
 
     val errors = e.constraintViolations?.map { it.toValidationErrorBody() } ?: emptyList()
@@ -82,7 +82,7 @@ abstract class CoreExceptionHandler(
   }
 
   @ExceptionHandler(HttpMessageConversionException::class)
-  fun handleMessageNotReadableException(req: HttpServletRequest, e: HttpMessageConversionException): ResponseEntity<ErrorBody> {
+  public fun handleMessageNotReadableException(req: HttpServletRequest, e: HttpMessageConversionException): ResponseEntity<ErrorBody> {
     log.debug("Message not readable : ", e)
     return badRequest(
       req.toServiceName(applicationName), "error.not_readable_json", e.message, e.toStacktrace(properties.displayFullStacktrace)
@@ -90,7 +90,7 @@ abstract class CoreExceptionHandler(
   }
 
   @ExceptionHandler(MethodArgumentTypeMismatchException::class)
-  fun handleArgumentTypeMismatchException(req: HttpServletRequest, e: MethodArgumentTypeMismatchException): ResponseEntity<ErrorBody> {
+  public fun handleArgumentTypeMismatchException(req: HttpServletRequest, e: MethodArgumentTypeMismatchException): ResponseEntity<ErrorBody> {
     log.debug("Argument type mismatch : ", e)
     return badRequest(
       req.toServiceName(applicationName), "error.argument_type_mismatch", e.message, e.toStacktrace(properties.displayFullStacktrace)
@@ -98,7 +98,10 @@ abstract class CoreExceptionHandler(
   }
 
   @ExceptionHandler(MissingServletRequestParameterException::class)
-  fun handleMissingServletRequestParameterException(req: HttpServletRequest, e: MissingServletRequestParameterException): ResponseEntity<ErrorBody> {
+  public fun handleMissingServletRequestParameterException(
+    req: HttpServletRequest,
+    e: MissingServletRequestParameterException
+  ): ResponseEntity<ErrorBody> {
     log.debug("Missing parameter : ", e)
     return badRequest(
       req.toServiceName(applicationName), "error.missing_parameter", e.message, e.toStacktrace(properties.displayFullStacktrace)
@@ -106,7 +109,7 @@ abstract class CoreExceptionHandler(
   }
 
   @ExceptionHandler(HttpRequestMethodNotSupportedException::class)
-  fun handleMethodNotSupportedException(req: HttpServletRequest, e: HttpRequestMethodNotSupportedException): ResponseEntity<ErrorBody> {
+  public fun handleMethodNotSupportedException(req: HttpServletRequest, e: HttpRequestMethodNotSupportedException): ResponseEntity<ErrorBody> {
     log.debug("Method not supported : ", e)
     return methodNotAllowed(
       req.toServiceName(applicationName), "error.method_not_allowed", e.message, e.toStacktrace(properties.displayFullStacktrace)
@@ -114,13 +117,13 @@ abstract class CoreExceptionHandler(
   }
 
   @ExceptionHandler(NoHandlerFoundException::class)
-  fun handleNoHandlerFoundException(req: HttpServletRequest, e: NoHandlerFoundException): ResponseEntity<ErrorBody> {
+  public fun handleNoHandlerFoundException(req: HttpServletRequest, e: NoHandlerFoundException): ResponseEntity<ErrorBody> {
     log.trace("Resource not found : ", e)
     return notFound(req.toServiceName(applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)).toErrorResponse()
   }
 
   @ExceptionHandler(Throwable::class)
-  fun handleException(req: HttpServletRequest, e: Throwable): ResponseEntity<ErrorBody> {
+  public fun handleException(req: HttpServletRequest, e: Throwable): ResponseEntity<ErrorBody> {
     val responseStatus = AnnotationUtils.findAnnotation(e.javaClass, ResponseStatus::class.java)
 
     if (responseStatus == null) {

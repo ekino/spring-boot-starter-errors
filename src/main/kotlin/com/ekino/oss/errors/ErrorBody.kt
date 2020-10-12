@@ -2,7 +2,7 @@ package com.ekino.oss.errors
 
 import java.time.Instant
 
-data class ErrorBody(
+public data class ErrorBody(
   val status: Int,
   val code: String,
   val message: String,

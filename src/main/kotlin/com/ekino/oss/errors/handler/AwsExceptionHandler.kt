@@ -16,14 +16,14 @@ import javax.servlet.http.HttpServletRequest
  */
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-abstract class AwsExceptionHandler(
+public abstract class AwsExceptionHandler(
   private val applicationName: String,
   private val properties: ErrorsProperties
 ) {
   private val log by logger()
 
   @ExceptionHandler(NoSuchKeyException::class)
-  fun handleNoSuchKeyException(req: HttpServletRequest, e: NoSuchKeyException): ResponseEntity<ErrorBody> {
+  public fun handleNoSuchKeyException(req: HttpServletRequest, e: NoSuchKeyException): ResponseEntity<ErrorBody> {
     log.debug("Object not found on S3", e)
     return notFound(req.toServiceName(applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)).toErrorResponse()
   }

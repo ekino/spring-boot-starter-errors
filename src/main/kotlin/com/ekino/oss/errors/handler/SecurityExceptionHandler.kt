@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest
  */
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-abstract class SecurityExceptionHandler(
+public abstract class SecurityExceptionHandler(
   private val applicationName: String,
   private val properties: ErrorsProperties
 ) {
@@ -31,7 +31,7 @@ abstract class SecurityExceptionHandler(
 
   @ExceptionHandler(AuthenticationCredentialsNotFoundException::class, InsufficientAuthenticationException::class, UsernameNotFoundException::class,
     BadCredentialsException::class)
-  fun handleAuthenticationException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
+  public fun handleAuthenticationException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Authentication failed : ", e)
     return unAuthorized(
       req.toServiceName(applicationName), "error.unauthorized", e.message, e.toStacktrace(properties.displayFullStacktrace)
@@ -39,7 +39,7 @@ abstract class SecurityExceptionHandler(
   }
 
   @ExceptionHandler(AccessDeniedException::class)
-  fun handleAccessDeniedException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
+  public fun handleAccessDeniedException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Access denied", e)
     return forbidden(
       req.toServiceName(applicationName), "error.access_denied", e.message, e.toStacktrace(properties.displayFullStacktrace)
@@ -47,7 +47,7 @@ abstract class SecurityExceptionHandler(
   }
 
   @ExceptionHandler(DisabledException::class)
-  fun handleDisabledException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
+  public fun handleDisabledException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Disable account : ", e)
     return forbidden(
       req.toServiceName(applicationName), "error.disabled_account", e.message, e.toStacktrace(properties.displayFullStacktrace)
@@ -55,7 +55,7 @@ abstract class SecurityExceptionHandler(
   }
 
   @ExceptionHandler(RequestRejectedException::class)
-  fun handleFirewallException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
+  public fun handleFirewallException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.debug("Access denied", e)
     return forbidden(
       req.toServiceName(applicationName), "error.request_rejected", e.message, e.toStacktrace(properties.displayFullStacktrace)

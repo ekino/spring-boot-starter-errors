@@ -17,14 +17,14 @@ import javax.servlet.http.HttpServletRequest
  */
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-abstract class TxExceptionHandler(
+public abstract class TxExceptionHandler(
   private val applicationName: String,
   private val properties: ErrorsProperties
 ) {
   private val log by logger()
 
   @ExceptionHandler(DataIntegrityViolationException::class)
-  fun handleConflict(e: DataIntegrityViolationException, req: HttpServletRequest): ResponseEntity<ErrorBody> {
+  public fun handleConflict(e: DataIntegrityViolationException, req: HttpServletRequest): ResponseEntity<ErrorBody> {
     log.debug("Database conflict : ", e)
 
     val cause = e.cause

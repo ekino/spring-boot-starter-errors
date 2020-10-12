@@ -89,6 +89,10 @@ val build by tasks.named("build") {
   dependsOn(securityTest, dataRestTest, txTest, awsTest)
 }
 
+kotlin {
+  explicitApi()
+}
+
 java {
   withSourcesJar()
 }

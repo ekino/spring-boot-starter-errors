@@ -21,20 +21,20 @@ import javax.servlet.http.HttpServletRequest
  */
 @RestControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)
-abstract class DataRestExceptionHandler(
+public abstract class DataRestExceptionHandler(
   private val applicationName: String,
   private val properties: ErrorsProperties
 ) {
   private val log by logger()
 
   @ExceptionHandler(ResourceNotFoundException::class)
-  fun handleResourceNotFoundException(req: HttpServletRequest, e: ResourceNotFoundException): ResponseEntity<ErrorBody> {
+  public fun handleResourceNotFoundException(req: HttpServletRequest, e: ResourceNotFoundException): ResponseEntity<ErrorBody> {
     log.trace("Resource not found : ", e)
     return notFound(req.toServiceName(applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)).toErrorResponse()
   }
 
   @ExceptionHandler(RepositoryConstraintViolationException::class)
-  fun handleRepositoryConstraintViolationException(
+  public fun handleRepositoryConstraintViolationException(
     e: RepositoryConstraintViolationException,
     req: HttpServletRequest
   ): ResponseEntity<ErrorBody> {
@@ -50,7 +50,7 @@ abstract class DataRestExceptionHandler(
   }
 
   @ExceptionHandler(DataIntegrityViolationException::class)
-  fun handleConflict(e: DataIntegrityViolationException, req: HttpServletRequest): ResponseEntity<ErrorBody> {
+  public fun handleConflict(e: DataIntegrityViolationException, req: HttpServletRequest): ResponseEntity<ErrorBody> {
     log.debug("Database conflict : ", e)
 
     val cause = e.cause

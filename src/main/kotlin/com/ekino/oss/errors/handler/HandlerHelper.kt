@@ -12,15 +12,15 @@ import org.springframework.validation.ObjectError
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolation
 
-const val DEFAULT_INTERNAL_ERROR_MESSAGE = "An internal error occurred on processing request."
-const val INVALID_ERROR_PREFIX = "error.invalid"
-const val MISSING_ERROR_PREFIX = "error.missing"
+internal const val DEFAULT_INTERNAL_ERROR_MESSAGE = "An internal error occurred on processing request."
+internal const val INVALID_ERROR_PREFIX = "error.invalid"
+internal const val MISSING_ERROR_PREFIX = "error.missing"
 
-fun ErrorBody.toErrorResponse(httpHeaders: HttpHeaders? = null): ResponseEntity<ErrorBody> {
+internal fun ErrorBody.toErrorResponse(httpHeaders: HttpHeaders? = null): ResponseEntity<ErrorBody> {
   return ResponseEntity(this, httpHeaders, HttpStatus.valueOf(this.status))
 }
 
-fun ObjectError.toValidationErrorBody(): ValidationErrorBody {
+internal fun ObjectError.toValidationErrorBody(): ValidationErrorBody {
   val errorCodePrefix: String = if (this.code == null) {
     INVALID_ERROR_PREFIX
   } else {
@@ -44,7 +44,7 @@ fun ObjectError.toValidationErrorBody(): ValidationErrorBody {
   }
 }
 
-fun ConstraintViolation<*>.toValidationErrorBody(): ValidationErrorBody {
+internal fun ConstraintViolation<*>.toValidationErrorBody(): ValidationErrorBody {
   val fieldName = this.propertyPath?.toString()
   val errorCode = toErrorCode(INVALID_ERROR_PREFIX, fieldName)
 
@@ -55,7 +55,7 @@ fun ConstraintViolation<*>.toValidationErrorBody(): ValidationErrorBody {
   )
 }
 
-fun toErrorCode(errorPrefix: String, fieldName: String?): String {
+internal fun toErrorCode(errorPrefix: String, fieldName: String?): String {
   val field = if (fieldName.isNullOrBlank()) {
     "unknown"
   } else {
@@ -65,14 +65,14 @@ fun toErrorCode(errorPrefix: String, fieldName: String?): String {
   return errorPrefix + field
 }
 
-fun String.toLowerCamelToSnakeCase(): String = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this)
+internal fun String.toLowerCamelToSnakeCase(): String = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this)
 
-fun String.toUpperCamelToSnakeCase(): String = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this)
+internal fun String.toUpperCamelToSnakeCase(): String = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this)
 
-fun Throwable.toStacktrace(displayFullStacktrace: Boolean): String {
+internal fun Throwable.toStacktrace(displayFullStacktrace: Boolean): String {
   return if (displayFullStacktrace) ExceptionUtils.getStackTrace(this) else ""
 }
 
-fun HttpServletRequest.toServiceName(applicationName: String): String {
+internal fun HttpServletRequest.toServiceName(applicationName: String): String {
   return "$applicationName : ${this.method} ${this.requestURI}"
 }
