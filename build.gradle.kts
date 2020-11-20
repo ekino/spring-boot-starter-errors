@@ -22,11 +22,11 @@ repositories {
   jcenter()
 }
 
-val springBootVersion = "2.3.3.RELEASE"
-val guavaVersion = "29.0-jre"
-val awsSdkVersion = "2.7.22"
-val jcvVersion = "1.4.2"
-val assertkVersion = "0.22"
+val springBootVersion = "2.4.0"
+val guavaVersion = "30.0-jre"
+val awsSdkVersion = "2.15.32"
+val jcvVersion = "1.5.0"
+val assertkVersion = "0.23"
 
 testSets {
   "securityTest"()

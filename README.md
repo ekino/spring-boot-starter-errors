@@ -16,7 +16,7 @@ Spring Boot **MVC** web application
 
 | Spring Boot | starter-errors | Kotlin |
 |:-----------:|:--------------:|:------:|
-| 2.3         | 4.x            | 1.4    |
+| 2.4         | 4.x            | 1.4    |
 | 2.3         | 3.x            | 1.3    |
 | 2.2         | 2.x            | 1.3    |
 | 2.1         | 1.x            | 1.3    |
