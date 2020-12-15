@@ -11,7 +11,7 @@ plugins {
   kotlin("plugin.spring") version kotlinVersion
   id("com.ekino.oss.plugin.kotlin-quality") version "2.0.0"
   id("org.unbroken-dome.test-sets") version "3.0.1"
-  id("org.jetbrains.dokka") version "1.4.10.2"
+  id("org.jetbrains.dokka") version "1.4.20"
 }
 
 group = "com.ekino.oss.spring"
@@ -23,7 +23,7 @@ repositories {
 }
 
 val springBootVersion = "2.4.1"
-val guavaVersion = "30.0-jre"
+val guavaVersion = "30.1-jre"
 val awsSdkVersion = "2.15.32"
 val jcvVersion = "1.5.0"
 val assertkVersion = "0.23"
