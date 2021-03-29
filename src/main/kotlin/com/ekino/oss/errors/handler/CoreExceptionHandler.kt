@@ -6,6 +6,7 @@ import com.ekino.oss.errors.generator.defaultError
 import com.ekino.oss.errors.generator.methodNotAllowed
 import com.ekino.oss.errors.generator.notFound
 import com.ekino.oss.errors.generator.unavailable
+import com.ekino.oss.errors.generator.unsupportedMediaType
 import com.ekino.oss.errors.property.ErrorsProperties
 import org.springframework.core.NestedRuntimeException
 import org.springframework.core.Ordered
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageConversionException
 import org.springframework.validation.BindException
 import org.springframework.validation.BindingResult
+import org.springframework.web.HttpMediaTypeNotSupportedException
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.MissingServletRequestParameterException
@@ -117,6 +119,14 @@ abstract class CoreExceptionHandler(
   fun handleNoHandlerFoundException(req: HttpServletRequest, e: NoHandlerFoundException): ResponseEntity<ErrorBody> {
     log.trace("Resource not found : ", e)
     return notFound(req.toServiceName(applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)).toErrorResponse()
+  }
+
+  @ExceptionHandler(HttpMediaTypeNotSupportedException::class)
+  fun handleHttpMediaTypeNotSupportedException(req: HttpServletRequest, e: HttpMediaTypeNotSupportedException): ResponseEntity<ErrorBody> {
+    log.debug("Media type not supported : ", e)
+    return unsupportedMediaType(
+      req.toServiceName(applicationName), "error.media_type_not_supported", e.message, e.toStacktrace(properties.displayFullStacktrace)
+    ).toErrorResponse()
   }
 
   @ExceptionHandler(Throwable::class)

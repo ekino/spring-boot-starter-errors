@@ -314,4 +314,26 @@ class RestExceptionHandlerTest {
         """.trimIndent())
       ))
   }
+
+  @Test
+  fun `should post with not supported media type`() {
+    mockMvc.perform(post("$ROOT_PATH/ok")
+      .contentType(MediaType.APPLICATION_PDF))
+      .andExpect(status().isUnsupportedMediaType)
+      .andExpect(MockMvcResultMatchers.content().string(
+        jsonMatcher("""
+          {
+            "status": 415,
+            "code": "error.media_type_not_supported",
+            "message": "Unsupported Media Type",
+            "description": "Content type 'application/pdf' not supported",
+            "errors": [],
+            "globalErrors": [],
+            "service": "myApp : POST /test/ok",
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
+          }
+        """.trimIndent())
+      ))
+  }
 }

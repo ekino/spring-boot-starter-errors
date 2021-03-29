@@ -33,7 +33,7 @@ class TestResource {
   @GetMapping("/ok")
   fun getOk(@RequestParam id: UUID): ResponseEntity<String> = ResponseEntity.ok("OK")
 
-  @PostMapping("/ok")
+  @PostMapping("/ok", consumes = [APPLICATION_JSON_VALUE])
   fun postOk(@RequestBody @Valid body: PostBody): ResponseEntity<String> = ResponseEntity.ok(body.message!!)
 
   @PutMapping("/ok")
