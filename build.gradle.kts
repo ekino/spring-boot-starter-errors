@@ -11,7 +11,7 @@ plugins {
   kotlin("plugin.spring") version kotlinVersion
   id("com.ekino.oss.plugin.kotlin-quality") version "2.0.0"
   id("org.unbroken-dome.test-sets") version "3.0.1"
-  id("org.jetbrains.dokka") version "1.4.20"
+  id("org.jetbrains.dokka") version "1.4.30"
 }
 
 group = "com.ekino.oss.spring"
