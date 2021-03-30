@@ -73,6 +73,12 @@ fun unprocessableEntity(service: String, code: String, devMessage: String, stack
   )
 }
 
+fun unsupportedMediaType(service: String, code: String, devMessage: String?, stacktrace: String): ErrorBody {
+  return toError(
+    service, HttpStatus.UNSUPPORTED_MEDIA_TYPE, code, HttpStatus.UNSUPPORTED_MEDIA_TYPE.reasonPhrase, devMessage, stacktrace, emptyList(), emptyList()
+  )
+}
+
 @JvmOverloads
 fun defaultError(
   service: String,
