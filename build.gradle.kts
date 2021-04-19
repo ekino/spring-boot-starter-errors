@@ -22,7 +22,7 @@ repositories {
   jcenter()
 }
 
-val springBootVersion = "2.4.4"
+val springBootVersion = "2.4.5"
 val guavaVersion = "30.1.1-jre"
 val awsSdkVersion = "2.16.39"
 val jcvVersion = "1.5.0"
