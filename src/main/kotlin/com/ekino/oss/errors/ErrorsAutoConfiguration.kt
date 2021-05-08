@@ -23,60 +23,60 @@ import org.springframework.context.annotation.Configuration
 @ConditionalOnWebApplication(type = SERVLET)
 @AutoConfigureBefore(ErrorMvcAutoConfiguration::class)
 @EnableConfigurationProperties(ErrorsProperties::class)
-class ErrorsAutoConfiguration(
+public class ErrorsAutoConfiguration(
   @param:Value("\${spring.application.name}") private val applicationName: String,
   private val properties: ErrorsProperties
 ) {
 
   @Bean
-  fun coreExceptionHandler(): CoreExceptionHandler {
+  public fun coreExceptionHandler(): CoreExceptionHandler {
     return object : CoreExceptionHandler(applicationName, properties) {}
   }
 
   @Configuration(proxyBeanMethods = false)
   @ConditionalOnClass(name = ["org.springframework.security.authentication.AuthenticationManager"])
-  class SecurityHandlerConfiguration(
+  public class SecurityHandlerConfiguration(
     @param:Value("\${spring.application.name}") private val applicationName: String,
     private val properties: ErrorsProperties
   ) {
     @Bean
-    fun securityExceptionHandler(): SecurityExceptionHandler {
+    public fun securityExceptionHandler(): SecurityExceptionHandler {
       return object : SecurityExceptionHandler(applicationName, properties) {}
     }
   }
 
   @Configuration(proxyBeanMethods = false)
   @ConditionalOnClass(name = ["org.springframework.data.rest.core.config.RepositoryRestConfiguration"])
-  class DataRestHandlerConfiguration(
+  public class DataRestHandlerConfiguration(
     @param:Value("\${spring.application.name}") private val applicationName: String,
     private val properties: ErrorsProperties
   ) {
     @Bean
-    fun dataRestExceptionHandler(): DataRestExceptionHandler {
+    public fun dataRestExceptionHandler(): DataRestExceptionHandler {
       return object : DataRestExceptionHandler(applicationName, properties) {}
     }
   }
 
   @Configuration(proxyBeanMethods = false)
   @ConditionalOnClass(name = ["org.springframework.dao.DataIntegrityViolationException"])
-  class TxHandlerConfiguration(
+  public class TxHandlerConfiguration(
     @param:Value("\${spring.application.name}") private val applicationName: String,
     private val properties: ErrorsProperties
   ) {
     @Bean
-    fun txExceptionHandler(): TxExceptionHandler {
+    public fun txExceptionHandler(): TxExceptionHandler {
       return object : TxExceptionHandler(applicationName, properties) {}
     }
   }
 
   @Configuration(proxyBeanMethods = false)
   @ConditionalOnClass(name = ["software.amazon.awssdk.services.s3.model.NoSuchKeyException"])
-  class AwsHandlerConfiguration(
+  public class AwsHandlerConfiguration(
     @param:Value("\${spring.application.name}") private val applicationName: String,
     private val properties: ErrorsProperties
   ) {
     @Bean
-    fun awsExceptionHandler(): AwsExceptionHandler {
+    public fun awsExceptionHandler(): AwsExceptionHandler {
       return object : AwsExceptionHandler(applicationName, properties) {}
     }
   }
