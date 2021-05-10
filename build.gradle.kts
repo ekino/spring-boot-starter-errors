@@ -23,7 +23,6 @@ repositories {
 }
 
 val springBootVersion = "2.4.5"
-val guavaVersion = "30.1.1-jre"
 val awsSdkVersion = "2.16.59"
 val jcvVersion = "1.5.0"
 val assertkVersion = "0.24"
@@ -51,7 +50,6 @@ dependencies {
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.apache.commons:commons-lang3")
-  implementation("com.google.guava:guava:$guavaVersion")
 
   compileOnly("org.springframework.boot:spring-boot-starter-data-jpa")
   compileOnly("org.springframework.boot:spring-boot-starter-data-rest")

@@ -141,7 +141,7 @@ abstract class CoreExceptionHandler(
     val message = responseStatus?.reason ?: e.toMessage()
 
     return defaultError(
-      req.toServiceName(applicationName), status, "error." + e.javaClass.simpleName.toUpperCamelToSnakeCase(),
+      req.toServiceName(applicationName), status, "error." + e.javaClass.simpleName.camelToSnakeCase(),
       message, e.toStacktrace(properties.displayFullStacktrace)
     ).toErrorResponse()
   }
@@ -160,7 +160,7 @@ abstract class CoreExceptionHandler(
 
     return badRequest(
       req.toServiceName(applicationName),
-      "error.invalid." + bindingResult.objectName.toLowerCamelToSnakeCase(),
+      "error.invalid." + bindingResult.objectName.camelToSnakeCase(),
       e.message,
       e.toStacktrace(properties.displayFullStacktrace),
       errors

@@ -2,7 +2,6 @@ package com.ekino.oss.errors.handler
 
 import com.ekino.oss.errors.ErrorBody
 import com.ekino.oss.errors.ValidationErrorBody
-import com.google.common.base.CaseFormat
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -59,15 +58,19 @@ fun toErrorCode(errorPrefix: String, fieldName: String?): String {
   val field = if (fieldName.isNullOrBlank()) {
     "unknown"
   } else {
-    ".${fieldName.toLowerCamelToSnakeCase()}"
+    ".${fieldName.camelToSnakeCase()}"
   }
 
   return errorPrefix + field
 }
 
-fun String.toLowerCamelToSnakeCase(): String = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this)
+val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
 
-fun String.toUpperCamelToSnakeCase(): String = CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, this)
+fun String.camelToSnakeCase(): String {
+  return camelRegex.replace(this) {
+    "_${it.value}"
+  }.toLowerCase()
+}
 
 fun Throwable.toStacktrace(displayFullStacktrace: Boolean): String {
   return if (displayFullStacktrace) ExceptionUtils.getStackTrace(this) else ""
