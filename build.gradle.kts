@@ -26,7 +26,7 @@ val springBootVersion = "2.4.5"
 val guavaVersion = "30.1.1-jre"
 val awsSdkVersion = "2.16.52"
 val jcvVersion = "1.5.0"
-val assertkVersion = "0.23.1"
+val assertkVersion = "0.24"
 
 testSets {
   "securityTest"()
