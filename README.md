@@ -8,9 +8,9 @@ Opiniated Spring Boot starter that handles some Spring and AWS common exceptions
 
 ## Requirements
 
-JDK 8+
+This starter requires Java 8 and is compatible up to and including Java 16.
 
-Spring Boot **MVC** web application
+It also requires a Spring Boot **MVC** web application.
 
 ### Spring Boot compatibility
 
