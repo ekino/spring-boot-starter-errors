@@ -10,6 +10,7 @@ plugins {
   kotlin("jvm") version kotlinVersion
   kotlin("plugin.spring") version kotlinVersion
   id("com.ekino.oss.plugin.kotlin-quality") version "2.0.0"
+  id("org.jlleitschuh.gradle.ktlint") version "10.0.0" // override the version provided by kotlin-quality
   id("org.unbroken-dome.test-sets") version "4.0.0"
   id("org.jetbrains.dokka") version "1.4.32"
 }
@@ -120,11 +121,11 @@ tasks {
         reportUndocumented.set(false)
         jdkVersion.set(8)
         externalDocumentationLink {
-          url.set(URL("https://docs.spring.io/spring-framework/docs/5.2.x/javadoc-api/"))
+          url.set(URL("https://docs.spring.io/spring-framework/docs/5.3.x/javadoc-api/"))
           packageListUrl.set(URL(url.get(), "package-list"))
         }
         externalDocumentationLink {
-          url.set(URL("https://docs.spring.io/spring-boot/docs/2.3.x/api/"))
+          url.set(URL("https://docs.spring.io/spring-boot/docs/2.4.x/api/"))
           packageListUrl.set(URL(url.get(), "package-list"))
         }
       }
