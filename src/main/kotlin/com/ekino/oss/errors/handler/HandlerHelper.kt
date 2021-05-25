@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
 import org.springframework.validation.ObjectError
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolation
 
@@ -69,7 +70,7 @@ val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
 fun String.camelToSnakeCase(): String {
   return camelRegex.replace(this) {
     "_${it.value}"
-  }.toLowerCase()
+  }.lowercase(Locale.US)
 }
 
 fun Throwable.toStacktrace(displayFullStacktrace: Boolean): String {

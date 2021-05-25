@@ -4,7 +4,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/com.ekino.oss.spring/ekino-spring-boot-starter-errors)](https://search.maven.org/search?q=a:ekino-spring-boot-starter-errors)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ekino_spring-boot-starter-errors&metric=alert_status)](https://sonarcloud.io/dashboard?id=ekino_spring-boot-starter-errors)
 
-Opiniated Spring Boot starter that handles some Spring and AWS common exceptions and returns them in a standardize json format.
+Opinionated Spring Boot starter that handles some Spring and AWS common exceptions and returns them in standardize json format.
 
 ## Requirements
 
@@ -16,7 +16,7 @@ It also requires a Spring Boot **MVC** web application.
 
 | Spring Boot | starter-errors | Kotlin |
 |:-----------:|:--------------:|:------:|
-| 2.5         | 5.x            | 1.4    |
+| 2.5         | 5.x            | 1.5    |
 | 2.4         | 4.x            | 1.4    |
 | 2.3         | 3.x            | 1.3    |
 | 2.2         | 2.x            | 1.3    |
