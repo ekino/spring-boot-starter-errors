@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 class AutoConfigurationTest {
 
   @Test
+  @Suppress("EmptyFunctionBlock")
   fun `App can start with ErrorsAutoConfiguration`() {
   }
 }

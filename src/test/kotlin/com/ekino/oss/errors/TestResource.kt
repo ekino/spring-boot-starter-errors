@@ -31,6 +31,7 @@ const val ERROR_MESSAGE = "Message for developers"
 class TestResource {
 
   @GetMapping("/ok")
+  @Suppress("UnusedPrivateMember")
   fun getOk(@RequestParam id: UUID): ResponseEntity<String> = ResponseEntity.ok("OK")
 
   @PostMapping("/ok", consumes = [APPLICATION_JSON_VALUE])
