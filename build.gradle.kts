@@ -20,7 +20,6 @@ version = "5.0.0-SNAPSHOT"
 
 repositories {
   mavenCentral()
-  jcenter()
 }
 
 val springBootVersion = "2.5.0"
