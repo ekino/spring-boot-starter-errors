@@ -16,7 +16,6 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.http.converter.HttpMessageConversionException
 import org.springframework.validation.BindException
-import org.springframework.validation.BindingResult
 import org.springframework.web.HttpMediaTypeNotSupportedException
 import org.springframework.web.HttpRequestMethodNotSupportedException
 import org.springframework.web.bind.MethodArgumentNotValidException
@@ -52,12 +51,12 @@ abstract class CoreExceptionHandler(
 
   @ExceptionHandler(MethodArgumentNotValidException::class)
   fun handleValidationException(req: HttpServletRequest, e: MethodArgumentNotValidException): ResponseEntity<ErrorBody> {
-    return prepareValidationResponse(req, e, e.bindingResult)
+    return prepareValidationResponse(req, e, "The request is invalid")
   }
 
   @ExceptionHandler(BindException::class)
   fun handleBindException(req: HttpServletRequest, e: BindException): ResponseEntity<ErrorBody> {
-    return prepareValidationResponse(req, e, e.bindingResult)
+    return prepareValidationResponse(req, e, e.message)
   }
 
   @ExceptionHandler(NestedRuntimeException::class)
@@ -153,15 +152,16 @@ abstract class CoreExceptionHandler(
       DEFAULT_INTERNAL_ERROR_MESSAGE
     }
 
-  private fun prepareValidationResponse(req: HttpServletRequest, e: Exception, bindingResult: BindingResult): ResponseEntity<ErrorBody> {
+  private fun prepareValidationResponse(req: HttpServletRequest, e: BindException, message: String): ResponseEntity<ErrorBody> {
     log.debug("Validation errors : ", e)
 
+    val bindingResult = e.bindingResult
     val errors = bindingResult.fieldErrors.map { it.toValidationErrorBody() }
 
     return badRequest(
       req.toServiceName(applicationName),
       "error.invalid." + bindingResult.objectName.camelToSnakeCase(),
-      e.message,
+      message,
       e.toStacktrace(properties.displayFullStacktrace),
       errors
     ).toErrorResponse()
