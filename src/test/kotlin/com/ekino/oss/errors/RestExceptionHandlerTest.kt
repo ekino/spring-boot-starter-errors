@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
-import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.util.UUID
@@ -55,7 +54,6 @@ class RestExceptionHandlerTest {
     mockMvc.perform(post("$ROOT_PATH/ok")
       .contentType(MediaType.APPLICATION_JSON)
       .content("""{"message":"a", "internalBody":{}}"""))
-      .andDo(MockMvcResultHandlers.print())
       .andExpect(status().isBadRequest)
       .andExpect(MockMvcResultMatchers.content().string(
         jsonMatcher("""
@@ -63,7 +61,7 @@ class RestExceptionHandlerTest {
             "status": 400,
             "code": "error.invalid.post_body",
             "message": "Bad Request",
-            "description": "{#not_empty#}",
+            "description": "The request is invalid",
             "errors": [
               {
                 "code": "error.invalid.message",
