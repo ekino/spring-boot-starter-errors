@@ -3,7 +3,7 @@ import org.unbrokendome.gradle.plugins.testsets.dsl.testSets
 import java.net.URL
 
 plugins {
-  val kotlinVersion = "1.5.10"
+  val kotlinVersion = "1.5.20"
   `java-library`
   `maven-publish`
   signing
@@ -123,7 +123,7 @@ tasks {
           packageListUrl.set(URL(url.get(), "package-list"))
         }
         externalDocumentationLink {
-          url.set(URL("https://docs.spring.io/spring-boot/docs/2.4.x/api/"))
+          url.set(URL("https://docs.spring.io/spring-boot/docs/2.5.x/api/"))
           packageListUrl.set(URL(url.get(), "package-list"))
         }
       }
