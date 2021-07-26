@@ -334,4 +334,111 @@ class RestExceptionHandlerTest {
         """.trimIndent())
       ))
   }
+
+  @Test
+  fun `should post with unknown enum value in field`() {
+    mockMvc.perform(post("$ROOT_PATH/body-with-enum")
+      .contentType(MediaType.APPLICATION_JSON_VALUE)
+      // language=json
+      .content("""
+        {
+          "color": "DOG"
+        }
+      """.trimIndent()))
+      .andExpect(status().isBadRequest)
+      .andExpect(MockMvcResultMatchers.content().string(
+        // language=json
+        jsonMatcher("""
+          {
+            "status": 400,
+            "code": "error.invalid.enum",
+            "message": "Bad Request",
+            "description": "The value 'DOG' is not an accepted value",
+            "errors": [
+              {
+                "code": "error.invalid.color",
+                "field": "color",
+                "message": "must be one of [RED,BLUE]"
+              }
+            ],
+            "globalErrors": [],
+            "service": "myApp : POST /test/body-with-enum",
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
+          }
+        """.trimIndent())
+      ))
+  }
+
+  @Test
+  fun `should post with unknown enum value in object`() {
+    mockMvc.perform(post("$ROOT_PATH/body-with-enum")
+      .contentType(MediaType.APPLICATION_JSON_VALUE)
+      // language=json
+      .content("""
+        {
+          "myObject": {
+            "color": "DOG"
+          }
+        }
+      """.trimIndent()))
+      .andExpect(status().isBadRequest)
+      .andExpect(MockMvcResultMatchers.content().string(
+        // language=json
+        jsonMatcher("""
+          {
+            "status": 400,
+            "code": "error.invalid.enum",
+            "message": "Bad Request",
+            "description": "The value 'DOG' is not an accepted value",
+            "errors": [
+              {
+                "code": "error.invalid.my_object.color",
+                "field": "myObject.color",
+                "message": "must be one of [RED,BLUE]"
+              }
+            ],
+            "globalErrors": [],
+            "service": "myApp : POST /test/body-with-enum",
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
+          }
+        """.trimIndent())
+      ))
+  }
+
+  @Test
+  fun `should post with unknown enum value in array`() {
+    mockMvc.perform(post("$ROOT_PATH/body-with-enum")
+      .contentType(MediaType.APPLICATION_JSON_VALUE)
+      // language=json
+      .content("""
+        {
+          "array": ["BLUE", "DOG", "CAT"]
+        }
+      """.trimIndent()))
+      .andExpect(status().isBadRequest)
+      .andExpect(MockMvcResultMatchers.content().string(
+        // language=json
+        jsonMatcher("""
+          {
+            "status": 400,
+            "code": "error.invalid.enum",
+            "message": "Bad Request",
+            "description": "The value 'DOG' is not an accepted value",
+            "errors": [
+              {
+                "code": "error.invalid.array",
+                "field": "array",
+                "message": "must be one of [RED,BLUE]"
+              }
+            ],
+            "globalErrors": [],
+            "service": "myApp : POST /test/body-with-enum",
+            "stacktrace": "",
+            "timestamp": "{#date_time_format:iso_instant#}"
+          }
+        """.trimIndent())
+      ))
+  }
 }

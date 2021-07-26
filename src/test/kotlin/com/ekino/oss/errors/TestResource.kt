@@ -76,6 +76,9 @@ class TestResource {
     throw NoHandlerFoundException(httpServletRequest.method, httpServletRequest.requestURI, HttpHeaders())
   }
 
+  @PostMapping("/body-with-enum", consumes = [APPLICATION_JSON_VALUE])
+  fun postEnum(@RequestBody body: BodyWithEnum): ResponseEntity<BodyWithEnum> = ResponseEntity.ok(body)
+
   data class PostBody(
     @field:Length(min = 3, max = 15)
     @field:NotEmpty
@@ -94,4 +97,16 @@ class TestResource {
   data class NonNullablePutBody(
     val message: String
   )
+
+  data class BodyWithEnum(
+    val color: Color,
+    val myObject: ObjectWithEnum,
+    val array: List<Color>
+  )
+
+  data class ObjectWithEnum(val color: Color)
+
+  enum class Color {
+    RED, BLUE
+  }
 }

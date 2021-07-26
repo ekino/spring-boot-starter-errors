@@ -2,13 +2,14 @@ package com.ekino.oss.errors.handler
 
 import com.ekino.oss.errors.ErrorBody
 import com.ekino.oss.errors.ValidationErrorBody
+import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
 import org.springframework.validation.ObjectError
-import java.util.*
+import java.util.Locale
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolation
 
@@ -52,6 +53,16 @@ fun ConstraintViolation<*>.toValidationErrorBody(): ValidationErrorBody {
     code = errorCode,
     field = fieldName,
     message = this.message
+  )
+}
+
+fun InvalidFormatException.toEnumValidationErrorBody(): ValidationErrorBody {
+  val enumValues = targetType.enumConstants.joinToString(prefix = "[", separator = ",", postfix = "]")
+  val fieldName = path.filter { it.fieldName != null }.joinToString(separator = ".") { it.fieldName }
+  return ValidationErrorBody(
+    code = toErrorCode(INVALID_ERROR_PREFIX, fieldName),
+    field = fieldName,
+    message = "must be one of $enumValues"
   )
 }
 
