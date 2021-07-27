@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -78,6 +79,12 @@ class TestResource {
 
   @PostMapping("/body-with-enum", consumes = [APPLICATION_JSON_VALUE])
   fun postEnum(@RequestBody body: BodyWithEnum): ResponseEntity<BodyWithEnum> = ResponseEntity.ok(body)
+
+  @GetMapping("/param-enum")
+  fun getEnum(@RequestParam color: Color): ResponseEntity<Color> = ResponseEntity.ok(color)
+
+  @GetMapping("/colors/{color}")
+  fun getPathEnum(@PathVariable color: Color): ResponseEntity<Color> = ResponseEntity.ok(color)
 
   data class PostBody(
     @field:Length(min = 3, max = 15)

@@ -1,7 +1,6 @@
 package com.ekino.oss.errors.handler
 
 import com.ekino.oss.errors.ErrorBody
-import com.ekino.oss.errors.ValidationErrorBody
 import com.ekino.oss.errors.generator.badRequest
 import com.ekino.oss.errors.generator.defaultError
 import com.ekino.oss.errors.generator.methodNotAllowed
@@ -89,7 +88,7 @@ abstract class CoreExceptionHandler(
     log.debug("Message not readable : ", e)
     val cause = e.cause
     return if (cause is InvalidFormatException && cause.targetType.isEnum) {
-      val validationErrorBody = listOf(cause.toValidationErrorBody())
+      val validationErrorBody = listOf(cause.toEnumValidationErrorBody())
       val message = "The value '${cause.value}' is not an accepted value"
       badRequest(
         req.toServiceName(applicationName), "error.invalid.enum", message, e.toStacktrace(properties.displayFullStacktrace), validationErrorBody
@@ -104,9 +103,18 @@ abstract class CoreExceptionHandler(
   @ExceptionHandler(MethodArgumentTypeMismatchException::class)
   fun handleArgumentTypeMismatchException(req: HttpServletRequest, e: MethodArgumentTypeMismatchException): ResponseEntity<ErrorBody> {
     log.debug("Argument type mismatch : ", e)
-    return badRequest(
-      req.toServiceName(applicationName), "error.argument_type_mismatch", e.message, e.toStacktrace(properties.displayFullStacktrace)
-    ).toErrorResponse()
+    val requiredType = e.requiredType
+    return if (requiredType != null && requiredType.isEnum) {
+      val validationErrorBody = listOf(e.toEnumValidationErrorBody())
+      val message = "The value '${e.value}' is not an accepted value"
+      badRequest(
+        req.toServiceName(applicationName), "error.invalid.enum", message, e.toStacktrace(properties.displayFullStacktrace), validationErrorBody
+      ).toErrorResponse()
+    } else {
+      badRequest(
+        req.toServiceName(applicationName), "error.argument_type_mismatch", e.message, e.toStacktrace(properties.displayFullStacktrace)
+      ).toErrorResponse()
+    }
   }
 
   @ExceptionHandler(MissingServletRequestParameterException::class)
