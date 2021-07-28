@@ -8,6 +8,7 @@ import com.ekino.oss.errors.generator.notFound
 import com.ekino.oss.errors.generator.unavailable
 import com.ekino.oss.errors.generator.unsupportedMediaType
 import com.ekino.oss.errors.property.ErrorsProperties
+import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import org.springframework.core.NestedRuntimeException
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.AnnotationUtils
@@ -85,17 +86,35 @@ abstract class CoreExceptionHandler(
   @ExceptionHandler(HttpMessageConversionException::class)
   fun handleMessageNotReadableException(req: HttpServletRequest, e: HttpMessageConversionException): ResponseEntity<ErrorBody> {
     log.debug("Message not readable : ", e)
-    return badRequest(
-      req.toServiceName(applicationName), "error.not_readable_json", e.message, e.toStacktrace(properties.displayFullStacktrace)
-    ).toErrorResponse()
+    val cause = e.cause
+    return if (cause is InvalidFormatException && cause.targetType.isEnum) {
+      val validationErrorBody = listOf(cause.toEnumValidationErrorBody())
+      val message = "The value '${cause.value}' is not an accepted value"
+      badRequest(
+        req.toServiceName(applicationName), "error.invalid.enum", message, e.toStacktrace(properties.displayFullStacktrace), validationErrorBody
+      ).toErrorResponse()
+    } else {
+      badRequest(
+        req.toServiceName(applicationName), "error.not_readable_json", e.message, e.toStacktrace(properties.displayFullStacktrace)
+      ).toErrorResponse()
+    }
   }
 
   @ExceptionHandler(MethodArgumentTypeMismatchException::class)
   fun handleArgumentTypeMismatchException(req: HttpServletRequest, e: MethodArgumentTypeMismatchException): ResponseEntity<ErrorBody> {
     log.debug("Argument type mismatch : ", e)
-    return badRequest(
-      req.toServiceName(applicationName), "error.argument_type_mismatch", e.message, e.toStacktrace(properties.displayFullStacktrace)
-    ).toErrorResponse()
+    val requiredType = e.requiredType
+    return if (requiredType != null && requiredType.isEnum) {
+      val validationErrorBody = listOf(e.toEnumValidationErrorBody())
+      val message = "The value '${e.value}' is not an accepted value"
+      badRequest(
+        req.toServiceName(applicationName), "error.invalid.enum", message, e.toStacktrace(properties.displayFullStacktrace), validationErrorBody
+      ).toErrorResponse()
+    } else {
+      badRequest(
+        req.toServiceName(applicationName), "error.argument_type_mismatch", e.message, e.toStacktrace(properties.displayFullStacktrace)
+      ).toErrorResponse()
+    }
   }
 
   @ExceptionHandler(MissingServletRequestParameterException::class)

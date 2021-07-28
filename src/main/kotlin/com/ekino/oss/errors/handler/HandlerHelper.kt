@@ -2,13 +2,17 @@ package com.ekino.oss.errors.handler
 
 import com.ekino.oss.errors.ErrorBody
 import com.ekino.oss.errors.ValidationErrorBody
+import com.fasterxml.jackson.databind.exc.InvalidFormatException
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
 import org.springframework.validation.ObjectError
-import java.util.*
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+import java.util.Locale
 import javax.servlet.http.HttpServletRequest
 import javax.validation.ConstraintViolation
 
@@ -53,6 +57,36 @@ fun ConstraintViolation<*>.toValidationErrorBody(): ValidationErrorBody {
     field = fieldName,
     message = this.message
   )
+}
+
+fun InvalidFormatException.toEnumValidationErrorBody(): ValidationErrorBody {
+  val enumValues = targetType.joinEnumConstants()
+  val fieldName = path.filter { it.fieldName != null }.joinToString(separator = ".") { it.fieldName }
+  return ValidationErrorBody(
+    code = toErrorCode(INVALID_ERROR_PREFIX, fieldName),
+    field = fieldName,
+    message = "must be one of $enumValues"
+  )
+}
+
+fun MethodArgumentTypeMismatchException.toEnumValidationErrorBody(): ValidationErrorBody {
+  val enumValues = requiredType?.joinEnumConstants() ?: "[]"
+  val parameterAnnotationsClasses = parameter.parameterAnnotations.map { it.annotationClass }
+  val typePrefix = when {
+    parameterAnnotationsClasses.contains(PathVariable::class) -> ".path"
+    parameterAnnotationsClasses.contains(RequestParam::class) -> ".param"
+    else -> ""
+  }
+  return ValidationErrorBody(
+    code = toErrorCode("$INVALID_ERROR_PREFIX$typePrefix", name),
+    field = name,
+    message = "must be one of $enumValues"
+  )
+}
+
+private fun Class<*>.joinEnumConstants(): String? {
+  val enumValues = enumConstants ?: return null
+  return enumValues.joinToString(prefix = "[", separator = ",", postfix = "]")
 }
 
 fun toErrorCode(errorPrefix: String, fieldName: String?): String {
