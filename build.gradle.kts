@@ -47,8 +47,6 @@ dependencies {
 
 configurations {
   all {
-    exclude(module = "junit")
-    exclude(module = "junit-vintage-engine")
     exclude(module = "mockito-core")
     exclude(module = "assertj-core")
   }
