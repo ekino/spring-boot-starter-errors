@@ -27,11 +27,16 @@ val javadocJar by tasks.registering(Jar::class) {
   from(buildDir.resolve("dokka"))
 }
 
+kotlin {
+  jvmToolchain {
+    (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(11))
+  }
+}
+
 tasks {
   withType<KotlinCompile> {
     kotlinOptions {
       freeCompilerArgs = listOf("-Xjsr305=strict")
-      jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
   }
 
