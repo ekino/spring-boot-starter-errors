@@ -4,7 +4,7 @@ plugins {
   id("ekino.oss.test")
 }
 
-version = "6.0.0"
+version = "6.0.1-SNAPSHOT"
 
 repositories {
   mavenCentral()
