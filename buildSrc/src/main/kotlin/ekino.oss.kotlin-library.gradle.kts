@@ -11,6 +11,8 @@ plugins {
   id("org.jetbrains.dokka")
 }
 
+val bytecodeVersion = 11
+
 java {
   withSourcesJar()
 }
@@ -21,7 +23,7 @@ jacoco {
 
 kotlin {
   jvmToolchain {
-    (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(11))
+    (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(bytecodeVersion))
   }
 }
 
@@ -41,7 +43,7 @@ tasks {
     dokkaSourceSets {
       configureEach {
         reportUndocumented.set(false)
-        jdkVersion.set(8)
+        jdkVersion.set(bytecodeVersion)
         externalDocumentationLink {
           url.set(URL("https://docs.spring.io/spring-framework/docs/5.3.x/javadoc-api/"))
           packageListUrl.set(URL(url.get(), "package-list"))
