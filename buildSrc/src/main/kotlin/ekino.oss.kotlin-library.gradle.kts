@@ -1,5 +1,3 @@
-import org.gradle.api.JavaVersion
-import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -19,12 +17,6 @@ java {
 
 jacoco {
   toolVersion = "0.8.7"
-}
-
-val javadocJar by tasks.registering(Jar::class) {
-  dependsOn("dokkaHtml")
-  archiveClassifier.set("javadoc")
-  from(buildDir.resolve("dokka"))
 }
 
 kotlin {
@@ -60,11 +52,6 @@ tasks {
         }
       }
     }
-  }
-
-  artifacts {
-    archives(jar)
-    archives(javadocJar)
   }
 
   register("printVersion") {

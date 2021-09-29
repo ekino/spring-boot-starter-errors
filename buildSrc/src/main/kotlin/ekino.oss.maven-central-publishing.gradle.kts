@@ -7,9 +7,16 @@ group = "com.ekino.oss.spring"
 
 val publicationName = "mavenJava"
 
+val javadocJar by tasks.registering(Jar::class) {
+  dependsOn("dokkaHtml")
+  archiveClassifier.set("javadoc")
+  from(buildDir.resolve("dokka"))
+}
+
 publishing {
   publications {
     register<MavenPublication>(publicationName) {
+      artifact(javadocJar)
       pom {
         name.set("ekino-spring-boot-starter-errors")
         description.set("ekino-spring-boot-starter-errors configure your Spring Boot app in order to have well formatted error response in json.")
