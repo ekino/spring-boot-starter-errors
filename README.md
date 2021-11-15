@@ -8,7 +8,7 @@ Opinionated Spring Boot starter that handles some Spring and AWS common exceptio
 
 ## Requirements
 
-This starter requires Java 8 and is compatible up to and including Java 16.
+This starter requires Java 11 and is compatible up to and including Java 16.
 
 It also requires a Spring Boot **MVC** web application.
 
@@ -16,6 +16,7 @@ It also requires a Spring Boot **MVC** web application.
 
 | Spring Boot | starter-errors | Kotlin |
 |:-----------:|:--------------:|:------:|
+| 2.5         | 7.x            | 1.6    |
 | 2.5         | 5.x            | 1.5    |
 | 2.4         | 4.x            | 1.4    |
 | 2.3         | 3.x            | 1.3    |
@@ -29,7 +30,7 @@ Other combinations might work, but they're not supported.
 For example with Gradle Kotlin DSL :
 
 ```kotlin
-implementation("com.ekino.oss.spring:ekino-spring-boot-starter-errors:3.0.0")
+implementation("com.ekino.oss.spring:ekino-spring-boot-starter-errors:6.0.0")
 ```
 
 NB : if you want to use snapshots you need to add the following configuration to your Gradle build script :
