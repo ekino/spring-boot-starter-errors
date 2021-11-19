@@ -8,7 +8,7 @@ Opinionated Spring Boot starter that handles some Spring and AWS common exceptio
 
 ## Requirements
 
-This starter requires Java 11 and is compatible up to and including Java 16.
+This starter requires Java 11 and is compatible up to and including Java 17.
 
 It also requires a Spring Boot **MVC** web application.
 
