@@ -3,7 +3,6 @@ package com.ekino.oss.errors.handler
 import com.ekino.oss.errors.ErrorBody
 import com.ekino.oss.errors.ValidationErrorBody
 import com.fasterxml.jackson.databind.exc.InvalidFormatException
-import org.apache.commons.lang3.exception.ExceptionUtils
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -108,7 +107,7 @@ fun String.camelToSnakeCase(): String {
 }
 
 fun Throwable.toStacktrace(displayFullStacktrace: Boolean): String {
-  return if (displayFullStacktrace) ExceptionUtils.getStackTrace(this) else ""
+  return if (displayFullStacktrace) this.stackTraceToString() else ""
 }
 
 fun HttpServletRequest.toServiceName(applicationName: String): String {

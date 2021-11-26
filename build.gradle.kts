@@ -23,7 +23,6 @@ dependencies {
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-validation")
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-  implementation("org.apache.commons:commons-lang3")
 
   compileOnly("org.jetbrains.kotlin:kotlin-reflect")
   compileOnly("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
