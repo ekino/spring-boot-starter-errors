@@ -1,5 +1,6 @@
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.*
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.net.URL
 
@@ -39,7 +40,7 @@ tasks {
     jvmArgs("-Duser.language=en", "-Dspring.test.constructor.autowire.mode=ALL")
   }
 
-  dokkaHtml {
+  withType<DokkaTask> {
     dokkaSourceSets {
       configureEach {
         reportUndocumented.set(false)
@@ -49,7 +50,7 @@ tasks {
           packageListUrl.set(URL(url.get(), "package-list"))
         }
         externalDocumentationLink {
-          url.set(URL("https://docs.spring.io/spring-boot/docs/2.5.x/api/"))
+          url.set(URL("https://docs.spring.io/spring-boot/docs/2.6.x/api/"))
           packageListUrl.set(URL(url.get(), "package-list"))
         }
       }

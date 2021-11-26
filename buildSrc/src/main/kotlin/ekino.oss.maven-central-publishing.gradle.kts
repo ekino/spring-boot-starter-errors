@@ -8,7 +8,7 @@ group = "com.ekino.oss.spring"
 val publicationName = "mavenJava"
 
 val javadocJar by tasks.registering(Jar::class) {
-  dependsOn("dokkaHtml")
+  dependsOn("dokkaJavadoc")
   archiveClassifier.set("javadoc")
   from(buildDir.resolve("dokka"))
 }
