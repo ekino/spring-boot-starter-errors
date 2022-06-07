@@ -66,5 +66,6 @@ publishing {
 }
 
 signing {
+  setRequired { gradle.taskGraph.hasTask("publish") }
   sign(publishing.publications[publicationName])
 }
