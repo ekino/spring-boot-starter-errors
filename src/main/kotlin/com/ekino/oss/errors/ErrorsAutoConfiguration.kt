@@ -7,7 +7,7 @@ import com.ekino.oss.errors.handler.SecurityExceptionHandler
 import com.ekino.oss.errors.handler.TxExceptionHandler
 import com.ekino.oss.errors.property.ErrorsProperties
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.autoconfigure.AutoConfigureBefore
+import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication.Type.SERVLET
@@ -19,9 +19,8 @@ import org.springframework.context.annotation.Configuration
 /**
  * We have inner class for some config because using [ConditionalOnClass] on [Bean] methods is not recommended.
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration(before = [ErrorMvcAutoConfiguration::class])
 @ConditionalOnWebApplication(type = SERVLET)
-@AutoConfigureBefore(ErrorMvcAutoConfiguration::class)
 @EnableConfigurationProperties(ErrorsProperties::class)
 class ErrorsAutoConfiguration(
   @param:Value("\${spring.application.name}") private val applicationName: String,
