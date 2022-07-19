@@ -24,7 +24,7 @@ jacoco {
 
 kotlin {
   jvmToolchain {
-    (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(bytecodeVersion))
+    this.languageVersion.set(JavaLanguageVersion.of(bytecodeVersion))
   }
 }
 
@@ -50,7 +50,7 @@ tasks {
           packageListUrl.set(URL(url.get(), "package-list"))
         }
         externalDocumentationLink {
-          url.set(URL("https://docs.spring.io/spring-boot/docs/2.6.x/api/"))
+          url.set(URL("https://docs.spring.io/spring-boot/docs/2.7.x/api/"))
           packageListUrl.set(URL(url.get(), "package-list"))
         }
       }
