@@ -10,7 +10,7 @@ repositories {
   mavenCentral()
 }
 
-val springBootVersion = "2.7.1"
+val springBootVersion = "2.7.2"
 val awsSdkVersion = "2.17.238"
 val jcvVersion = "1.5.0"
 val assertkVersion = "0.25"
