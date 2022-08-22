@@ -11,7 +11,7 @@ repositories {
 }
 
 val springBootVersion = "2.7.2"
-val awsSdkVersion = "2.17.252"
+val awsSdkVersion = "2.17.257"
 val jcvVersion = "1.5.0"
 val assertkVersion = "0.25"
 
