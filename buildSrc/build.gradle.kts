@@ -6,7 +6,7 @@ repositories {
   gradlePluginPortal()
 }
 
-val kotlinVersion = "1.7.10"
+val kotlinVersion = "1.7.20"
 dependencies {
   implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion") // required by kotlin("jvm")
   implementation("org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion") // required by kotlin("plugin.spring")
