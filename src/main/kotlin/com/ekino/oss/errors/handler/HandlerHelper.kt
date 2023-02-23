@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import java.util.Locale
-import javax.servlet.http.HttpServletRequest
-import javax.validation.ConstraintViolation
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.validation.ConstraintViolation
 
 const val DEFAULT_INTERNAL_ERROR_MESSAGE = "An internal error occurred on processing request."
 const val INVALID_ERROR_PREFIX = "error.invalid"

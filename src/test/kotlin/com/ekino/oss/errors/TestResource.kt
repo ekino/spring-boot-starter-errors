@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.NoHandlerFoundException
 import java.net.ConnectException
 import java.util.UUID
-import javax.servlet.http.HttpServletRequest
-import javax.validation.ConstraintViolationException
-import javax.validation.Valid
-import javax.validation.Validation
-import javax.validation.constraints.NotEmpty
-import javax.validation.constraints.NotNull
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.validation.ConstraintViolationException
+import jakarta.validation.Valid
+import jakarta.validation.Validation
+import jakarta.validation.constraints.NotEmpty
+import jakarta.validation.constraints.NotNull
 
 const val API_PATH = "/test"
 const val ERROR_PATH = "/error"
