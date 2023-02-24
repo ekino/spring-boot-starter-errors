@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.web.firewall.RequestRejectedException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import javax.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletRequest
 
 /**
  * Handler for Spring Security exceptions.

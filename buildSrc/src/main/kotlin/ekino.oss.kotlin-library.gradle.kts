@@ -12,7 +12,7 @@ plugins {
   id("org.jetbrains.dokka")
 }
 
-val bytecodeVersion = 11
+val bytecodeVersion = 17
 
 java {
   withSourcesJar()
@@ -46,11 +46,11 @@ tasks {
         reportUndocumented.set(false)
         jdkVersion.set(bytecodeVersion)
         externalDocumentationLink {
-          url.set(URL("https://docs.spring.io/spring-framework/docs/5.3.x/javadoc-api/"))
+          url.set(URL("https://docs.spring.io/spring-framework/docs/6.0.5/javadoc-api/"))
           packageListUrl.set(URL(url.get(), "package-list"))
         }
         externalDocumentationLink {
-          url.set(URL("https://docs.spring.io/spring-boot/docs/2.7.x/api/"))
+          url.set(URL("https://docs.spring.io/spring-boot/docs/3.0.3/api/"))
           packageListUrl.set(URL(url.get(), "package-list"))
         }
       }

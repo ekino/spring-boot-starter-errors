@@ -4,14 +4,14 @@ plugins {
   id("ekino.oss.test")
 }
 
-version = "8.0.1-SNAPSHOT"
+version = "9.0.0-SNAPSHOT"
 
 repositories {
   mavenCentral()
 }
 
-val springBootVersion = "2.7.5"
-val awsSdkVersion = "2.20.7"
+val springBootVersion = "3.0.3"
+val awsSdkVersion = "2.20.9"
 val jcvVersion = "1.5.0"
 val assertkVersion = "0.25"
 
