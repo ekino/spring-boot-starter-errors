@@ -16,7 +16,7 @@ It also requires a Spring Boot **MVC** web application.
 
 | Spring Boot | starter-errors | Kotlin |
 |:-----------:|:--------------:|:------:|
-|     3.0     |      9.x       |  1.8   |
+|     3.0     |      9.x       |  1.7   |
 |     2.7     |      8.x       |  1.7   |
 |     2.6     |      7.x       |  1.6   |
 |     2.5     |      5.x       |  1.5   |
