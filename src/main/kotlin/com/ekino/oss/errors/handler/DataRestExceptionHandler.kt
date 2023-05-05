@@ -38,14 +38,18 @@ abstract class DataRestExceptionHandler(
     e: RepositoryConstraintViolationException,
     req: HttpServletRequest
   ): ResponseEntity<ErrorBody> {
-
     log.debug("Constraint violation errors : ", e)
 
     val errors = e.errors.fieldErrors.map { it.toValidationErrorBody() }
     val globalErrors = e.errors.globalErrors.map { it.toValidationErrorBody() }
 
     return badRequest(
-      req.toServiceName(applicationName), INVALID_ERROR_PREFIX, e.message, e.toStacktrace(properties.displayFullStacktrace), errors, globalErrors
+      req.toServiceName(applicationName),
+      INVALID_ERROR_PREFIX,
+      e.message,
+      e.toStacktrace(properties.displayFullStacktrace),
+      errors,
+      globalErrors
     ).toErrorResponse()
   }
 
@@ -56,7 +60,9 @@ abstract class DataRestExceptionHandler(
     val cause = e.cause
     if (cause is JDBCException) {
       return conflict(
-        req.toServiceName(applicationName), cause.sqlException.message, e.toStacktrace(properties.displayFullStacktrace)
+        req.toServiceName(applicationName),
+        cause.sqlException.message,
+        e.toStacktrace(properties.displayFullStacktrace)
       ).toErrorResponse()
     }
     return conflict(req.toServiceName(applicationName), e.message, e.toStacktrace(properties.displayFullStacktrace)).toErrorResponse()

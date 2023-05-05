@@ -22,8 +22,10 @@ class RestExceptionHandlerTest(
   fun `should get not found error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/notFound"))
       .andExpect(status().isNotFound)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 404,
             "code": "error.not_found",
@@ -35,17 +37,23 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get repository constraint validation error`() {
-    mockMvc.perform(get("$RESOLVED_ERROR_PATH/repository-constraint-validation")
-      .accept(MediaType.APPLICATION_JSON))
+    mockMvc.perform(
+      get("$RESOLVED_ERROR_PATH/repository-constraint-validation")
+      .accept(MediaType.APPLICATION_JSON)
+    )
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.invalid",
@@ -69,7 +77,9 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 }
