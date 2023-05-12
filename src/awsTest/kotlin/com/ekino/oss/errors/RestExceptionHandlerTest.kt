@@ -21,8 +21,10 @@ class RestExceptionHandlerTest(
   fun `should get no such key exception`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/no-such-key-exception"))
       .andExpect(status().isNotFound)
-      .andExpect(content().string(
-        jsonMatcher("""
+      .andExpect(
+        content().string(
+        jsonMatcher(
+          """
           {
             "status": 404,
             "code": "error.not_found",
@@ -34,7 +36,9 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 }

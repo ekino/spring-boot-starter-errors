@@ -46,7 +46,10 @@ abstract class CoreExceptionHandler(
   fun handleUnavailableServiceException(req: HttpServletRequest, e: Exception): ResponseEntity<ErrorBody> {
     log.error("Unavailable service : ", e)
     return unavailable(
-      req.toServiceName(applicationName), "error.unavailable", e.message, e.toStacktrace(properties.displayFullStacktrace)
+      req.toServiceName(applicationName),
+      "error.unavailable",
+      e.message,
+      e.toStacktrace(properties.displayFullStacktrace)
     ).toErrorResponse()
   }
 
@@ -79,7 +82,11 @@ abstract class CoreExceptionHandler(
     val errors = e.constraintViolations?.map { it.toValidationErrorBody() } ?: emptyList()
 
     return badRequest(
-      req.toServiceName(applicationName), INVALID_ERROR_PREFIX, e.message, e.toStacktrace(properties.displayFullStacktrace), errors
+      req.toServiceName(applicationName),
+      INVALID_ERROR_PREFIX,
+      e.message,
+      e.toStacktrace(properties.displayFullStacktrace),
+      errors
     ).toErrorResponse()
   }
 
@@ -91,11 +98,18 @@ abstract class CoreExceptionHandler(
       val validationErrorBody = listOf(cause.toEnumValidationErrorBody())
       val message = "The value '${cause.value}' is not an accepted value"
       badRequest(
-        req.toServiceName(applicationName), "error.invalid.enum", message, e.toStacktrace(properties.displayFullStacktrace), validationErrorBody
+        req.toServiceName(applicationName),
+        "error.invalid.enum",
+        message,
+        e.toStacktrace(properties.displayFullStacktrace),
+        validationErrorBody
       ).toErrorResponse()
     } else {
       badRequest(
-        req.toServiceName(applicationName), "error.not_readable_json", e.message, e.toStacktrace(properties.displayFullStacktrace)
+        req.toServiceName(applicationName),
+        "error.not_readable_json",
+        e.message,
+        e.toStacktrace(properties.displayFullStacktrace)
       ).toErrorResponse()
     }
   }
@@ -108,11 +122,18 @@ abstract class CoreExceptionHandler(
       val validationErrorBody = listOf(e.toEnumValidationErrorBody())
       val message = "The value '${e.value}' is not an accepted value"
       badRequest(
-        req.toServiceName(applicationName), "error.invalid.enum", message, e.toStacktrace(properties.displayFullStacktrace), validationErrorBody
+        req.toServiceName(applicationName),
+        "error.invalid.enum",
+        message,
+        e.toStacktrace(properties.displayFullStacktrace),
+        validationErrorBody
       ).toErrorResponse()
     } else {
       badRequest(
-        req.toServiceName(applicationName), "error.argument_type_mismatch", e.message, e.toStacktrace(properties.displayFullStacktrace)
+        req.toServiceName(applicationName),
+        "error.argument_type_mismatch",
+        e.message,
+        e.toStacktrace(properties.displayFullStacktrace)
       ).toErrorResponse()
     }
   }
@@ -121,7 +142,10 @@ abstract class CoreExceptionHandler(
   fun handleMissingServletRequestParameterException(req: HttpServletRequest, e: MissingServletRequestParameterException): ResponseEntity<ErrorBody> {
     log.debug("Missing parameter : ", e)
     return badRequest(
-      req.toServiceName(applicationName), "error.missing_parameter", e.message, e.toStacktrace(properties.displayFullStacktrace)
+      req.toServiceName(applicationName),
+      "error.missing_parameter",
+      e.message,
+      e.toStacktrace(properties.displayFullStacktrace)
     ).toErrorResponse()
   }
 
@@ -129,7 +153,10 @@ abstract class CoreExceptionHandler(
   fun handleMethodNotSupportedException(req: HttpServletRequest, e: HttpRequestMethodNotSupportedException): ResponseEntity<ErrorBody> {
     log.debug("Method not supported : ", e)
     return methodNotAllowed(
-      req.toServiceName(applicationName), "error.method_not_allowed", e.message, e.toStacktrace(properties.displayFullStacktrace)
+      req.toServiceName(applicationName),
+      "error.method_not_allowed",
+      e.message,
+      e.toStacktrace(properties.displayFullStacktrace)
     ).toErrorResponse()
   }
 
@@ -143,7 +170,10 @@ abstract class CoreExceptionHandler(
   fun handleHttpMediaTypeNotSupportedException(req: HttpServletRequest, e: HttpMediaTypeNotSupportedException): ResponseEntity<ErrorBody> {
     log.debug("Media type not supported : ", e)
     return unsupportedMediaType(
-      req.toServiceName(applicationName), "error.media_type_not_supported", e.message, e.toStacktrace(properties.displayFullStacktrace)
+      req.toServiceName(applicationName),
+      "error.media_type_not_supported",
+      e.message,
+      e.toStacktrace(properties.displayFullStacktrace)
     ).toErrorResponse()
   }
 
@@ -159,8 +189,11 @@ abstract class CoreExceptionHandler(
     val message = responseStatus?.reason ?: e.toMessage()
 
     return defaultError(
-      req.toServiceName(applicationName), status, "error." + e.javaClass.simpleName.camelToSnakeCase(),
-      message, e.toStacktrace(properties.displayFullStacktrace)
+      req.toServiceName(applicationName),
+      status,
+      "error." + e.javaClass.simpleName.camelToSnakeCase(),
+      message,
+      e.toStacktrace(properties.displayFullStacktrace)
     ).toErrorResponse()
   }
 

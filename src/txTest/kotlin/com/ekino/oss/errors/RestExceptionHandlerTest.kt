@@ -20,12 +20,16 @@ class RestExceptionHandlerTest(
 
   @Test
   fun `should get conflict error`() {
-    mockMvc.perform(post("$RESOLVED_ERROR_PATH/conflict")
+    mockMvc.perform(
+      post("$RESOLVED_ERROR_PATH/conflict")
       .contentType(MediaType.APPLICATION_JSON)
-      .content("{\"message\":\"a\", \"internalBody\":{}}"))
+      .content("{\"message\":\"a\", \"internalBody\":{}}")
+    )
       .andExpect(status().isConflict)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 409,
             "code": "error.conflict",
@@ -37,7 +41,9 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 }

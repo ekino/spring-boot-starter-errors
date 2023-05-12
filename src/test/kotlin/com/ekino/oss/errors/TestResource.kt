@@ -36,10 +36,16 @@ class TestResource {
   fun getOk(@RequestParam id: UUID): ResponseEntity<String> = ResponseEntity.ok("OK")
 
   @PostMapping("/ok", consumes = [APPLICATION_JSON_VALUE])
-  fun postOk(@RequestBody @Valid body: PostBody): ResponseEntity<String> = ResponseEntity.ok(body.message!!)
+  fun postOk(
+    @RequestBody @Valid
+body: PostBody
+  ): ResponseEntity<String> = ResponseEntity.ok(body.message!!)
 
   @PutMapping("/ok")
-  fun putOk(@RequestBody @Valid body: NonNullablePutBody) = ResponseEntity.ok(body.message)
+  fun putOk(
+    @RequestBody @Valid
+body: NonNullablePutBody
+  ) = ResponseEntity.ok(body.message)
 
   @GetMapping("$ERROR_PATH/unexpected")
   fun unexpectedError(): ResponseEntity<String> = throw IllegalArgumentException()

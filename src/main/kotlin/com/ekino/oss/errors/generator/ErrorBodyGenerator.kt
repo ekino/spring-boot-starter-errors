@@ -7,14 +7,28 @@ import org.springframework.http.HttpStatus
 import java.time.Instant
 
 fun notFound(service: String, devMessage: String?, stacktrace: String): ErrorBody {
-  return toError(service, HttpStatus.NOT_FOUND, DefaultErrorCode.NOT_FOUND.value(), HttpStatus.NOT_FOUND.reasonPhrase,
-    devMessage, stacktrace, emptyList(), emptyList())
+  return toError(
+    service,
+    HttpStatus.NOT_FOUND,
+    DefaultErrorCode.NOT_FOUND.value(),
+    HttpStatus.NOT_FOUND.reasonPhrase,
+    devMessage,
+    stacktrace,
+    emptyList(),
+    emptyList()
+  )
 }
 
 fun unavailable(service: String, code: String, devMessage: String?, stacktrace: String): ErrorBody {
   return toError(
-    service, HttpStatus.SERVICE_UNAVAILABLE, code, HttpStatus.SERVICE_UNAVAILABLE.reasonPhrase,
-    devMessage, stacktrace, emptyList(), emptyList()
+    service,
+    HttpStatus.SERVICE_UNAVAILABLE,
+    code,
+    HttpStatus.SERVICE_UNAVAILABLE.reasonPhrase,
+    devMessage,
+    stacktrace,
+    emptyList(),
+    emptyList()
   )
 }
 
@@ -40,13 +54,28 @@ fun badRequest(
 
 fun methodNotAllowed(service: String, code: String, devMessage: String?, stacktrace: String): ErrorBody {
   return toError(
-    service, HttpStatus.METHOD_NOT_ALLOWED, code, HttpStatus.METHOD_NOT_ALLOWED.reasonPhrase, devMessage, stacktrace, emptyList(), emptyList()
+    service,
+    HttpStatus.METHOD_NOT_ALLOWED,
+    code,
+    HttpStatus.METHOD_NOT_ALLOWED.reasonPhrase,
+    devMessage,
+    stacktrace,
+    emptyList(),
+    emptyList()
   )
 }
 
 fun conflict(service: String, devMessage: String?, stacktrace: String): ErrorBody {
-  return toError(service, HttpStatus.CONFLICT, DefaultErrorCode.CONFLICT.value(), HttpStatus.CONFLICT.reasonPhrase,
-    devMessage, stacktrace, emptyList(), emptyList())
+  return toError(
+    service,
+    HttpStatus.CONFLICT,
+    DefaultErrorCode.CONFLICT.value(),
+    HttpStatus.CONFLICT.reasonPhrase,
+    devMessage,
+    stacktrace,
+    emptyList(),
+    emptyList()
+  )
 }
 
 fun preconditionFailed(service: String, devMessage: String, stacktrace: String): ErrorBody {
@@ -58,24 +87,46 @@ fun preconditionFailed(service: String, devMessage: String, stacktrace: String):
     devMessage,
     stacktrace,
     emptyList(),
-    emptyList())
+    emptyList()
+  )
 }
 
 fun conflict(service: String, devMessage: String, stacktrace: String, errors: List<ValidationErrorBody>): ErrorBody {
   return toError(
-    service, HttpStatus.CONFLICT, DefaultErrorCode.CONFLICT.value(), HttpStatus.CONFLICT.reasonPhrase, devMessage, stacktrace, errors, emptyList()
+    service,
+    HttpStatus.CONFLICT,
+    DefaultErrorCode.CONFLICT.value(),
+    HttpStatus.CONFLICT.reasonPhrase,
+    devMessage,
+    stacktrace,
+    errors,
+    emptyList()
   )
 }
 
 fun unprocessableEntity(service: String, code: String, devMessage: String, stacktrace: String, errors: List<ValidationErrorBody>): ErrorBody {
   return toError(
-    service, HttpStatus.UNPROCESSABLE_ENTITY, code, HttpStatus.UNPROCESSABLE_ENTITY.reasonPhrase, devMessage, stacktrace, errors, emptyList()
+    service,
+    HttpStatus.UNPROCESSABLE_ENTITY,
+    code,
+    HttpStatus.UNPROCESSABLE_ENTITY.reasonPhrase,
+    devMessage,
+    stacktrace,
+    errors,
+    emptyList()
   )
 }
 
 fun unsupportedMediaType(service: String, code: String, devMessage: String?, stacktrace: String): ErrorBody {
   return toError(
-    service, HttpStatus.UNSUPPORTED_MEDIA_TYPE, code, HttpStatus.UNSUPPORTED_MEDIA_TYPE.reasonPhrase, devMessage, stacktrace, emptyList(), emptyList()
+    service,
+    HttpStatus.UNSUPPORTED_MEDIA_TYPE,
+    code,
+    HttpStatus.UNSUPPORTED_MEDIA_TYPE.reasonPhrase,
+    devMessage,
+    stacktrace,
+    emptyList(),
+    emptyList()
   )
 }
 

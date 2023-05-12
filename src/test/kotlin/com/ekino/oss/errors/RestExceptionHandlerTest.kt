@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.ImportAutoConfiguration
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.util.UUID
@@ -32,8 +35,10 @@ class RestExceptionHandlerTest {
   fun `should get missing parameter error`() {
     mockMvc.perform(get("$ROOT_PATH/ok"))
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.missing_parameter",
@@ -45,18 +50,24 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should post with validation errors`() {
-    mockMvc.perform(post("$ROOT_PATH/ok")
+    mockMvc.perform(
+      post("$ROOT_PATH/ok")
       .contentType(MediaType.APPLICATION_JSON)
-      .content("""{"message":"a", "internalBody":{}}"""))
+      .content("""{"message":"a", "internalBody":{}}""")
+    )
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.invalid.post_body",
@@ -79,18 +90,24 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get not readable error`() {
-    mockMvc.perform(post("$ROOT_PATH/ok")
+    mockMvc.perform(
+      post("$ROOT_PATH/ok")
       .contentType(MediaType.APPLICATION_JSON)
-      .content("{"))
+      .content("{")
+    )
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.not_readable_json",
@@ -102,8 +119,10 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
@@ -116,7 +135,10 @@ class RestExceptionHandlerTest {
     )
       .andExpect(status().isBadRequest)
       // language=json
-      .andExpect(MockMvcResultMatchers.content().string(jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+          jsonMatcher(
+            """
         {
           "status": 400,
           "code": "error.not_readable_json",
@@ -128,15 +150,20 @@ class RestExceptionHandlerTest {
           "stacktrace": "",
           "timestamp": "{#date_time_format:iso_instant#}"
         }
-      """.trimIndent())))
+      """.trimIndent()
+          )
+        )
+      )
   }
 
   @Test
   fun `should get argument type mismatch error`() {
     mockMvc.perform(get("$ROOT_PATH/ok?id=1234"))
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.argument_type_mismatch",
@@ -148,16 +175,20 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get method not supported method error`() {
     mockMvc.perform(delete("$ROOT_PATH/ok"))
       .andExpect(status().isMethodNotAllowed)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 405,
             "code": "error.method_not_allowed",
@@ -169,16 +200,20 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get unexpected error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/unexpected"))
       .andExpect(status().isInternalServerError)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 500,
             "code": "error.illegal_argument_exception",
@@ -190,16 +225,20 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get custom exception error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/custom"))
       .andExpect(status().isGone)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 410,
             "code": "error.my_exception",
@@ -211,16 +250,20 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get unavailable error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/unavailable"))
       .andExpect(status().isServiceUnavailable)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 503,
             "code": "error.unavailable",
@@ -232,17 +275,23 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get nested exception error`() {
-    mockMvc.perform(get("$RESOLVED_ERROR_PATH/nested-constraint-violation-error")
-      .accept(MediaType.APPLICATION_JSON))
+    mockMvc.perform(
+      get("$RESOLVED_ERROR_PATH/nested-constraint-violation-error")
+      .accept(MediaType.APPLICATION_JSON)
+    )
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.invalid",
@@ -260,17 +309,23 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get constraint exception error`() {
-    mockMvc.perform(get("$RESOLVED_ERROR_PATH/constraint-violation-error")
-      .accept(MediaType.APPLICATION_JSON))
+    mockMvc.perform(
+      get("$RESOLVED_ERROR_PATH/constraint-violation-error")
+      .accept(MediaType.APPLICATION_JSON)
+    )
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.invalid",
@@ -288,16 +343,20 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get not found error bis`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/no-handler-found-error"))
       .andExpect(status().isNotFound)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 404,
             "code": "error.not_found",
@@ -309,17 +368,23 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should post with not supported media type`() {
-    mockMvc.perform(post("$ROOT_PATH/ok")
-      .contentType(MediaType.APPLICATION_PDF))
+    mockMvc.perform(
+      post("$ROOT_PATH/ok")
+      .contentType(MediaType.APPLICATION_PDF)
+    )
       .andExpect(status().isUnsupportedMediaType)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 415,
             "code": "error.media_type_not_supported",
@@ -331,24 +396,32 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should post with unknown enum value in field`() {
-    mockMvc.perform(post("$ROOT_PATH/body-with-enum")
+    mockMvc.perform(
+      post("$ROOT_PATH/body-with-enum")
       .contentType(MediaType.APPLICATION_JSON_VALUE)
       // language=json
-      .content("""
+      .content(
+        """
         {
           "color": "DOG"
         }
-      """.trimIndent()))
+      """.trimIndent()
+      )
+    )
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
+      .andExpect(
+        MockMvcResultMatchers.content().string(
         // language=json
-        jsonMatcher("""
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.invalid.enum",
@@ -366,26 +439,34 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should post with unknown enum value in object`() {
-    mockMvc.perform(post("$ROOT_PATH/body-with-enum")
+    mockMvc.perform(
+      post("$ROOT_PATH/body-with-enum")
       .contentType(MediaType.APPLICATION_JSON_VALUE)
       // language=json
-      .content("""
+      .content(
+        """
         {
           "myObject": {
             "color": "DOG"
           }
         }
-      """.trimIndent()))
+      """.trimIndent()
+      )
+    )
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
+      .andExpect(
+        MockMvcResultMatchers.content().string(
         // language=json
-        jsonMatcher("""
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.invalid.enum",
@@ -403,24 +484,32 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should post with unknown enum value in array`() {
-    mockMvc.perform(post("$ROOT_PATH/body-with-enum")
+    mockMvc.perform(
+      post("$ROOT_PATH/body-with-enum")
       .contentType(MediaType.APPLICATION_JSON_VALUE)
       // language=json
-      .content("""
+      .content(
+        """
         {
           "array": ["BLUE", "DOG", "CAT"]
         }
-      """.trimIndent()))
+      """.trimIndent()
+      )
+    )
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
+      .andExpect(
+        MockMvcResultMatchers.content().string(
         // language=json
-        jsonMatcher("""
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.invalid.enum",
@@ -438,19 +527,25 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get with unknown enum param`() {
-    mockMvc.perform(get("$ROOT_PATH/param-enum")
+    mockMvc.perform(
+      get("$ROOT_PATH/param-enum")
       .contentType(MediaType.APPLICATION_JSON_VALUE)
-      .param("color", "DOG"))
+      .param("color", "DOG")
+    )
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
+      .andExpect(
+        MockMvcResultMatchers.content().string(
         // language=json
-        jsonMatcher("""
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.invalid.enum",
@@ -468,18 +563,24 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get with unknown enum path`() {
-    mockMvc.perform(get("$ROOT_PATH/colors/DOG")
-      .contentType(MediaType.APPLICATION_JSON_VALUE))
+    mockMvc.perform(
+      get("$ROOT_PATH/colors/DOG")
+      .contentType(MediaType.APPLICATION_JSON_VALUE)
+    )
       .andExpect(status().isBadRequest)
-      .andExpect(MockMvcResultMatchers.content().string(
+      .andExpect(
+        MockMvcResultMatchers.content().string(
         // language=json
-        jsonMatcher("""
+        jsonMatcher(
+          """
           {
             "status": 400,
             "code": "error.invalid.enum",
@@ -497,7 +598,9 @@ class RestExceptionHandlerTest {
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 }

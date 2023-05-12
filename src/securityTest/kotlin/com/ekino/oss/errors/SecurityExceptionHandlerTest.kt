@@ -23,8 +23,10 @@ class RestExceptionHandlerTest(
   fun `should get access denied error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/accessDenied"))
       .andExpect(status().isForbidden)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 403,
             "code": "error.access_denied",
@@ -36,16 +38,20 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get credentials not found error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/noCredentials"))
       .andExpect(status().isUnauthorized)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 401,
             "code": "error.unauthorized",
@@ -57,16 +63,20 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get insufficient credentials error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/insufficientCredentials"))
       .andExpect(status().isUnauthorized)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 401,
             "code": "error.unauthorized",
@@ -78,18 +88,24 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get username not found error`() {
-    mockMvc.perform(post("$RESOLVED_ERROR_PATH/username-not-found-error")
+    mockMvc.perform(
+      post("$RESOLVED_ERROR_PATH/username-not-found-error")
       .contentType(MediaType.APPLICATION_JSON)
-      .content("{}"))
+      .content("{}")
+    )
       .andExpect(status().isUnauthorized)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 401,
             "code": "error.unauthorized",
@@ -101,16 +117,20 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get disabled account error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/disabledAccount"))
       .andExpect(status().isForbidden)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 403,
             "code": "error.disabled_account",
@@ -122,16 +142,20 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get request rejected error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/requestRejected"))
       .andExpect(status().isForbidden)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 403,
             "code": "error.request_rejected",
@@ -143,16 +167,20 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """.trimIndent())
-      ))
+        """.trimIndent()
+        )
+      )
+      )
   }
 
   @Test
   fun `should get bad credentials error`() {
     mockMvc.perform(get("$RESOLVED_ERROR_PATH/badCredentials"))
       .andExpect(status().isUnauthorized)
-      .andExpect(MockMvcResultMatchers.content().string(
-        jsonMatcher("""
+      .andExpect(
+        MockMvcResultMatchers.content().string(
+        jsonMatcher(
+          """
           {
             "status": 401,
             "code": "error.unauthorized",
@@ -164,7 +192,9 @@ class RestExceptionHandlerTest(
             "stacktrace": "",
             "timestamp": "{#date_time_format:iso_instant#}"
           }
-        """)
-      ))
+        """
+        )
+      )
+      )
   }
 }
