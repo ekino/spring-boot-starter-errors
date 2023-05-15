@@ -44,7 +44,7 @@ testing {
 
                     implementation("org.springframework.boot:spring-boot-starter-test")
                     implementation("com.ekino.oss.jcv:jcv-hamcrest:1.5.0")
-                    implementation("com.willowtreeapps.assertk:assertk-jvm:0.25")
+                    implementation("com.willowtreeapps.assertk:assertk-jvm:0.26")
                 }
             }
         }
