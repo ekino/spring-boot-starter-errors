@@ -11,7 +11,7 @@ repositories {
 }
 
 val springBootVersion = "3.0.6"
-val awsSdkVersion = "2.20.115"
+val awsSdkVersion = "2.20.125"
 
 dependencies {
   implementation(platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion")) // BOM import
